@@ -1,11 +1,11 @@
-// The HelloSmile as printed on the name card's front (images/card-front.webp,
+// The HelloSmile as printed on the name card's front (assets/12Ann Front.png,
 // 1280 by 768), measured from the artwork: the mouth as a centreline from its
 // top right tip, round the bottom, to its lower left tip, the two eyes as
 // short strokes, and the stroke's half width. All in card pixels.
 //
-// Measured, not drawn, so the 3D smile lies exactly over the printed one at
-// the top of the page and the hand-off from card to line does not jump. If
-// the card artwork changes, re-measure: the dark pixels of the front, split
+// Measured, not drawn: the smile line starts exactly where the printed mouth
+// ends on the card, at its stroke width, and the closing smile at the bottom
+// of the page is this same drawing. If the card artwork changes, re-measure: the dark pixels of the front, split
 // into their three connected shapes, the mouth's centre taken as the mean of
 // its pixels in each slice of angle around (900, 360).
 

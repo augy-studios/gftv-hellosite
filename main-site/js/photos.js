@@ -1,6 +1,9 @@
 // The gallery's photos come from /photos.json, one entry per photo, in the
-// order shown. Add a photo with `python tools/photos.py add <file> "<alt>"`,
-// which writes the web copy and the entry; nothing in the page code changes.
+// order shown: the file, its caption, and its size. Add a photo with
+// `python tools/photos.py add <file> "<caption>"`, which copies the file into
+// assets/ and writes the entry; nothing in the page code changes.
+
+import { hydrateBlobImages } from './blob-images.js';
 
 export async function loadPhotos() {
   try {
@@ -24,17 +27,22 @@ export function renderPhotoList(list, photos) {
     const item = document.createElement('li');
     const figure = document.createElement('figure');
     const image = document.createElement('img');
-    image.src = photo.src;
+    image.dataset.src = photo.src;
     image.alt = photo.alt;
-    image.loading = 'lazy';
     image.decoding = 'async';
     if (photo.width && photo.height) {
       image.width = photo.width;
       image.height = photo.height;
     }
-    figure.append(image);
+    // The same words as the alt text, for sighted readers; hidden from screen
+    // readers so they hear each title once.
+    const caption = document.createElement('figcaption');
+    caption.textContent = photo.alt;
+    caption.setAttribute('aria-hidden', 'true');
+    figure.append(image, caption);
     item.append(figure);
     list.append(item);
   }
+  hydrateBlobImages(list);
   list.closest('[aria-busy]')?.setAttribute('aria-busy', 'false');
 }

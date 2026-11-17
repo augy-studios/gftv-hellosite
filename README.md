@@ -15,7 +15,7 @@ site banner and update bar.
 | --- | --- |
 | `main-site/` | The website. This is the folder Vercel deploys. See [main-site/README.md](main-site/README.md). |
 | `tools/make-icons.py` | Draws the app icon (`HSP-*.png`, `favicon.ico`, Windows tiles), the official bar's flag and the flat HelloSmile. |
-| `tools/photos.py` | Makes the web copies of every picture, and adds a photo to the gallery. |
+| `tools/photos.py` | Adds a photo to the gallery, and re-reads photo sizes. |
 | `docs/` | The GFTV specs this site follows: theme, official banner, update bar, Proxima Nova. |
 
 ## Deploying
@@ -28,30 +28,34 @@ over by removing it from the old project and adding it to this one.
 ## Adding a photo to the gallery
 
 ```sh
-python tools/photos.py add path/to/photo.jpg "What the photo shows"
+python tools/photos.py add path/to/photo.jpg "Caption"
 ```
 
-This copies the photo into `main-site/assets/`, writes a small WebP copy to
-`main-site/images/gallery/`, and adds it to the end of `main-site/photos.json`.
-The description becomes the photo's alt text, so describe what is in it for
-somebody who cannot see it. The new photo shows up on the next visit, and the
-service worker does not need a version bump.
+This copies the photo into `main-site/assets/` and adds it to the end of
+`main-site/photos.json` with its caption and size. The caption shows under the
+photo and is also its alt text. The site uses the original file as it is,
+without resizing or converting it, and shows it through a `blob:` address, so
+opening the picture in a new tab gives a `blob:` URL. The new photo shows up on
+the next visit, and the service worker does not need a version bump.
 
-To change the order or a description, edit `main-site/photos.json` directly. To
-remove a photo, delete its entry there.
+To change the order or a caption, edit `main-site/photos.json` directly. To
+remove a photo, delete its entry there. If you replace a photo's file in
+`main-site/assets/`, run `python tools/photos.py refresh` so its size is right.
 
-## Rebuilding the pictures and the icon
+The ramen photos in the Takagi chapter are listed in `main-site/index.html`.
 
-Both scripts need Python 3 with Pillow and NumPy (`pip install pillow numpy`).
+## Rebuilding the icon
+
+`tools/make-icons.py` needs Python 3 with Pillow and NumPy
+(`pip install pillow numpy`), as does `tools/photos.py`.
 
 ```sh
-python tools/photos.py build   # every web copy, from the originals in main-site/assets/
-python tools/make-icons.py     # the icon set, from HelloSmile-V2.png and docs/gftv-flag.png
+python tools/make-icons.py   # the icon set, from HelloSmile-V2.png and docs/gftv-flag.png
 ```
 
 `make-icons.py` uses Arial Black for the wordmark, like the sister sites'
 icons. It ships with Windows and macOS; elsewhere, set `ARIAL_BLACK` to the
 font's path.
 
-After changing anything the service worker precaches, bump `VERSION` in
-`main-site/sw.js`.
+After changing anything the service worker precaches, raise `VERSION` in
+`main-site/sw.js` by one. It is a whole number.

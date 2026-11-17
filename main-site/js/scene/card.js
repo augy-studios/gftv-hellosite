@@ -1,8 +1,9 @@
 // The name card, front and back, drawn exactly over the hero's card picture
 // (#cardAnchor). At the top of the page it lies flat and still, so it looks
 // like the picture it replaces. As the hero scrolls away it turns over to
-// show its back and falls away into the page, leaving its smile behind: the
-// smile is the start of the line (smile-line.js), which stays put.
+// show its back and falls away into the page, taking its printed smile with
+// it. Once it is edge-on, the smile line (smile-line.js) starts from where
+// the smile's mouth ended.
 //
 // The faces are unlit (MeshBasicMaterial), so they show the artwork's own
 // colours, the same as the picture in the page.
@@ -16,19 +17,22 @@ import {
   TextureLoader,
 } from '../vendor/three.module.min.js';
 import { clamp, easeInOut } from './maths.js';
+import { blobUrl } from '../blob-images.js';
 
-const FRONT = '/images/card-front.webp';
-const BACK = '/images/card-back.webp';
+// The card's two faces, the originals. The front is the same file as the
+// picture in the hero, and blobUrl() fetches it once for both.
+export const CARD_FRONT = '/assets/12Ann%20Front.png';
+export const CARD_BACK = '/assets/12Ann%20Back.png';
 const EDGE = '#f4f4f4';
 
-function loadTexture(loader, url, maxAnisotropy) {
-  return new Promise((resolve, reject) => {
+function loadTexture(loader, src, maxAnisotropy) {
+  return blobUrl(src).then((url) => new Promise((resolve, reject) => {
     loader.load(url, (texture) => {
       texture.colorSpace = SRGBColorSpace;
       texture.anisotropy = maxAnisotropy;
       resolve(texture);
     }, undefined, reject);
-  });
+  }));
 }
 
 export class NameCard {
@@ -54,8 +58,8 @@ export class NameCard {
     const loader = new TextureLoader();
     const anisotropy = renderer.capabilities.getMaxAnisotropy();
     this.ready = Promise.all([
-      loadTexture(loader, FRONT, anisotropy),
-      loadTexture(loader, BACK, anisotropy),
+      loadTexture(loader, CARD_FRONT, anisotropy),
+      loadTexture(loader, CARD_BACK, anisotropy),
     ]).then(([front, back]) => {
       this.front.map = front;
       this.back.map = back;

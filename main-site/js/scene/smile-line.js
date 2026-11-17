@@ -1,7 +1,12 @@
-// The smile line. One continuous stroke that begins as the name card's smile
-// at the top of the page, leaves the card as it turns over, travels down the
-// whole page weaving left and right and in and out of the screen, and comes
-// home at the bottom as the same smile, mirrored left to right.
+// The smile line. One continuous stroke that starts where the name card's
+// smile ends, at the tip of its mouth, once the card has turned edge-on and
+// taken its printed smile away with it. It travels down the whole page
+// weaving left and right and in and out of the screen, and comes home at the
+// bottom as the same smile.
+//
+// The top of the page has no 3D copy of the smile: the smile there is the one
+// printed on the card, so it turns over and goes with the card rather than
+// staying behind as a second smile.
 //
 // It is built in page space (scene units are page pixels, see main.js), so it
 // scrolls with the page like anything else in it. It draws itself as the page
@@ -23,7 +28,6 @@ import {
   TubeGeometry,
   Vector3,
 } from '../vendor/three.module.min.js';
-import { CARD_INK } from './colours.js';
 import { approach, clamp, lerp, smoothstep } from './maths.js';
 import { CARD_WIDTH, EYES, FACE_BOX, MOUTH, STROKE_HALF_WIDTH } from './smile-shape.js';
 
@@ -48,7 +52,8 @@ function eye(a, b, radius, material) {
 
 export class SmileLine {
   constructor(scene) {
-    this.material = new MeshBasicMaterial({ color: CARD_INK.clone() });
+    // The page's text colour, so the line reads in every theme and mode.
+    this.material = new MeshBasicMaterial({ color: new Color() });
     this.group = new Group();
     scene.add(this.group);
     this.outroAnchor = document.getElementById('outroAnchor');
@@ -59,17 +64,15 @@ export class SmileLine {
     this.group.add(this.startCap, this.headCap);
 
     this.tube = null;
-    this.heroEyes = new Group();
     this.outroEyes = new Group();
-    this.group.add(this.heroEyes, this.outroEyes);
+    this.group.add(this.outroEyes);
 
     this.head = 0;          // drawn segments, eased
     this.eyesIn = 0;        // the closing smile's eyes, 0 to 1
-    this.textColour = new Color();
   }
 
   setTheme(theme) {
-    this.textColour.copy(theme.text);
+    this.material.color.copy(theme.text);
   }
 
   clear() {
@@ -78,11 +81,9 @@ export class SmileLine {
       this.tube.geometry.dispose();
       this.tube = null;
     }
-    for (const eyes of [this.heroEyes, this.outroEyes]) {
-      for (const child of [...eyes.children]) {
-        eyes.remove(child);
-        child.geometry.dispose();
-      }
+    for (const child of [...this.outroEyes.children]) {
+      this.outroEyes.remove(child);
+      child.geometry.dispose();
     }
   }
 
@@ -93,14 +94,17 @@ export class SmileLine {
     const { width: vw, height: vh } = view;
     const toWorld = (x, y, z) => new Vector3(x - vw / 2, -y, z);
 
-    // The smile on the card, over the printed one.
+    // Where the card's printed mouth ends, and which way it was heading: the
+    // line starts there, as thick as the printed stroke.
     const cardScale = card.box.width / CARD_WIDTH;
     const heroRadius = Math.max(1.2, STROKE_HALF_WIDTH * cardScale);
     const zCard = heroRadius + 1;
     const onCard = ([u, v]) => toWorld(card.box.left + u * cardScale, card.box.top + v * cardScale, zCard);
-    const heroMouth = MOUTH.map(onCard);
+    const tail = onCard(MOUTH[MOUTH.length - 1]);
+    const before = onCard(MOUTH[MOUTH.length - 4]);
 
-    // The smile at the end, mirrored, fitted into the closing chapter's square.
+    // The smile at the end, the same way round as on the card, fitted into the
+    // closing chapter's square.
     const rect = this.outroAnchor.getBoundingClientRect();
     const square = Math.min(rect.width, rect.height);
     const faceWidth = FACE_BOX.right - FACE_BOX.left;
@@ -112,17 +116,16 @@ export class SmileLine {
     const faceX = (FACE_BOX.left + FACE_BOX.right) / 2;
     const faceY = (FACE_BOX.top + FACE_BOX.bottom) / 2;
     const zOutro = outroRadius + 1;
-    const mirrored = ([u, v]) => toWorld(
-      centreX - (u - faceX) * outroScale,
+    const onOutro = ([u, v]) => toWorld(
+      centreX + (u - faceX) * outroScale,
       centreY + (v - faceY) * outroScale,
       zOutro,
     );
-    const outroMouth = MOUTH.map(mirrored);
+    // From the mouth's top right tip, round the bottom, to its lower left tip.
+    const outroMouth = MOUTH.map(onOutro);
 
     // Between them, the line weaves down the page.
-    const points = [...heroMouth];
-    const tail = heroMouth[heroMouth.length - 1];
-    const before = heroMouth[heroMouth.length - 4];
+    const points = [tail];
     const away = tail.clone().sub(before).normalize();
     points.push(tail.clone().addScaledVector(away, vh * 0.05));
     // Out to the left edge at the card's height before heading down, so the
@@ -151,9 +154,10 @@ export class SmileLine {
       points.push(new Vector3(x, -pageY, z));
     }
 
+    // In from above and to the right, onto the mouth's top right tip.
     const first = outroMouth[0];
-    points.push(new Vector3(first.x - vw * 0.08, first.y + vh * 0.2, -vh * 0.05));
-    points.push(new Vector3(first.x - square * 0.06, first.y + square * 0.12, zOutro));
+    points.push(new Vector3(first.x + vw * 0.08, first.y + vh * 0.2, -vh * 0.05));
+    points.push(new Vector3(first.x + square * 0.04, first.y + square * 0.12, zOutro));
     points.push(...outroMouth);
 
     const curve = new CatmullRomCurve3(points, false, 'centripetal');
@@ -167,7 +171,7 @@ export class SmileLine {
     // at that point: the card's stroke at the start, the closing smile's at
     // the end, blending between them along the way.
     const geometry = new TubeGeometry(curve, segments, 1, RADIAL_SEGMENTS, false);
-    const heroEnd = polylineLength(heroMouth) / length;
+    const heroEnd = 0.02;
     const outroStart = 1 - polylineLength(outroMouth) / length;
     const positions = geometry.attributes.position;
     const centres = [];
@@ -207,7 +211,6 @@ export class SmileLine {
     }
 
     this.segments = segments;
-    this.heroEndIndex = Math.round(heroEnd * segments);
     this.centres = centres;
     this.radii = radii;
     this.reach = reach;
@@ -215,13 +218,12 @@ export class SmileLine {
     this.startCap.position.copy(centres[0]);
     this.startCap.scale.setScalar(heroRadius);
 
-    for (const [a, b] of EYES) this.heroEyes.add(eye(onCard(a), onCard(b), heroRadius, this.material));
-    for (const [a, b] of EYES) this.outroEyes.add(eye(mirrored(a), mirrored(b), outroRadius, this.material));
+    for (const [a, b] of EYES) this.outroEyes.add(eye(onOutro(a), onOutro(b), outroRadius, this.material));
     this.outroCentre = new Vector3(centreX - vw / 2, -centreY, zOutro);
     this.outroEyes.children.forEach((child) => { child.userData.home = child.position.clone(); });
 
     // Draw straight to where the page is, rather than replaying it.
-    this.head = view.scrollY > 0 ? this.target(view) : this.heroEndIndex;
+    this.head = card.turn >= 0.5 ? this.target(view) : 0;
   }
 
   // How many segments should be drawn for the current scroll position.
@@ -241,17 +243,16 @@ export class SmileLine {
     return low;
   }
 
-  // cardProgress: how far the hero has scrolled away, 0 to 1.
   // cardTurn: how far the card has turned over, 0 flat, 0.5 edge-on, 1 over.
-  update(view, seconds, cardProgress, cardTurn) {
+  update(view, seconds, cardTurn) {
     if (!this.tube) return;
 
     // Eased, but never slower than a steady minimum, so a jump to the end of
     // the page finishes the drawing in a moment rather than creeping in.
-    // Until the card has turned edge-on, the line is only its smile: it grows
-    // out of the smile once the card's face is out of the way, never across it.
+    // Nothing is drawn until the card is edge-on: by then its printed smile
+    // has turned away, and the line grows from where the smile ended.
     let target = this.target(view);
-    if (cardTurn < 0.5) target = Math.min(target, this.heroEndIndex);
+    if (cardTurn < 0.5) target = 0;
     const eased = approach(this.head, target, 5, seconds);
     const minimum = Math.min(Math.abs(target - this.head), this.segments * 0.6 * seconds);
     this.head = Math.abs(eased - this.head) >= minimum
@@ -261,6 +262,7 @@ export class SmileLine {
     this.tube.geometry.setDrawRange(0, drawn * RADIAL_SEGMENTS * 6);
 
     const complete = drawn >= this.segments - 1;
+    this.startCap.visible = drawn > 0;
     this.headCap.visible = drawn > 0;
     const headIndex = complete ? this.segments : drawn;
     this.headCap.position.copy(this.centres[headIndex]);
@@ -274,9 +276,5 @@ export class SmileLine {
       child.scale.setScalar(Math.max(0.001, pop));
       child.position.copy(this.outroCentre).lerp(child.userData.home, pop);
     }
-
-    // Printed-card ink while the smile sits on the card; the page's text
-    // colour once it has left it, so it reads in dark mode too.
-    this.material.color.copy(CARD_INK).lerp(this.textColour, smoothstep(0.05, 0.45, cardProgress));
   }
 }

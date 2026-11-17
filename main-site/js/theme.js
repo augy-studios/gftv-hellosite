@@ -1,6 +1,7 @@
 // js/theme.js, copied verbatim from gftv-theme.md section 2 with APP_KEY set.
 // Two axes: colour theme and light/dark mode.
-// Default is always classic + light, regardless of OS preference.
+// Default is hello + light for HelloSpot, regardless of OS preference. (The
+// shared theme spec defaults to classic; HelloSpot opens in its own yellow.)
 
 const APP_KEY = "gftv-hellospot";
 
@@ -17,6 +18,10 @@ const THEME_COLOR = {
   "hello:dark": "#14120a",
 };
 
+// The colour theme for anybody who has not picked one. Duplicated in the
+// pre-paint script; change both together.
+export const DEFAULT_COLOR_THEME = "hello";
+
 const KEY_COLOR = `${APP_KEY}.colorTheme`;
 const KEY_MODE = `${APP_KEY}.mode`;
 const LEGACY_KEY = "gftv-theme";
@@ -30,7 +35,7 @@ const LEGACY_MAP = {
 function migrateLegacy() {
   if (localStorage.getItem(KEY_COLOR)) return;
   const old = localStorage.getItem(LEGACY_KEY);
-  const mapped = LEGACY_MAP[old] || { colorTheme: "classic", mode: "light" };
+  const mapped = LEGACY_MAP[old] || { colorTheme: DEFAULT_COLOR_THEME, mode: "light" };
   localStorage.setItem(KEY_COLOR, mapped.colorTheme);
   localStorage.setItem(KEY_MODE, mapped.mode);
   localStorage.removeItem(LEGACY_KEY);
@@ -38,7 +43,7 @@ function migrateLegacy() {
 
 export function getStoredColorTheme() {
   const v = localStorage.getItem(KEY_COLOR);
-  return COLOR_THEMES.some((t) => t.id === v) ? v : "classic";
+  return COLOR_THEMES.some((t) => t.id === v) ? v : DEFAULT_COLOR_THEME;
 }
 
 /* Mode preference and mode are different things. The preference is what the
@@ -84,7 +89,8 @@ function syncMeta() {
 }
 
 export function applyColorTheme(id) {
-  const theme = COLOR_THEMES.find((t) => t.id === id) || COLOR_THEMES[0];
+  const theme = COLOR_THEMES.find((t) => t.id === id)
+    || COLOR_THEMES.find((t) => t.id === DEFAULT_COLOR_THEME);
   document.documentElement.setAttribute("data-color-theme", theme.id);
   localStorage.setItem(KEY_COLOR, theme.id);
   syncMeta();

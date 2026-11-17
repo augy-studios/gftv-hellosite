@@ -1,13 +1,9 @@
 // The scene's colours. Everything that should follow the theme is read from
 // the stylesheet's tokens, so the 3D parts change with the colour theme and
-// mode exactly like the rest of the page. The few fixed colours are the
-// things in the scene that are objects rather than interface: the ink the
-// card is printed in, and the ramen.
+// mode exactly like the rest of the page. The only fixed colours are the
+// ramen's, since the bowl is an object rather than interface.
 
 import { Color } from '../vendor/three.module.min.js';
-
-// The name card's printed smile, sampled from the artwork.
-export const CARD_INK = new Color('#181817');
 
 // The bowl and what is in it. Food is the colour it is in any theme.
 export const RAMEN = {

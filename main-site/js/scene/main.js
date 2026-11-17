@@ -12,7 +12,7 @@
 // Parts (each a module with layout() on every layout change and update()
 // every frame):
 //   card.js        the name card in the hero, turning over as it leaves
-//   smile-line.js  the line from the card's smile to the mirrored smile
+//   smile-line.js  the line from the card's smile to the closing smile
 //   ring.js        the photo ring in the gallery chapter
 //   bowl.js        the ramen bowl in the Takagi chapter
 
@@ -100,7 +100,7 @@ export function startScene({ photos, onFail }) {
     camera.position.set(0, -(view.scrollY + view.height / 2), camera.position.z);
 
     card.update(view);
-    line.update(view, seconds, card.progress(view), card.turn);
+    line.update(view, seconds, card.turn);
     ring.update(view, seconds, now / 1000);
     bowl.update(view, seconds, now / 1000);
 

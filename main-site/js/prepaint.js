@@ -6,10 +6,12 @@
 (function () {
   var k = "gftv-hellospot";
   var m = "light";
-  var c = "classic";
+  // HelloSpot opens in the Hello colour theme. Keep in step with
+  // DEFAULT_COLOR_THEME in theme.js.
+  var c = "hello";
   try {
     m = localStorage.getItem(k + ".mode") || "light";
-    c = localStorage.getItem(k + ".colorTheme") || "classic";
+    c = localStorage.getItem(k + ".colorTheme") || "hello";
   } catch (e) { /* storage blocked: defaults */ }
 
   // Time based mode. Resolved here rather than in theme.js because theme.js
@@ -25,7 +27,7 @@
   // data-mode is only ever light or dark, so an unknown stored value falls
   // back rather than leaving the page unstyled.
   if (m !== "dark") m = "light";
-  if (c !== "hello") c = "classic";
+  if (c !== "classic") c = "hello";
   document.documentElement.setAttribute("data-mode", m);
   document.documentElement.setAttribute("data-color-theme", c);
 })();

@@ -1,57 +1,57 @@
 [
   {
     "file": "image8.jpeg",
-    "alt": "A group of fursuiters and friends in a park at sunset, holding a flag with the HelloSmile on it",
-    "src": "/images/gallery/image8.webp",
-    "width": 1024,
-    "height": 768
+    "alt": "CE #35: Fort Canning Fursuiting Meet",
+    "src": "/assets/image8.jpeg",
+    "width": 1229,
+    "height": 922
   },
   {
     "file": "image13.jpeg",
-    "alt": "Two fursuiters at an event, one holding up a yellow HelloSpot card with the HelloSmile",
-    "src": "/images/gallery/image13.webp",
-    "width": 768,
-    "height": 1024
+    "alt": "CE #16: Pizza By The Bay",
+    "src": "/assets/image13.jpeg",
+    "width": 922,
+    "height": 1229
   },
   {
     "file": "image10.jpeg",
-    "alt": "Two fursuiters hugging, one in green glasses, with a small plush between them",
-    "src": "/images/gallery/image10.webp",
+    "alt": "Gantos, Leonal, and Sprigatito plush",
+    "src": "/assets/image10.jpeg",
     "width": 857,
     "height": 857
   },
   {
     "file": "image12.jpeg",
-    "alt": "Two fursuiters waving Singapore flags under a blue sky",
-    "src": "/images/gallery/image12.webp",
+    "alt": "CE #33: NDP 2026 Fireworks",
+    "src": "/assets/image12.jpeg",
     "width": 615,
     "height": 820
   },
   {
     "file": "image5.jpeg",
-    "alt": "Two fursuiters and a friend with arms raised, cheering in a theatre with red curtains",
-    "src": "/images/gallery/image5.webp",
-    "width": 1024,
-    "height": 768
+    "alt": "CE #24: Zootopia 2 Screening",
+    "src": "/assets/image5.jpeg",
+    "width": 1229,
+    "height": 922
   },
   {
     "file": "image9.jpeg",
-    "alt": "A white and blue fursuiter waving under an arched ceiling",
-    "src": "/images/gallery/image9.webp",
-    "width": 768,
-    "height": 1024
+    "alt": "CE #31: Furries Going in Circles",
+    "src": "/assets/image9.jpeg",
+    "width": 1229,
+    "height": 1639
   },
   {
     "file": "image7.jpeg",
-    "alt": "Three friends with a luggage trolley in an airport departure hall",
-    "src": "/images/gallery/image7.webp",
-    "width": 1024,
-    "height": 768
+    "alt": "GFTV Team departing for Furs Upon Malaysia 2023",
+    "src": "/assets/image7.jpeg",
+    "width": 1613,
+    "height": 1210
   },
   {
     "file": "image4.jpeg",
-    "alt": "A HelloSmile name card in a lanyard holder, propped beside a small yellow plush",
-    "src": "/images/gallery/image4.webp",
+    "alt": "HelloSmile Team ID with buizel plush",
+    "src": "/assets/image4.jpeg",
     "width": 605,
     "height": 807
   }

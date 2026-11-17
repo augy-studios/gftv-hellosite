@@ -1,5 +1,5 @@
-// The chrome every page shares: theme, icons, dialogs, the update bar, the
-// sticky header and the footer year. Adapted from gftv-helloevents'
+// The chrome every page shares: theme, icons, pictures (as blob: URLs),
+// dialogs, the update bar, the sticky header and the footer year. Adapted from gftv-helloevents'
 // js/app.js, English only. index.html runs it through app.js, which adds the
 // photos and the 3D scene; 404.html through page.js.
 
@@ -17,6 +17,7 @@ import {
 import { icon, hydrateIcons } from './icons.js';
 import { openModal, wireModals } from './ui.js';
 import { initUpdateBar } from './update-bar.js';
+import { hydrateBlobImages } from './blob-images.js';
 
 const MODE_NAMES = { light: 'Light', dark: 'Dark', time: 'Time-based' };
 
@@ -148,6 +149,7 @@ function wireFooterYear() {
 export function initChrome() {
   initTheme();
   hydrateIcons();
+  hydrateBlobImages();
   wireModals();
   wireTheme();
   wireStickyHeader();

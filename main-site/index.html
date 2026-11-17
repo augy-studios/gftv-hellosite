@@ -7,7 +7,7 @@
     <title>GFTV HelloSpot</title>
     <meta name="description" content="Where newcomers make new friends at furmeets and furry conventions. By Global Furry Television.">
 
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#fffde0">
     <script src="/js/prepaint.js"></script>
     <script src="/js/scene-flag.js"></script>
 
@@ -56,7 +56,7 @@
         <!-- 1. The name card. The QR code on its back leads here. -->
         <section class="chapter hero" id="hello" aria-labelledby="heroTitle">
             <figure class="name-card" id="cardAnchor">
-                <img class="name-card-face" src="/images/card-front.webp" width="1280" height="768"
+                <img class="name-card-face" data-src="/assets/12Ann%20Front.png" data-eager width="1280" height="768"
                     alt="The HelloSpot name card. It says Hello and 哈喽 beside a big smile, over GFTV's rainbow stripes.">
             </figure>
             <div class="hero-copy">
@@ -131,9 +131,12 @@
                     </div>
                 </div>
                 <ul class="ramen-photos" aria-label="Ramen after past meets">
-                    <li><img src="/images/ramen/ramen-1.webp" width="900" height="675" loading="lazy" alt="A tray with a bowl of ramen and a side of noodles, a small plush beside it"></li>
-                    <li><img src="/images/ramen/ramen-2.webp" width="387" height="516" loading="lazy" alt="A rice bowl piled with corn and mayonnaise, held up to the camera"></li>
-                    <li><img src="/images/ramen/ramen-3.webp" width="387" height="516" loading="lazy" alt="Two bowls of ramen topped with grilled pork, seen from above"></li>
+                    <li><img data-src="/assets/ramen-1.jpg" width="2560" height="1920" alt="A tray with a bowl of ramen and a side of noodles, a small Eevee plush beside it"></li>
+                    <li><img data-src="/assets/ramen-2.jpg" width="2560" height="1920" alt="A takeaway Takagi Ramen order with chopsticks and two small salads"></li>
+                    <li><img data-src="/assets/ramen-3.jpg" width="2560" height="1920" alt="A tray with ramen, a side of noodles, fried chicken and salad"></li>
+                    <li><img data-src="/assets/ramen-4.jpg" width="1280" height="960" alt="A tray with a bowl of pork ramen, gyoza and an iced tea"></li>
+                    <li><img data-src="/assets/ramen-5.jpg" width="1920" height="2560" alt="A bowl of ramen with chopsticks, extra noodles and an iced lemon tea"></li>
+                    <li><img data-src="/assets/ramen-6.jpg" width="2560" height="1920" alt="The Takagi Express shopfront, with red stools at the counter"></li>
                 </ul>
             </div>
         </section>
@@ -154,10 +157,10 @@
             </div>
         </section>
 
-        <!-- 6. The line comes home as the smile, mirrored. -->
+        <!-- 6. The line comes home as the smile. -->
         <section class="chapter outro" id="seeyou" aria-labelledby="outroTitle">
             <div class="outro-smile" id="outroAnchor">
-                <img src="/images/hellosmile.png" width="512" height="512" alt="">
+                <img data-src="/images/hellosmile.png" width="512" height="512" alt="">
             </div>
             <h2 id="outroTitle">See you at the next HelloSpot!</h2>
             <a class="btn btn-primary" href="https://events.globalfurry.tv/" target="_blank" rel="noopener"><span data-icon="calendar"></span>Find a meet on HelloEvents</a>

@@ -8,8 +8,8 @@
     "display": "standalone",
     "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
     "orientation": "any",
-    "theme_color": "#ffffff",
-    "background_color": "#ffffff",
+    "theme_color": "#fffde0",
+    "background_color": "#fffde0",
     "dir": "ltr",
     "lang": "en",
     "icons": [

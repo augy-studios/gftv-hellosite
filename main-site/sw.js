@@ -5,21 +5,23 @@
 // "skip-waiting" from the update bar (docs/update-bar-spec.md). skipWaiting()
 // and clients.claim() appear nowhere outside that handler.
 //
-// Bump VERSION on every deploy that changes anything below or anything in
-// PRECACHE. The browser compares this file byte for byte; if nothing here
-// changes, nobody is told.
+// VERSION is a whole number. Raise it by one on every deploy that changes
+// anything below or anything in PRECACHE. The browser compares this file byte
+// for byte; if nothing here changes, nobody is told.
 //
 // Strategies:
 //   precached shell        cache first
 //   /photos.json           network first, so a photo added to the gallery
 //                          shows on the next visit without a version bump
 //   other same-origin GETs cache first, stored on first use (the gallery and
-//                          ramen photos)
+//                          ramen photos, fetched by js/blob-images.js)
 //   other origins          never touched (Google Analytics)
 
-const VERSION = '2026-11-18.1';
+const VERSION = 2;
+// Every cache this site has made starts with PREFIX, including release 1's
+// date-named one, so activate clears them all but the current.
 const PREFIX = 'gftv-hellospot-';
-const CACHE = PREFIX + VERSION;
+const CACHE = `${PREFIX}v${VERSION}`;
 
 const PRECACHE = [
   '/',
@@ -32,8 +34,8 @@ const PRECACHE = [
   '/HSP-512.png',
   '/HSP-main.png',
   '/assets/fonts/ProximaNova-Regular.woff2',
-  '/images/card-front.webp',
-  '/images/card-back.webp',
+  '/assets/12Ann%20Front.png',
+  '/assets/12Ann%20Back.png',
   '/images/hellosmile.png',
   '/js/prepaint.js',
   '/js/scene-flag.js',
@@ -47,6 +49,7 @@ const PRECACHE = [
   '/js/ui.js',
   '/js/update-bar.js',
   '/js/photos.js',
+  '/js/blob-images.js',
   '/js/scene/main.js',
   '/js/scene/card.js',
   '/js/scene/smile-line.js',

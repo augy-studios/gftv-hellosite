@@ -1,5 +1,0 @@
-# The original pictures in assets/ are the sources tools/photos.py makes the
-# web copies in images/ from. The page never loads them, so they stay out of
-# the deployment. The font is the one thing in assets/ the site serves.
-/assets/*
-!/assets/fonts/

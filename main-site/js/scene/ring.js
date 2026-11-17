@@ -17,6 +17,7 @@ import {
   TextureLoader,
 } from '../vendor/three.module.min.js';
 import { approach, pinProgress, screenBox } from './maths.js';
+import { blobUrl } from '../blob-images.js';
 
 // A white rounded rectangle on black: the corner mask for every photo.
 function cornerMask() {
@@ -46,26 +47,40 @@ export class PhotoRing {
     scene.add(this.group);
 
     const mask = cornerMask();
-    const loader = new TextureLoader();
-    const anisotropy = renderer.capabilities.getMaxAnisotropy();
+    this.loader = new TextureLoader();
+    this.anisotropy = renderer.capabilities.getMaxAnisotropy();
     this.meshes = photos.map((photo) => {
       const material = new MeshBasicMaterial({ alphaMap: mask, alphaTest: 0.5 });
       material.color.set('#cccccc');
       const mesh = new Mesh(new PlaneGeometry(1, 1), material);
       mesh.userData.aspect = photo.width && photo.height ? photo.width / photo.height : 1;
-      loader.load(photo.src, (texture) => {
-        texture.colorSpace = SRGBColorSpace;
-        texture.anisotropy = anisotropy;
-        material.map = texture;
-        material.color.set('#ffffff');
-        material.needsUpdate = true;
-      });
       this.spin.add(mesh);
       return mesh;
     });
 
     this.turn = 0;
     this.front = -1;
+    this.loading = false;
+  }
+
+  // The photos are full size, so they are fetched only once the gallery is
+  // within a couple of screens, not with the rest of the page. Through
+  // blobUrl(), so the photo list shares the same downloads.
+  loadPhotos() {
+    if (this.loading) return;
+    this.loading = true;
+    this.photos.forEach((photo, index) => {
+      const material = this.meshes[index].material;
+      blobUrl(photo.src).then((url) => {
+        this.loader.load(url, (texture) => {
+          texture.colorSpace = SRGBColorSpace;
+          texture.anisotropy = this.anisotropy;
+          material.map = texture;
+          material.color.set('#ffffff');
+          material.needsUpdate = true;
+        });
+      }).catch((cause) => console.warn('gallery photo not loaded:', cause));
+    });
   }
 
   setTheme(theme) {
@@ -97,6 +112,7 @@ export class PhotoRing {
   update(view, seconds, time) {
     const count = this.meshes.length;
     const rect = this.section.getBoundingClientRect();
+    if (rect.top < view.height * 2.5) this.loadPhotos();
     this.group.visible = count > 0 && rect.bottom > -view.height * 0.2 && rect.top < view.height * 1.2;
     if (!this.group.visible) return;
 
