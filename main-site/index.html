@@ -1,61 +1,202 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
 
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FMCYFTFPEL"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-
-        gtag('config', 'G-FMCYFTFPEL');
-    </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9715826188316382"
-        crossorigin="anonymous"></script>
-
-    <link rel="manifest" href="/manifest.json" />
-
     <meta charset="utf-8">
-    <title>GFTV HelloSpot | UwU Apps</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="A simple hellosite app; view live hellosite at a glance!">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>GFTV HelloSpot</title>
+    <meta name="description" content="Where newcomers make new friends at furmeets and furry conventions. By Global Furry Television.">
+
+    <meta name="theme-color" content="#ffffff">
+    <script src="/js/prepaint.js"></script>
+    <script src="/js/scene-flag.js"></script>
+
+    <link rel="preload" href="/assets/fonts/ProximaNova-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="/HSP-main.png">
 
     <meta property="og:type" content="website">
-    <meta property="og:title" content="GFTV HelloSpot | UwU Apps" />
-    <meta property="og:site_name" content="UwU Apps" />
-    <meta property="og:description" content="A simple hellosite app; view live hellosite at a glance!" />
-
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Jua">
-    <link rel="stylesheet" href="/style.css">
-    <meta name="theme-color" content="#ccffcc" />
-
-    <!-- Embed Image -->
-    <link rel="apple-touch-icon" href="/HSP-main.png">
-    <link rel="icon" href="/favicon.ico">
-    <link rel="shortcut icon" href="/favicon.ico">
+    <meta property="og:title" content="GFTV HelloSpot">
+    <meta property="og:site_name" content="GFTV HelloSpot">
+    <meta property="og:description" content="Where newcomers make new friends at furmeets and furry conventions. By Global Furry Television.">
+    <meta property="og:url" content="https://hello.globalfurry.tv/">
+    <link rel="canonical" href="https://hello.globalfurry.tv/">
+    <meta property="og:image" content="https://hello.globalfurry.tv/HSP-main.png">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:image:src" content="/HSP-main.png">
-    <meta property="og:image" content="/HSP-main.png" />
+    <meta name="twitter:image" content="https://hello.globalfurry.tv/HSP-main.png">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <script defer="" src="https://use.fontawesome.com/releases/v6.5.2/js/all.js"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FMCYFTFPEL"></script>
+    <script src="/js/analytics.js"></script>
 </head>
 
 <body>
-    GFTV HelloSpot
+    <script src="/js/official-bar.js"></script>
 
-    <script src="/script.js"></script>
+    <header class="site-header">
+        <a class="brand" href="/">
+            <img src="/HSP-192.png" alt="" width="32" height="32">
+            <span>GFTV HelloSpot</span>
+        </a>
+        <div class="header-actions">
+            <button class="icon-btn" type="button" id="themeBtn" aria-label="Theme" aria-haspopup="dialog" aria-controls="themeModal">
+                <span data-icon="sun"></span>
+            </button>
+        </div>
+    </header>
 
-    <script>
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register('/sw.js');
-        }
-    </script>
-    
+    <!-- The 3D scene: the name card, the smile line, the photo ring and the
+         ramen bowl. Decoration over content that is all in the markup below,
+         so it is hidden from assistive technology. -->
+    <canvas class="scene" id="scene" aria-hidden="true"></canvas>
+
+    <main class="story">
+        <!-- 1. The name card. The QR code on its back leads here. -->
+        <section class="chapter hero" id="hello" aria-labelledby="heroTitle">
+            <figure class="name-card" id="cardAnchor">
+                <img class="name-card-face" src="/images/card-front.webp" width="1280" height="768"
+                    alt="The HelloSpot name card. It says Hello and 哈喽 beside a big smile, over GFTV's rainbow stripes.">
+            </figure>
+            <div class="hero-copy">
+                <span class="eyebrow">GFTV HelloSpot</span>
+                <h1 id="heroTitle">You found a HelloSpot!</h1>
+                <p class="lede">At furmeets and furry conventions, a HelloSpot is where newcomers make new friends.</p>
+                <p class="scroll-hint" aria-hidden="true"><span>Scroll</span><span data-icon="chevron-down"></span></p>
+            </div>
+        </section>
+
+        <!-- 2. What a HelloSpot is. -->
+        <section class="chapter how" id="how" aria-labelledby="howTitle">
+            <div class="chapter-head">
+                <span class="eyebrow">New here?</span>
+                <h2 id="howTitle">How a HelloSpot works</h2>
+            </div>
+            <ol class="steps">
+                <li class="step glass-card">
+                    <span class="step-icon" data-icon="map"></span>
+                    <h3>Spot the smile</h3>
+                    <p>Look for the HelloSmile on a card, a lanyard or a sign. Wherever it is, that is a HelloSpot.</p>
+                </li>
+                <li class="step glass-card">
+                    <span class="step-icon" data-icon="smile"></span>
+                    <h3>Say hello</h3>
+                    <p>Come over and say hi. Nobody at a HelloSpot expects you to know anyone yet.</p>
+                </li>
+                <li class="step glass-card">
+                    <span class="step-icon" data-icon="users"></span>
+                    <h3>Make a friend</h3>
+                    <p>Meet the people around you, and leave with someone to look out for at the next meet.</p>
+                </li>
+            </ol>
+        </section>
+
+        <!-- 3. The photo ring. Pinned while it turns; the list below is the
+             gallery when the scene is off, and its accessible version when on. -->
+        <section class="chapter pinned gallery" id="gallery" aria-labelledby="galleryTitle" data-pin="gallery">
+            <div class="stage">
+                <div class="chapter-head stage-head">
+                    <span class="eyebrow">Hello from past meets</span>
+                    <h2 id="galleryTitle">Friends made at HelloSpots</h2>
+                </div>
+                <div class="ring-anchor" id="ringAnchor"></div>
+                <p class="ring-caption" id="ringCaption" aria-hidden="true"></p>
+                <div class="photo-list-wrap" aria-busy="true">
+                    <ul class="photo-list" id="photoList"></ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Takagi when? The bowl stays in the middle while the question
+             gets answered. -->
+        <section class="chapter pinned takagi" id="takagi" aria-labelledby="takagiTitle" data-pin="ramen">
+            <div class="stage">
+                <div class="bowl-anchor" id="bowlAnchor"></div>
+                <div class="takagi-steps">
+                    <div class="takagi-step" data-step="0">
+                        <span class="eyebrow">After the meet</span>
+                        <h2 id="takagiTitle">Takagi when?</h2>
+                        <p>The question every meet ends with.</p>
+                    </div>
+                    <div class="takagi-step" data-step="1">
+                        <span class="eyebrow">After the meet</span>
+                        <p class="takagi-line">Takagi now.</p>
+                        <p>Ok, stop asking when.</p>
+                    </div>
+                    <div class="takagi-step" data-step="2">
+                        <span class="eyebrow">After the meet</span>
+                        <p class="takagi-line">Takagi eaten.</p>
+                        <p>Same time next meet?</p>
+                    </div>
+                </div>
+                <ul class="ramen-photos" aria-label="Ramen after past meets">
+                    <li><img src="/images/ramen/ramen-1.webp" width="900" height="675" loading="lazy" alt="A tray with a bowl of ramen and a side of noodles, a small plush beside it"></li>
+                    <li><img src="/images/ramen/ramen-2.webp" width="387" height="516" loading="lazy" alt="A rice bowl piled with corn and mayonnaise, held up to the camera"></li>
+                    <li><img src="/images/ramen/ramen-3.webp" width="387" height="516" loading="lazy" alt="Two bowls of ramen topped with grilled pork, seen from above"></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 5. About GFTV, from globalfurrytv.news.blog/about-us. -->
+        <section class="chapter about" id="about" aria-labelledby="aboutTitle">
+            <div class="about-card glass-card">
+                <span class="eyebrow">Wait, what is GFTV?</span>
+                <h2 id="aboutTitle">Global Furry Television</h2>
+                <p>Global Furry Television (GFTV) is Asia's biggest furry fandom news channel, based in Singapore.</p>
+                <p>We showcase furries' growth for everyone today and tomorrow to appreciate, and we host spaces so people can learn about and understand each other.</p>
+                <p>Spanning major continents from home, GFTV's team is international, multicultural and multilingual.</p>
+                <div class="link-row">
+                    <a class="btn btn-primary" href="https://globalfurrytv.news.blog/about-us/" target="_blank" rel="noopener"><span data-icon="info"></span>About GFTV</a>
+                    <a class="btn" href="http://t.me/gftvfurrynews" target="_blank" rel="noopener"><span data-icon="send"></span>News on Telegram</a>
+                    <a class="btn" href="http://youtube.com/c/GlobalFurryTelevision" target="_blank" rel="noopener"><span data-icon="video"></span>YouTube</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. The line comes home as the smile, mirrored. -->
+        <section class="chapter outro" id="seeyou" aria-labelledby="outroTitle">
+            <div class="outro-smile" id="outroAnchor">
+                <img src="/images/hellosmile.png" width="512" height="512" alt="">
+            </div>
+            <h2 id="outroTitle">See you at the next HelloSpot!</h2>
+            <a class="btn btn-primary" href="https://events.globalfurry.tv/" target="_blank" rel="noopener"><span data-icon="calendar"></span>Find a meet on HelloEvents</a>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <nav>
+            <a href="https://globalfurrytv.news.blog/about-us/" target="_blank" rel="noopener">About GFTV</a>
+            <a href="https://policy.globalfurry.tv/legal/terms" target="_blank" rel="noopener">Terms of Use</a>
+            <a href="https://policy.globalfurry.tv/legal/privacy" target="_blank" rel="noopener">Privacy Policy</a>
+        </nav>
+        <span>Made with</span> <span data-icon="heart"></span> <span>in</span>
+        <a href="https://www.google.com/maps/place/Singapore" target="_blank" rel="noopener">Singapore</a>
+        <span>by Global Furry Television</span> &copy; 2014-<span id="currentYear"></span>.
+        <span>All rights reserved.</span>
+    </footer>
+
+    <div class="modal-backdrop hidden" id="themeModal">
+        <div class="modal glass-card" role="dialog" aria-modal="true" aria-labelledby="themeModalTitle">
+            <div class="modal-head">
+                <h2 id="themeModalTitle">Theme</h2>
+                <button class="icon-btn small" type="button" data-close-modal="themeModal" aria-label="Close">
+                    <span data-icon="close"></span>
+                </button>
+            </div>
+            <p class="modal-section-label">Mode</p>
+            <div class="mode-toggle" id="modeToggle">
+                <button class="mode-btn" type="button" data-mode="light" aria-pressed="false"><span data-icon="sun"></span><span>Light</span></button>
+                <button class="mode-btn" type="button" data-mode="dark" aria-pressed="false"><span data-icon="moon"></span><span>Dark</span></button>
+                <button class="mode-btn mode-btn-wide" type="button" data-mode="time" aria-pressed="false"><span data-icon="clock"></span><span>Time-based</span></button>
+            </div>
+            <p class="mode-note" id="modeNote" hidden></p>
+            <p class="modal-section-label">Colour theme</p>
+            <div class="swatch-grid" id="swatchGrid"></div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/app.js"></script>
 </body>
 
 </html>

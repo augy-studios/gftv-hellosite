@@ -1,105 +1,155 @@
-const CACHE = "hellosite-v1";
+// GFTV HelloSpot service worker.
+//
+// Precaches the page and everything it needs to draw, and never activates a
+// new version on its own: it installs, then waits until the page sends
+// "skip-waiting" from the update bar (docs/update-bar-spec.md). skipWaiting()
+// and clients.claim() appear nowhere outside that handler.
+//
+// Bump VERSION on every deploy that changes anything below or anything in
+// PRECACHE. The browser compares this file byte for byte; if nothing here
+// changes, nobody is told.
+//
+// Strategies:
+//   precached shell        cache first
+//   /photos.json           network first, so a photo added to the gallery
+//                          shows on the next visit without a version bump
+//   other same-origin GETs cache first, stored on first use (the gallery and
+//                          ramen photos)
+//   other origins          never touched (Google Analytics)
 
-const ASSETS = [
-  "/",
-  "/index.html",
-  "/style.css",
-  "/script.js",
-  "/HSP-192.png",
-  "/HSP-512.png",
-  "/favicon.ico",
-  "/manifest.json"
+const VERSION = '2026-11-18.1';
+const PREFIX = 'gftv-hellospot-';
+const CACHE = PREFIX + VERSION;
+
+const PRECACHE = [
+  '/',
+  '/404.html',
+  '/style.css',
+  '/manifest.json',
+  '/favicon.ico',
+  '/gftv-flag.png',
+  '/HSP-192.png',
+  '/HSP-512.png',
+  '/HSP-main.png',
+  '/assets/fonts/ProximaNova-Regular.woff2',
+  '/images/card-front.webp',
+  '/images/card-back.webp',
+  '/images/hellosmile.png',
+  '/js/prepaint.js',
+  '/js/scene-flag.js',
+  '/js/official-bar.js',
+  '/js/analytics.js',
+  '/js/app.js',
+  '/js/page.js',
+  '/js/chrome.js',
+  '/js/theme.js',
+  '/js/icons.js',
+  '/js/ui.js',
+  '/js/update-bar.js',
+  '/js/photos.js',
+  '/js/scene/main.js',
+  '/js/scene/card.js',
+  '/js/scene/smile-line.js',
+  '/js/scene/smile-shape.js',
+  '/js/scene/ring.js',
+  '/js/scene/bowl.js',
+  '/js/scene/colours.js',
+  '/js/scene/maths.js',
+  '/js/vendor/three.module.min.js',
 ];
 
-/* -- Install: cache shell -- */
+const NETWORK_FIRST = new Set(['/photos.json']);
 
-self.addEventListener('install', event => {
+// A redirected response cannot be served to a navigation, so store a clean copy.
+async function fetchForCache(url) {
+  const response = await fetch(url, { cache: 'no-cache' });
+  if (!response.ok) throw new Error(`precache ${url}: ${response.status}`);
+  if (!response.redirected) return response;
+  const headers = new Headers(response.headers);
+  headers.delete('content-encoding');
+  headers.delete('content-length');
+  return new Response(await response.blob(), { status: 200, headers });
+}
+
+self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE)
-    .then(cache => cache.addAll(ASSETS))
-    .then(() => self.skipWaiting())
+    caches.open(CACHE).then(async (cache) => {
+      await Promise.all(PRECACHE.map(async (url) => cache.put(url, await fetchForCache(url))));
+    })
   );
+  // No skipWaiting() here. The update bar asks for it.
 });
 
-/* -- Activate: clean old caches -- */
-
-self.addEventListener('activate', event => {
+self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys()
-    .then(keys =>
-      Promise.all(
-        keys
-        .filter(k => k !== CACHE)
-        .map(k => caches.delete(k))
-      )
+    caches.keys().then((keys) =>
+      Promise.all(keys.filter((key) => key.startsWith(PREFIX) && key !== CACHE).map((key) => caches.delete(key)))
     )
-    .then(() => self.clients.claim())
   );
+  // No clients.claim() here either; see the message handler.
 });
 
-/* -- Fetch: strategy per route -- */
+self.addEventListener('message', (event) => {
+  const type = typeof event.data === 'string' ? event.data : event.data?.type;
 
-self.addEventListener('fetch', event => {
-  const {
-    request
-  } = event;
-  const url = new URL(request.url);
-
-  // API - network-first
-  if (url.pathname.startsWith('/api/')) {
-    event.respondWith(networkFirst(request));
-    return;
+  // The only place either of these is ever called.
+  if (type === 'skip-waiting') {
+    event.waitUntil(self.skipWaiting().then(() => self.clients.claim()));
   }
-
-  // Google Fonts - cache-first (immutable)
-  if (url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com') {
-    event.respondWith(cacheFirst(request));
-    return;
-  }
-
-  // static assets - cache-first
-  event.respondWith(cacheFirst(request));
 });
-
-/* -- Strategies -- */
 
 async function networkFirst(request) {
+  const cache = await caches.open(CACHE);
   try {
     const response = await fetch(request);
+    if (response.ok) cache.put(request, response.clone());
     return response;
-  } catch {
-    return new Response(
-      JSON.stringify({
-        success: false,
-        error: 'You appear to be offline.'
-      }), {
-        status: 503,
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      }
-    );
+  } catch (cause) {
+    const cached = await cache.match(request);
+    if (cached) return cached;
+    throw cause;
   }
 }
 
 async function cacheFirst(request) {
   const cached = await caches.match(request);
   if (cached) return cached;
+  const response = await fetch(request);
+  if (response.ok && response.type === 'basic') {
+    const cache = await caches.open(CACHE);
+    cache.put(request, response.clone());
+  }
+  return response;
+}
 
+// Pages: the home page from the cache (it is the shell), anything else from
+// the network, with the cached 404 page when offline.
+async function navigation(request) {
+  const url = new URL(request.url);
+  if (url.pathname === '/' || url.pathname === '/index.html') {
+    const cached = await caches.match('/');
+    if (cached) return cached;
+  }
   try {
-    const response = await fetch(request);
-    if (response.ok) {
-      const cache = await caches.open(CACHE);
-      cache.put(request, response.clone());
-    }
-    return response;
-  } catch {
-    // offline - fallback for navigation
-    if (request.mode === 'navigate') {
-      return caches.match('/index.html');
-    }
-    return new Response('Offline', {
-      status: 503
-    });
+    return await fetch(request);
+  } catch (cause) {
+    const fallback = await caches.match(url.pathname === '/' ? '/' : '/404.html');
+    if (fallback) return fallback;
+    throw cause;
   }
 }
+
+self.addEventListener('fetch', (event) => {
+  const { request } = event;
+  if (request.method !== 'GET') return;
+  const url = new URL(request.url);
+  if (url.origin !== self.location.origin) return;
+
+  if (request.mode === 'navigate') {
+    event.respondWith(navigation(request));
+  } else if (NETWORK_FIRST.has(url.pathname)) {
+    event.respondWith(networkFirst(request));
+  } else {
+    event.respondWith(cacheFirst(request));
+  }
+});

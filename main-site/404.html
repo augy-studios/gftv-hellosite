@@ -1,75 +1,95 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr" class="scene-off">
 
 <head>
-    <link rel="manifest" href="../manifest.json" />
-
     <meta charset="utf-8">
-    <title>Page Not Found | UwU Apps</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Page not found | GFTV HelloSpot</title>
+    <meta name="description" content="Where newcomers make new friends at furmeets and furry conventions. By Global Furry Television.">
+    <meta name="robots" content="noindex">
+
+    <meta name="theme-color" content="#ffffff">
+    <script src="/js/prepaint.js"></script>
+
+    <link rel="preload" href="/assets/fonts/ProximaNova-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="/HSP-main.png">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Page not found | GFTV HelloSpot">
+    <meta property="og:site_name" content="GFTV HelloSpot">
+    <meta property="og:description" content="Where newcomers make new friends at furmeets and furry conventions. By Global Furry Television.">
+    <meta property="og:image" content="https://hello.globalfurry.tv/HSP-main.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://hello.globalfurry.tv/HSP-main.png">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FMCYFTFPEL"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-
-        gtag('config', 'G-FMCYFTFPEL');
-    </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9715826188316382"
-        crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" href="404.css" />
-
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="404" />
-    <meta property="og:site_name" content="GFTV HelloSpot | UwU Apps" />
-
-    <!-- Embed Image -->
-    <link rel="apple-touch-icon" href="/HSP-main.png">
-    <link rel="icon" href="/favicon.ico">
-    <link rel="shortcut icon" href="/favicon.ico">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:image:src" content="/HSP-main.png">
-    <meta property="og:image" content="/HSP-main.png"/>
+    <script src="/js/analytics.js"></script>
 </head>
 
 <body>
-    <h1 class="title-text">Page Not Found uwu</h1>
-    <div class="submarine">
-        <div class="top">
-            <div class="pipe">
-                <div class="light"></div>
+    <script src="/js/official-bar.js"></script>
+
+    <header class="site-header">
+        <a class="brand" href="/">
+            <img src="/HSP-192.png" alt="" width="32" height="32">
+            <span>GFTV HelloSpot</span>
+        </a>
+        <div class="header-actions">
+            <button class="icon-btn" type="button" id="themeBtn" aria-label="Theme" aria-haspopup="dialog" aria-controls="themeModal">
+                <span data-icon="sun"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="story">
+        <section class="chapter outro" aria-labelledby="notFoundTitle">
+            <div class="outro-smile">
+                <img src="/images/hellosmile.png" width="512" height="512" alt="">
             </div>
-        </div>
-        <div class="window window-1">
-            <div class="shine"></div>
-        </div>
-        <div class="window window-2">
-            <div class="shine"></div>
-        </div>
-        <div class="shadow"></div>
-        <div class="propeller">
-            <div class="back"></div>
-            <div class="wing"></div>
-            <div class="bubble bubble-1"></div>
-            <div class="bubble bubble-2"></div>
-            <div class="bubble bubble-3"></div>
+            <span class="eyebrow">404</span>
+            <h1 id="notFoundTitle" class="not-found-title">This spot is empty</h1>
+            <p class="lede">That address does not lead anywhere on this site.</p>
+            <a class="btn btn-primary" href="/"><span data-icon="map"></span>Back to the HelloSpot</a>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <nav>
+            <a href="https://globalfurrytv.news.blog/about-us/" target="_blank" rel="noopener">About GFTV</a>
+            <a href="https://policy.globalfurry.tv/legal/terms" target="_blank" rel="noopener">Terms of Use</a>
+            <a href="https://policy.globalfurry.tv/legal/privacy" target="_blank" rel="noopener">Privacy Policy</a>
+        </nav>
+        <span>Made with</span> <span data-icon="heart"></span> <span>in</span>
+        <a href="https://www.google.com/maps/place/Singapore" target="_blank" rel="noopener">Singapore</a>
+        <span>by Global Furry Television</span> &copy; 2014-<span id="currentYear"></span>.
+        <span>All rights reserved.</span>
+    </footer>
+
+    <div class="modal-backdrop hidden" id="themeModal">
+        <div class="modal glass-card" role="dialog" aria-modal="true" aria-labelledby="themeModalTitle">
+            <div class="modal-head">
+                <h2 id="themeModalTitle">Theme</h2>
+                <button class="icon-btn small" type="button" data-close-modal="themeModal" aria-label="Close">
+                    <span data-icon="close"></span>
+                </button>
+            </div>
+            <p class="modal-section-label">Mode</p>
+            <div class="mode-toggle" id="modeToggle">
+                <button class="mode-btn" type="button" data-mode="light" aria-pressed="false"><span data-icon="sun"></span><span>Light</span></button>
+                <button class="mode-btn" type="button" data-mode="dark" aria-pressed="false"><span data-icon="moon"></span><span>Dark</span></button>
+                <button class="mode-btn mode-btn-wide" type="button" data-mode="time" aria-pressed="false"><span data-icon="clock"></span><span>Time-based</span></button>
+            </div>
+            <p class="mode-note" id="modeNote" hidden></p>
+            <p class="modal-section-label">Colour theme</p>
+            <div class="swatch-grid" id="swatchGrid"></div>
         </div>
     </div>
-    <div class="wave">
-        <div class="wave1"></div>
-        <div class="wave2"></div>
-    </div>
-    <script>
-        if (typeof navigator.serviceWorker !== 'undefined') {
-            navigator.serviceWorker.register('sw.js')
-        }
-    </script>
+
+    <script type="module" src="/js/page.js"></script>
 </body>
 
 </html>
