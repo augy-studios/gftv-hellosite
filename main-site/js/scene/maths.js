@@ -23,14 +23,21 @@ export function approach(current, target, rate, seconds) {
   return lerp(current, target, 1 - Math.exp(-rate * seconds));
 }
 
-// How far through a pinned chapter the page has scrolled, 0 to 1: 0 when the
-// chapter's top reaches the top of the screen, 1 when its bottom reaches the
-// bottom, which is exactly the stretch its sticky stage stays put for.
-export function pinProgress(element, view) {
+// How far through a pinned chapter the page has scrolled, 0 to 1: exactly the
+// stretch its sticky stage (a screen tall) stays put for. `stickTop` is the
+// stage's sticky top: 0 for a stage pinned at the top of the screen, the
+// stage's starting height for the hero's. The pin starts when the chapter's
+// top reaches stickTop, and ends when the stage's bottom meets the chapter's.
+export function pinProgress(element, view, stickTop = 0) {
   const rect = element.getBoundingClientRect();
   const travel = rect.height - view.height;
   if (travel <= 0) return 0;
-  return clamp(-rect.top / travel, 0, 1);
+  return clamp((stickTop - rect.top) / travel, 0, 1);
+}
+
+// The sticky top of a pinned stage, in pixels, as the stylesheet resolves it.
+export function stickyTop(stage) {
+  return stage ? Number.parseFloat(getComputedStyle(stage).top) || 0 : 0;
 }
 
 // A DOM element's centre and size in scene units (page pixels, y up, x from

@@ -17,7 +17,7 @@
 //                          ramen photos, fetched by js/blob-images.js)
 //   other origins          never touched (Google Analytics)
 
-const VERSION = 3;
+const VERSION = 4;
 // Every cache this site has made starts with PREFIX, including release 1's
 // date-named one, so activate clears them all but the current.
 const PREFIX = 'gftv-hellospot-';
@@ -52,6 +52,8 @@ const PRECACHE = [
   '/js/blob-images.js',
   '/js/shapes-data.js',
   '/js/backdrop-static.js',
+  '/js/liquid-glass.js',
+  '/js/section-dots.js',
   '/js/scene/main.js',
   '/js/scene/card.js',
   '/js/scene/smile-face.js',
@@ -61,6 +63,7 @@ const PRECACHE = [
   '/js/scene/bowl.js',
   '/js/scene/colours.js',
   '/js/scene/maths.js',
+  '/js/scene/paint.js',
   '/js/scene/shapes.js',
   '/js/vendor/three.module.min.js',
 ];

@@ -5,7 +5,8 @@
 //
 // A shape's position and size are corrected for its depth, so that at its
 // moment it sits on screen where, and as large as, the list says, whatever its
-// depth. They turn slowly as the page scrolls.
+// depth. Each turns slowly on its own and floats gently up and down, like a
+// particle, and turns a little more as the page scrolls.
 //
 // They are background and nothing else: drawn first, faint, and never hiding
 // anything, so the card, the line, the photos and the bowl always draw over
@@ -27,6 +28,10 @@ const NEAREST = 0.35;
 const FURTHEST = -1.8;
 // Turn per pixel of scroll, in radians.
 const SPIN = 0.00012;
+// The float: how far up and down, as a fraction of the shape's size, and how
+// fast, in radians a second.
+const FLOAT = 0.05;
+const FLOAT_SPEED = 0.45;
 
 // One geometry per kind, a unit size (1 = the shape's `size`), centred.
 function geometries() {
@@ -91,6 +96,10 @@ export class Shapes {
       mesh.rotation.z = shape.rotation;
       mesh.userData.rotation = shape.rotation;
       mesh.userData.spin = shape.spin;
+      mesh.userData.turnRate = shape.turnRate;
+      mesh.userData.phase = shape.phase;
+      mesh.userData.y = mesh.position.y;
+      mesh.userData.float = shape.size * scale * FLOAT;
       // Drawn before everything, and they never block anything.
       mesh.renderOrder = -2;
       this.group.add(mesh);
@@ -99,9 +108,12 @@ export class Shapes {
     this.setTheme({ shapeOpacity: this.opacity });
   }
 
-  update(view) {
+  // time: seconds since the page opened.
+  update(view, time) {
     for (const mesh of this.meshes) {
-      mesh.rotation.z = mesh.userData.rotation + view.scrollY * SPIN * mesh.userData.spin;
+      const { rotation, spin, turnRate, phase, y, float } = mesh.userData;
+      mesh.rotation.z = rotation + spin * (time * turnRate + view.scrollY * SPIN);
+      mesh.position.y = y + Math.sin(time * FLOAT_SPEED + phase) * float;
     }
   }
 }

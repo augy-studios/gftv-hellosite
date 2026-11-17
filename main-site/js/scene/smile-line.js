@@ -25,8 +25,9 @@ import {
   TubeGeometry,
   Vector3,
 } from '../vendor/three.module.min.js';
-import { approach, clamp, lerp, smoothstep } from './maths.js';
+import { approach, clamp, lerp, smoothstep, stickyTop } from './maths.js';
 import { EYES, MOUTH, STICKER, STROKE_HALF_WIDTH } from './smile-shape.js';
+import { PaintSmudge } from './paint.js';
 
 const RADIAL_SEGMENTS = 10;
 // Where the head of the line sits, as a fraction of the screen's height from
@@ -70,6 +71,8 @@ export class SmileLine {
     this.tube = null;
     this.outroEyes = new Group();
     this.group.add(this.outroEyes);
+    // The line smudges and splashes under the pointer like wet paint.
+    this.paint = new PaintSmudge(this.group, this.material);
 
     this.head = 0;          // drawn segments, eased
     this.eyesIn = 0;        // the closing smile's eyes, 0 to 1
@@ -205,6 +208,8 @@ export class SmileLine {
     positions.needsUpdate = true;
     geometry.computeBoundingSphere();
 
+    this.paint.reset(geometry, centres, radii, segments, ring);
+
     this.tube = new Mesh(geometry, this.material);
     this.tube.frustumCulled = false;
     this.group.add(this.tube);
@@ -230,10 +235,12 @@ export class SmileLine {
     this.centres = centres;
     this.radii = radii;
     this.due = due;
-    // The scroll position at which the hero's pin ends and the line may start.
+    // The scroll position at which the hero's pin ends and the line may start
+    // (the stage is pinned at its sticky top, not the top of the screen).
     const hero = document.getElementById('hello');
     this.pinEnd = hero
       ? hero.getBoundingClientRect().top + view.scrollY + hero.offsetHeight - view.height
+        - stickyTop(document.getElementById('heroStage'))
       : 0;
 
     this.startCap.position.copy(centres[0]);
@@ -306,8 +313,12 @@ export class SmileLine {
     const complete = drawn >= this.segments - 1;
     this.startCap.visible = drawn > 0;
     this.headCap.visible = drawn > 0;
+    this.paint.update(view, seconds, drawn);
     const headIndex = complete ? this.segments : drawn;
+    const smudge = this.paint.offset(headIndex);
     this.headCap.position.copy(this.centres[headIndex]);
+    this.headCap.position.x += smudge.x;
+    this.headCap.position.y += smudge.y;
     this.headCap.scale.setScalar(this.radii[headIndex]);
 
     // The closing smile's eyes arrive when the line has finished drawing it.

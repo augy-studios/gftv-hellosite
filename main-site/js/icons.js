@@ -22,6 +22,7 @@ const PATHS = {
   send: '<path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>',
   video: '<rect x="2" y="5" width="15" height="14" rx="2"/><path d="M23 7l-6 5 6 5V7z"/>',
   info: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>',
+  check: '<path d="M20 6L9 17l-5-5"/>',
 };
 
 export function icon(name) {

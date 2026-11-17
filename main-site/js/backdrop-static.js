@@ -1,7 +1,9 @@
 // The background shapes as still pictures on the page, for when the 3D scene
 // is off (reduced motion, no WebGL) and on the 404 page. The same shapes as
 // the scene's (js/shapes-data.js), each where the scene shows it at its
-// moment, but fixed to the page: no depth, no parallax, no turning.
+// moment, but fixed to the page: no depth and no parallax. Each still turns
+// slowly on its own (a CSS animation), except with reduced motion, where the
+// stylesheet stops all animation.
 
 import { backdropShapes } from './shapes-data.js';
 
@@ -54,6 +56,8 @@ function draw() {
     svg.style.height = `${shape.size}px`;
     svg.style.left = `${width / 2 + shape.side * shape.edge * width - shape.size / 2}px`;
     svg.style.top = `${shape.moment + height / 2 + shape.offset - shape.size / 2}px`;
+    svg.style.animationDuration = `${((Math.PI * 2) / shape.turnRate).toFixed(1)}s`;
+    if (shape.spin < 0) svg.style.animationDirection = 'reverse';
     layer.append(svg);
   }
   layer.style.height = `${pageHeight}px`;

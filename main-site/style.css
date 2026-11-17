@@ -152,6 +152,12 @@
 :root[data-mode="light"] { --shape-opacity: 0.3; }
 :root[data-mode="dark"] { --shape-opacity: 0.16; }
 
+/* The light caught by the liquid glass cards (.liquid): their corner glints
+   and the shimmer along their edges. Bright on light pages, dimmer on dark
+   ones, where full white would glare. */
+:root[data-mode="light"] { --glass-shine: rgba(255, 255, 255, 0.9); }
+:root[data-mode="dark"] { --glass-shine: rgba(255, 248, 220, 0.38); }
+
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font); }
 /* Only html is held to the screen's height: body grows with the page (min-height below), or the
    sticky header, which can't leave body, would scroll away after the first screenful. */
@@ -600,6 +606,107 @@ body { display: flex; flex-direction: column; min-height: 100dvh; }
 
 .story { position: relative; z-index: 1; flex: 1 1 auto; width: 100%; }
 
+/* The browser's scroll bar is hidden, for the look of the page: the page
+   scrolls exactly as before (wheel, touch, keys), and the section dots below
+   stand in for the bar. Only the page's own bar; scrolling boxes inside it,
+   like a dialog, keep theirs. */
+html { scrollbar-width: none; }
+html::-webkit-scrollbar { display: none; }
+
+/* The section dots: one per chapter, down the right edge (js/section-dots.js).
+   Passed chapters are ticked, the current one is ringed, and the track
+   between them fills as the page scrolls. */
+.section-dots {
+  --dot: 14px;
+  --gap: 34px;
+  --progress: 0;
+  position: fixed;
+  top: 50%;
+  right: max(0.75rem, env(safe-area-inset-right));
+  z-index: 25;
+  transform: translateY(-50%);
+}
+.section-dots ol { position: relative; list-style: none; }
+/* The track, from the first dot's middle to the last's, and its fill. */
+.section-dots ol::before,
+.section-dots ol::after {
+  content: "";
+  position: absolute;
+  top: calc(var(--gap) / 2);
+  bottom: calc(var(--gap) / 2);
+  right: calc(16px - 1px);
+  width: 2px;
+  border-radius: 1px;
+}
+.section-dots ol::before { background: var(--border-strong); }
+.section-dots ol::after {
+  background: var(--brand-dark);
+  transform: scaleY(var(--progress));
+  transform-origin: top;
+  transition: transform 120ms linear;
+}
+.section-dots a {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 32px;
+  height: var(--gap);
+  border-radius: var(--radius-sm);
+}
+.dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--dot);
+  height: var(--dot);
+  margin-right: calc(16px - var(--dot) / 2);
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--border-strong);
+  color: var(--brand-on);
+  transition: background-color var(--motion) ease, border-color var(--motion) ease, transform var(--motion) ease, box-shadow var(--motion) ease;
+}
+.dot svg { width: 9px; height: 9px; stroke-width: 3.5; opacity: 0; transition: opacity var(--motion) ease; }
+.section-dots a.done .dot { background: var(--brand-dark); border-color: var(--brand-dark); }
+.section-dots a.done .dot svg { opacity: 1; }
+.section-dots a.current .dot {
+  background: var(--brand-dark);
+  border-color: var(--brand-dark);
+  transform: scale(1.15);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand-dark) 25%, transparent);
+}
+.section-dots a:hover .dot { transform: scale(1.25); }
+/* The chapter's name, on hover or keyboard focus. */
+.dot-label {
+  position: absolute;
+  right: 36px;
+  top: 50%;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text);
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow) 0 4px 12px;
+  opacity: 0;
+  transform: translate(6px, -50%);
+  pointer-events: none;
+  transition: opacity var(--motion) ease, transform var(--motion) ease;
+}
+.section-dots a:hover .dot-label,
+.section-dots a:focus-visible .dot-label { opacity: 1; transform: translate(0, -50%); }
+/* A chapter given focus by a dot is not a control, and shows no ring. */
+.chapter[tabindex="-1"]:focus { outline: none; box-shadow: none; }
+
+@media (max-width: 480px) {
+  /* Smaller, closer to the edge, still a full tap target across. */
+  .section-dots { --dot: 10px; --gap: 28px; right: max(0.25rem, env(safe-area-inset-right)); }
+}
+
 /* The background shapes as still pictures, when the scene is off and on the
    404 page (js/backdrop-static.js). In the scene they are drawn in 3D. */
 body { position: relative; }
@@ -616,7 +723,11 @@ body { position: relative; }
   position: absolute;
   overflow: visible;
   opacity: var(--shape-opacity);
+  /* A slow turn on its own; each shape's speed and direction are set by the
+     script. Stopped with reduced motion, like every animation. */
+  animation: shape-turn 90s linear infinite;
 }
+@keyframes shape-turn { to { transform: rotate(360deg); } }
 
 .chapter {
   width: 100%;
@@ -658,9 +769,12 @@ body { position: relative; }
 /* With the scene on, the hero is pinned: the page holds still while the card
    turns over and its smile drops below it, then moves on. */
 .scene-on .hero { height: 260vh; padding: 0; max-width: none; }
+/* Pinned where it starts, just below the official bar and the header
+   (--hero-top, measured by js/app.js), so the card does not move at all until
+   it has turned over: the first scroll only slides the official bar away. */
 .scene-on .hero-stage {
   position: sticky;
-  top: 0;
+  top: var(--hero-top, 0px);
   height: 100vh;
   height: 100svh;
   min-height: 0;
@@ -700,6 +814,66 @@ body { position: relative; }
 .scroll-hint svg { width: 18px; height: 18px; animation: hint-bob 1.8s ease-in-out infinite; }
 @keyframes hint-bob { 50% { transform: translateY(4px); } }
 .scene-off .scroll-hint { display: none; }
+
+/* Liquid glass: the content cards (the three steps, and "Wait, what is
+   GFTV?"). A lighter glass than the theme's, so the background shapes and the
+   line show through as shapes rather than a smudge, with a blur just strong
+   enough that nothing behind the text competes with it. Light catches it: a
+   glint at two corners, and a shimmer that runs along its edge. As the card
+   moves up the screen, js/liquid-glass.js moves --shine from 1 to 0, and the
+   glints and the shimmer travel with it; with reduced motion they hold still.
+
+   The glints and the shimmer are soft gradients. They are HelloSpot's one
+   exception to the theme's no-gradients rule, asked for and logged in the
+   README, and they stay on .liquid: nothing else may use a gradient. */
+.liquid {
+  --shine: 0.5;
+  position: relative;
+  isolation: isolate;
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
+  /* A firmer outline than the theme's glass, so the light shimmer along the
+     edge has something to run across on a pale page. */
+  border-color: var(--border-strong);
+  backdrop-filter: blur(6px) saturate(130%);
+  -webkit-backdrop-filter: blur(6px) saturate(130%);
+  box-shadow:
+    var(--shadow) 0 8px 24px,
+    inset 0 1px 0 var(--glass-highlight),
+    inset 1px 0 0 color-mix(in srgb, var(--glass-shine) 45%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--text) 6%, transparent);
+}
+/* The corner glints, under the text. */
+.liquid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(circle 8rem at calc(6% + var(--shine) * 20%) calc(4% + var(--shine) * 14%),
+      color-mix(in srgb, var(--glass-shine) 90%, transparent), transparent),
+    radial-gradient(circle 6rem at calc(94% - var(--shine) * 20%) calc(96% - var(--shine) * 14%),
+      color-mix(in srgb, var(--glass-shine) 60%, transparent), transparent);
+}
+/* The shimmer along the edge: a bright band across a ring as thin as a
+   border (the mask keeps only the ring). Its position follows --shine. */
+.liquid::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  padding: 2px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(120deg,
+    transparent calc(var(--shine) * 100% - 22%),
+    var(--glass-shine) calc(var(--shine) * 100%),
+    transparent calc(var(--shine) * 100% + 22%));
+  /* A mask, not a colour: only the ring between the padding and the edge. */
+  -webkit-mask: linear-gradient(black 0 0) content-box, linear-gradient(black 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(black 0 0) content-box exclude, linear-gradient(black 0 0);
+}
 
 /* 2. how it works */
 .steps {
@@ -757,6 +931,15 @@ body { position: relative; }
   width: min(84vw, 64rem);
   height: min(42svh, 26rem);
   transform: translate(-50%, -50%);
+}
+@media (min-width: 801px) {
+  /* Bigger photos on a wider screen: the ring fills most of the stage
+     between the heading and the caption. */
+  .scene-on .ring-anchor {
+    top: 57%;
+    width: min(92vw, 86rem);
+    height: min(64svh, 46rem);
+  }
 }
 .ring-caption { display: none; }
 .scene-on .ring-caption {
@@ -875,6 +1058,7 @@ body { position: relative; }
 
 /* 5. about */
 .about-card { max-width: 44rem; margin: 0 auto; padding: 2rem; }
+
 .about-card p { margin-top: 0.85rem; font-size: 1.0625rem; }
 .about-card h2 { margin-bottom: 0.25rem; }
 .link-row { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }

@@ -126,7 +126,7 @@ export function startScene({ photos, onFail }) {
     line.update(view, seconds, card.progress);
     ring.update(view, seconds, now / 1000);
     bowl.update(view, seconds, now / 1000);
-    shapes.update(view);
+    shapes.update(view, now / 1000);
 
     renderer.clear();
     renderer.render(backdrop, camera);

@@ -36,8 +36,21 @@ itself as you scroll.
 Behind it all, faint shapes like those in GFTV's 12th anniversary artwork
 (circles, semicircles, quarter circles and squares), in the four GFTV colours
 only (the wordmark's red, yellow, green and blue), are scattered at the sides of the screen at different depths. Near ones slide
-past faster than far ones as you scroll. On phones only their edges peek in.
-With the scene off they are still pictures, and the 404 page has a few too.
+past faster than far ones as you scroll, and each one turns slowly and floats
+on its own, like particles, so the background is never quite still. On phones
+only their edges peek in. With the scene off they are flat pictures fixed to
+the page, still turning slowly, and the 404 page has a few too. With reduced
+motion nothing moves.
+
+The line is wet paint: moving the mouse (or a finger) across it smudges it,
+dragging it along before it springs back, and a quick flick splashes droplets
+off it. A fast scroll makes it ripple. Written for this site, inspired by
+lusion.co.
+
+The browser's scroll bar is hidden. In its place, down the right edge, is one
+dot per chapter: passed chapters are ticked, the current one is ringed, the
+track between them fills as you scroll, and each dot is a link to its chapter
+that shows the chapter's name on hover or focus.
 
 The site opens in the **Hello** colour theme (yellow), in light mode. Readers
 can switch to Classic, dark or time-based in the theme dialog.
@@ -74,6 +87,9 @@ switches to that layout.
 | `assets/` | Every picture the page shows (the card's two faces, gallery and ramen photos), and the Proxima Nova font. |
 | `images/` | The flat HelloSmile (made by `../tools/make-icons.py`) and the manifest screenshots. |
 | `js/shapes-data.js` | The background shapes: where each one is, its kind, colour, size and depth. `js/scene/shapes.js` draws them in 3D, `js/backdrop-static.js` as still pictures. |
+| `js/section-dots.js` | The dots that stand in for the scroll bar. |
+| `js/liquid-glass.js` | Moves the light on the liquid glass cards with the scroll. |
+| `js/scene/paint.js` | The smudge and splash on the line. |
 | `js/blob-images.js` | Shows pictures through `blob:` URLs, for the page and the 3D scene. |
 | `js/chrome.js` | What every page shares: theme, icons, pictures, dialogs, the update bar, the sticky header. |
 | `js/app.js` | The home page: the chrome, the photo list, and starting the scene. |
@@ -92,6 +108,12 @@ switches to that layout.
 - **No inline scripts or styles.** The Content-Security-Policy in `vercel.json`
   refuses them. Put scripts in files and set styles with `element.style` or
   classes.
+- **No gradients, with one logged exception.** The theme forbids gradients.
+  HelloSpot's liquid glass cards (`.liquid` in `style.css`: the three steps and
+  "Wait, what is GFTV?") have soft gradient highlights, a glint at two corners
+  and a shimmer along the edge, that move with the scroll
+  (`js/liquid-glass.js`). That is the only place a gradient is allowed; it was
+  asked for, and stays on `.liquid`.
 - **No hardcoded colours** outside section 1 of `style.css`. The 3D scene reads
   the theme tokens too (`js/scene/colours.js`): the smile and the line are the
   text colour softened towards the page background, so they sit behind the

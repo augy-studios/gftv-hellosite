@@ -77,17 +77,17 @@
                 <h2 id="howTitle">How a HelloSpot works</h2>
             </div>
             <ol class="steps">
-                <li class="step glass-card">
+                <li class="step glass-card liquid">
                     <span class="step-icon" data-icon="map"></span>
                     <h3>Spot the smile</h3>
                     <p>Look for the HelloSmile on a card, a lanyard or a sign. Wherever it is, that is a HelloSpot.</p>
                 </li>
-                <li class="step glass-card">
+                <li class="step glass-card liquid">
                     <span class="step-icon" data-icon="smile"></span>
                     <h3>Say hello</h3>
                     <p>Come over and say hi. Nobody at a HelloSpot expects you to know anyone yet.</p>
                 </li>
-                <li class="step glass-card">
+                <li class="step glass-card liquid">
                     <span class="step-icon" data-icon="users"></span>
                     <h3>Make a friend</h3>
                     <p>Meet the people around you, and leave with someone to look out for at the next meet.</p>
@@ -146,7 +146,7 @@
 
         <!-- 5. About GFTV, from globalfurrytv.news.blog/about-us. -->
         <section class="chapter about" id="about" aria-labelledby="aboutTitle">
-            <div class="about-card glass-card">
+            <div class="about-card glass-card liquid">
                 <span class="eyebrow">Wait, what is GFTV?</span>
                 <h2 id="aboutTitle">Global Furry Television</h2>
                 <p>Global Furry Television (GFTV) is Asia's biggest furry fandom news channel, based in Singapore.</p>
@@ -169,6 +169,21 @@
             <a class="btn btn-primary" href="https://events.globalfurry.tv/" target="_blank" rel="noopener"><span data-icon="calendar"></span>Find a meet on HelloEvents</a>
         </section>
     </main>
+
+    <!-- The page's scroll bar: one dot per chapter, ticked once passed, with
+         a track that fills as the page scrolls (js/section-dots.js). The
+         browser's own scroll bar is hidden. Plain links, so they work without
+         scripts too. -->
+    <nav class="section-dots" aria-label="Sections">
+        <ol>
+            <li><a href="#hello"><span class="dot" aria-hidden="true"><span data-icon="check"></span></span><span class="dot-label">You found a HelloSpot!</span></a></li>
+            <li><a href="#how"><span class="dot" aria-hidden="true"><span data-icon="check"></span></span><span class="dot-label">How a HelloSpot works</span></a></li>
+            <li><a href="#gallery"><span class="dot" aria-hidden="true"><span data-icon="check"></span></span><span class="dot-label">Friends made at HelloSpots</span></a></li>
+            <li><a href="#takagi"><span class="dot" aria-hidden="true"><span data-icon="check"></span></span><span class="dot-label">Takagi when?</span></a></li>
+            <li><a href="#about"><span class="dot" aria-hidden="true"><span data-icon="check"></span></span><span class="dot-label">Wait, what is GFTV?</span></a></li>
+            <li><a href="#seeyou"><span class="dot" aria-hidden="true"><span data-icon="check"></span></span><span class="dot-label">See you at the next HelloSpot!</span></a></li>
+        </ol>
+    </nav>
 
     <footer class="site-footer">
         <nav>

@@ -49,10 +49,16 @@ function lerp(from, to, amount) {
 //   size      its size on screen, in pixels
 //   depth     0 nearest the reader, 1 furthest away
 //   rotation  radians
-//   spin      -1 or 1: which way it turns, slowly, as the page scrolls
+//   spin      -1 or 1: which way it turns
+//   turnRate  how fast it turns on its own, in radians a second: a full turn
+//             takes from about 45 seconds to 150, so they drift like
+//             particles rather than sitting still
+//   phase     where it starts in its slow float up and down, in radians
 export function backdropShapes({ width, height, scrollLength }) {
   const phone = width < 640;
   const random = seeded(2026);
+  // The slow motion has its own sequence, so it never moves where a shape is.
+  const motion = seeded(77);
   // Phones get fewer shapes, mostly off the screen, so only an edge peeks in
   // beside the text.
   const spacing = height * (phone ? 0.5 : 0.3);
@@ -74,6 +80,8 @@ export function backdropShapes({ width, height, scrollLength }) {
       depth,
       rotation: TILT + (Math.PI / 2) * Math.floor(random() * 4),
       spin: random() < 0.5 ? -1 : 1,
+      turnRate: lerp(0.042, 0.14, motion()),
+      phase: motion() * Math.PI * 2,
     });
   }
   return shapes;

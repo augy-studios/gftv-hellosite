@@ -24,7 +24,7 @@ import {
   SRGBColorSpace,
   TextureLoader,
 } from '../vendor/three.module.min.js';
-import { easeInOut, pinProgress, screenBox, smoothstep } from './maths.js';
+import { easeInOut, pinProgress, screenBox, smoothstep, stickyTop } from './maths.js';
 import { blobUrl } from '../blob-images.js';
 import { CARD_HEIGHT, CARD_WIDTH, EYES, MOUTH, STROKE_HALF_WIDTH } from './smile-shape.js';
 
@@ -83,6 +83,7 @@ export class NameCard {
     this.group = new Group();
     this.anchor = document.getElementById('cardAnchor');
     this.hero = document.getElementById('hello');
+    this.stage = document.getElementById('heroStage');
     scene.add(this.group);
 
     const edge = new MeshBasicMaterial({ color: EDGE });
@@ -127,8 +128,11 @@ export class NameCard {
   }
 
   // How far through the hero's pin the page is, 0 to 1.
+  // The hero's stage is pinned where it starts, below the official bar and
+  // the header, not at the top of the screen; see pinHeroWhereItStarts() in
+  // js/app.js.
   pin(view) {
-    return pinProgress(this.hero, view);
+    return pinProgress(this.hero, view, stickyTop(this.stage));
   }
 
   update(view) {
