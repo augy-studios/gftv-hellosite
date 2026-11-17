@@ -1,18 +1,15 @@
-// The smile line. One continuous stroke that starts where the name card's
-// smile ends, at the tip of its mouth, once the card has turned edge-on and
-// taken its printed smile away with it. It travels down the whole page
+// The smile line. One continuous stroke that grows out of the end of the
+// smile's mouth (smile-face.js) once the hero's pin is over, with the card
+// turned over and the smile sitting below it. It travels down the whole page
 // weaving left and right and in and out of the screen, and comes home at the
 // bottom as the same smile.
 //
-// The top of the page has no 3D copy of the smile: the smile there is the one
-// printed on the card, so it turns over and goes with the card rather than
-// staying behind as a second smile.
-//
 // It is built in page space (scene units are page pixels, see main.js), so it
 // scrolls with the page like anything else in it. It draws itself as the page
-// scrolls: the drawn part always reaches a little below the bottom of the
-// screen, so the reader watches it arrive. Through the pinned chapters it
-// runs out at the edges and far back, behind the photo ring and the bowl.
+// scrolls: its head stays a little below the middle of the screen (HEAD_AT),
+// so the reader watches it grow, and it finishes the closing smile as the
+// page reaches its end. Through the pinned chapters it runs out at the edges
+// and far back, behind the photo ring and the bowl.
 //
 // Rebuilt on every layout change (resize, fonts, the photo list arriving),
 // since it is laid along the page's own geometry.
@@ -29,11 +26,18 @@ import {
   Vector3,
 } from '../vendor/three.module.min.js';
 import { approach, clamp, lerp, smoothstep } from './maths.js';
-import { CARD_WIDTH, EYES, FACE_BOX, MOUTH, STROKE_HALF_WIDTH } from './smile-shape.js';
+import { EYES, MOUTH, STICKER, STROKE_HALF_WIDTH } from './smile-shape.js';
 
 const RADIAL_SEGMENTS = 10;
-// How far below the bottom of the screen the drawn line reaches.
-const LEAD = 0.12;
+// Where the head of the line sits, as a fraction of the screen's height from
+// the top: below the middle, well clear of the bottom.
+const HEAD_AT = 0.62;
+// At least this many pixels of line per pixel of scroll once it starts.
+const GROWTH = 2.5;
+// The ending, in seconds from the moment the closing smile is whole: the
+// smile turns from the soft tint to full strength between solidFrom and
+// solidTo, and the sticker fades in (CSS, .sticker-on) at sticker.
+const FINISH = { solidFrom: 0.35, solidTo: 1.1, sticker: 1.4, end: 1.6 };
 
 function polylineLength(points) {
   let total = 0;
@@ -69,10 +73,15 @@ export class SmileLine {
 
     this.head = 0;          // drawn segments, eased
     this.eyesIn = 0;        // the closing smile's eyes, 0 to 1
+    this.finish = 0;        // seconds into the ending, run back when scrolled away
+    this.stickerOn = false;
+    this.soft = new Color();
+    this.solid = new Color();
   }
 
   setTheme(theme) {
-    this.material.color.copy(theme.text);
+    this.soft.copy(theme.line);
+    this.solid.copy(theme.text);
   }
 
   clear() {
@@ -87,52 +96,52 @@ export class SmileLine {
     }
   }
 
-  layout(view, card) {
+  // face: the smile (smile-face.js), already laid out. heroProgress: how far
+  // through the hero's pin the page is.
+  layout(view, face, heroProgress) {
     this.clear();
-    if (!card.box || !this.outroAnchor) return;
+    if (!face.finalTail || !this.outroAnchor) return;
 
     const { width: vw, height: vh } = view;
     const toWorld = (x, y, z) => new Vector3(x - vw / 2, -y, z);
 
-    // Where the card's printed mouth ends, and which way it was heading: the
-    // line starts there, as thick as the printed stroke.
-    const cardScale = card.box.width / CARD_WIDTH;
-    const heroRadius = Math.max(1.2, STROKE_HALF_WIDTH * cardScale);
-    const zCard = heroRadius + 1;
-    const onCard = ([u, v]) => toWorld(card.box.left + u * cardScale, card.box.top + v * cardScale, zCard);
-    const tail = onCard(MOUTH[MOUTH.length - 1]);
-    const before = onCard(MOUTH[MOUTH.length - 4]);
+    // Where the smile's mouth ends once it sits below the card, and which way
+    // it was heading: the line starts there, as thick as the smile's stroke.
+    const heroRadius = face.radius;
+    const tail = face.finalTail.clone();
 
-    // The smile at the end, the same way round as on the card, fitted into the
-    // closing chapter's square.
+    // The smile at the end, the same way round as on the card, drawn exactly
+    // over the smile of the HelloSmile sticker that fills the closing
+    // chapter's square, so the sticker can take over from it in place.
     const rect = this.outroAnchor.getBoundingClientRect();
     const square = Math.min(rect.width, rect.height);
-    const faceWidth = FACE_BOX.right - FACE_BOX.left;
-    const faceHeight = FACE_BOX.bottom - FACE_BOX.top;
-    const outroScale = (square * 0.86) / Math.max(faceWidth, faceHeight);
+    const toSquare = square / STICKER.size;
+    const outroScale = STICKER.scale * toSquare;
     const outroRadius = Math.max(1.2, STROKE_HALF_WIDTH * outroScale);
-    const centreX = rect.left + rect.width / 2;
-    const centreY = rect.top + view.scrollY + rect.height / 2;
-    const faceX = (FACE_BOX.left + FACE_BOX.right) / 2;
-    const faceY = (FACE_BOX.top + FACE_BOX.bottom) / 2;
+    const left = rect.left + (rect.width - square) / 2;
+    const top = rect.top + view.scrollY + (rect.height - square) / 2;
+    const centreX = left + square / 2;
+    const centreY = top + square / 2;
     const zOutro = outroRadius + 1;
     const onOutro = ([u, v]) => toWorld(
-      centreX + (u - faceX) * outroScale,
-      centreY + (v - faceY) * outroScale,
+      left + (u * STICKER.scale + STICKER.x) * toSquare,
+      top + (v * STICKER.scale + STICKER.y) * toSquare,
       zOutro,
     );
     // From the mouth's top right tip, round the bottom, to its lower left tip.
     const outroMouth = MOUTH.map(onOutro);
 
     // Between them, the line weaves down the page.
+    // Off the end of the mouth the way it was heading, then down and to the
+    // left into the weave. Every stretch keeps heading down the page, never
+    // flat across it: the line is drawn as the page passes under it, so a flat
+    // stretch would appear all at once.
     const points = [tail];
-    const away = tail.clone().sub(before).normalize();
-    points.push(tail.clone().addScaledVector(away, vh * 0.05));
-    // Out to the left edge at the card's height before heading down, so the
-    // line does not cut through the headline under the card.
-    points.push(new Vector3(-vw * 0.47, tail.y - vh * 0.04, -vh * 0.05));
+    points.push(tail.clone().addScaledVector(face.tailDirection, vh * 0.05));
 
-    const pins = [...document.querySelectorAll('[data-pin]')].map((element) => {
+    // The pinned chapters further down, which the line keeps clear of. The
+    // hero's own pin is where it starts, so that one is left out.
+    const pins = [...document.querySelectorAll('[data-pin]:not([data-pin="hero"])')].map((element) => {
       const box = element.getBoundingClientRect();
       return { top: box.top + view.scrollY, bottom: box.bottom + view.scrollY };
     });
@@ -200,20 +209,32 @@ export class SmileLine {
     this.tube.frustumCulled = false;
     this.group.add(this.tube);
 
-    // For each drawn length, the lowest point on the page the line has reached
-    // so far: the smiles double back on themselves, so the page position is
-    // not simply increasing along the line.
-    const reach = new Float32Array(segments + 1);
-    let lowest = -Infinity;
+    // For each point along the line, the scroll position at which it appears
+    // HEAD_AT down the screen. Perspective matters: a point far back in the
+    // scene shows nearer the middle of the screen than its page position says,
+    // so its depth is taken into account. Then, for each drawn length, the
+    // latest of those so far, since the smiles double back on themselves and
+    // the line must never be drawn past a point it has not yet reached.
+    const below = (HEAD_AT - 0.5) * vh;
+    const due = new Float32Array(segments + 1);
+    let latest = -Infinity;
     for (let i = 0; i <= segments; i += 1) {
-      lowest = Math.max(lowest, -centres[i].y);
-      reach[i] = lowest;
+      const depth = (view.distance - centres[i].z) / view.distance;
+      const scroll = -centres[i].y - below * depth - vh / 2;
+      latest = Math.max(latest, scroll);
+      due[i] = latest;
     }
 
     this.segments = segments;
+    this.segmentLength = length / segments;
     this.centres = centres;
     this.radii = radii;
-    this.reach = reach;
+    this.due = due;
+    // The scroll position at which the hero's pin ends and the line may start.
+    const hero = document.getElementById('hello');
+    this.pinEnd = hero
+      ? hero.getBoundingClientRect().top + view.scrollY + hero.offsetHeight - view.height
+      : 0;
 
     this.startCap.position.copy(centres[0]);
     this.startCap.scale.setScalar(heroRadius);
@@ -223,41 +244,62 @@ export class SmileLine {
     this.outroEyes.children.forEach((child) => { child.userData.home = child.position.clone(); });
 
     // Draw straight to where the page is, rather than replaying it.
-    this.head = card.turn >= 0.5 ? this.target(view) : 0;
+    this.head = heroProgress >= 1 ? this.target(view) : 0;
   }
 
   // How many segments should be drawn for the current scroll position.
+  //
+  // The head of the line sits at HEAD_AT down the screen, so on a phone and
+  // on a desktop alike the reader watches it being drawn rather than finding
+  // it already there. Two things bend that rule:
+  //
+  //   - Near the bottom of the page the head is let further down, so that the
+  //     closing smile is finished exactly as the page reaches its end. The
+  //     smile sits low in the last screen, below where the head would be.
+  //   - The line can never be longer than the scroll since the hero's pin
+  //     ended, times a steady rate. So it starts from nothing and grows with
+  //     the scroll, rather than appearing as a long line all at once.
   target(view) {
-    if (!this.reach) return 0;
-    const atBottom = view.scrollY >= view.maxScroll - 2;
-    if (atBottom) return this.segments;
-    const limit = view.scrollY + view.height * (1 + LEAD);
-    // The last segment whose reach is above the limit.
+    if (!this.due) return 0;
+    const since = view.scrollY - this.pinEnd;
+    if (since <= 0) return 0;
+
+    let scroll = view.scrollY;
+    const short = this.due[this.segments] - view.maxScroll;
+    if (short > 0) {
+      scroll += short * smoothstep(view.maxScroll - view.height, view.maxScroll, view.scrollY);
+    }
+    if (view.scrollY >= view.maxScroll - 1) scroll = Infinity;
+
+    // The last segment already due at this scroll position.
     let low = 0;
     let high = this.segments;
     while (low < high) {
       const middle = (low + high + 1) >> 1;
-      if (this.reach[middle] <= limit) low = middle;
+      if (this.due[middle] <= scroll) low = middle;
       else high = middle - 1;
     }
-    return low;
+
+    // The growth rate: steady, but fast enough that the whole line can be
+    // drawn by the time the page reaches its end.
+    const room = Math.max(1, view.maxScroll - this.pinEnd);
+    const rate = Math.max(GROWTH, (1.1 * this.segments * this.segmentLength) / room);
+    const grown = Math.floor((since * rate) / this.segmentLength);
+    return Math.min(low, grown);
   }
 
-  // cardTurn: how far the card has turned over, 0 flat, 0.5 edge-on, 1 over.
-  update(view, seconds, cardTurn) {
+  // heroProgress: how far through the hero's pin the page is, 0 to 1.
+  update(view, seconds, heroProgress) {
     if (!this.tube) return;
 
-    // Eased, but never slower than a steady minimum, so a jump to the end of
-    // the page finishes the drawing in a moment rather than creeping in.
-    // Nothing is drawn until the card is edge-on: by then its printed smile
-    // has turned away, and the line grows from where the smile ended.
+    // Nothing is drawn while the hero is pinned: the line starts growing out
+    // of the smile only once the card has turned over and the page moves on.
+    // (Until then the smile is still on the pinned stage, not yet at the page
+    // position the line starts from.) After that the head follows the scroll,
+    // eased so it moves smoothly.
     let target = this.target(view);
-    if (cardTurn < 0.5) target = 0;
-    const eased = approach(this.head, target, 5, seconds);
-    const minimum = Math.min(Math.abs(target - this.head), this.segments * 0.6 * seconds);
-    this.head = Math.abs(eased - this.head) >= minimum
-      ? eased
-      : this.head + Math.sign(target - this.head) * minimum;
+    if (heroProgress < 1) target = 0;
+    this.head = approach(this.head, target, 4, seconds);
     const drawn = Math.min(this.segments, Math.round(this.head));
     this.tube.geometry.setDrawRange(0, drawn * RADIAL_SEGMENTS * 6);
 
@@ -275,6 +317,19 @@ export class SmileLine {
     for (const child of this.outroEyes.children) {
       child.scale.setScalar(Math.max(0.001, pop));
       child.position.copy(this.outroCentre).lerp(child.userData.home, pop);
+    }
+
+    // The ending, once the smile is whole: the eyes arrive, the smile fades
+    // from the soft tint back to full strength, then the HelloSmile sticker
+    // fades in over it, its smile exactly on this one. Scrolling back up runs
+    // it backwards.
+    this.finish = clamp(this.finish + (complete ? seconds : -seconds), 0, FINISH.end);
+    const full = smoothstep(FINISH.solidFrom, FINISH.solidTo, this.finish);
+    this.material.color.copy(this.soft).lerp(this.solid, full);
+    const stickerOn = this.finish >= FINISH.sticker;
+    if (stickerOn !== this.stickerOn) {
+      this.stickerOn = stickerOn;
+      this.outroAnchor?.classList.toggle('sticker-on', stickerOn);
     }
   }
 }

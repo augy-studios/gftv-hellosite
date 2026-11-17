@@ -53,17 +53,20 @@
     <canvas class="scene" id="scene" aria-hidden="true"></canvas>
 
     <main class="story">
-        <!-- 1. The name card. The QR code on its back leads here. -->
-        <section class="chapter hero" id="hello" aria-labelledby="heroTitle">
-            <figure class="name-card" id="cardAnchor">
-                <img class="name-card-face" data-src="/assets/12Ann%20Front.png" data-eager width="1280" height="768"
-                    alt="The HelloSpot name card. It says Hello and 哈喽 beside a big smile, over GFTV's rainbow stripes.">
-            </figure>
-            <div class="hero-copy">
-                <span class="eyebrow">GFTV HelloSpot</span>
-                <h1 id="heroTitle">You found a HelloSpot!</h1>
-                <p class="lede">At furmeets and furry conventions, a HelloSpot is where newcomers make new friends.</p>
-                <p class="scroll-hint" aria-hidden="true"><span>Scroll</span><span data-icon="chevron-down"></span></p>
+        <!-- 1. The name card. The QR code on its back leads here. Pinned while
+             the card turns over and its smile drops below it. -->
+        <section class="chapter hero" id="hello" aria-labelledby="heroTitle" data-pin="hero">
+            <div class="hero-stage" id="heroStage">
+                <figure class="name-card" id="cardAnchor">
+                    <img class="name-card-face" data-src="/assets/12Ann%20Front.png" data-eager width="1280" height="768"
+                        alt="The HelloSpot name card. It says Hello and 哈喽 beside a big smile, over GFTV's rainbow stripes.">
+                </figure>
+                <div class="hero-copy">
+                    <span class="eyebrow">GFTV HelloSpot</span>
+                    <h1 id="heroTitle">You found a HelloSpot!</h1>
+                    <p class="lede">At furmeets and furry conventions, a HelloSpot is where newcomers make new friends.</p>
+                    <p class="scroll-hint" aria-hidden="true"><span>Scroll</span><span data-icon="chevron-down"></span></p>
+                </div>
             </div>
         </section>
 
@@ -160,7 +163,7 @@
         <!-- 6. The line comes home as the smile. -->
         <section class="chapter outro" id="seeyou" aria-labelledby="outroTitle">
             <div class="outro-smile" id="outroAnchor">
-                <img data-src="/images/hellosmile.png" width="512" height="512" alt="">
+                <img data-src="/assets/HelloSmile-V2.png" width="2475" height="2475" alt="">
             </div>
             <h2 id="outroTitle">See you at the next HelloSpot!</h2>
             <a class="btn btn-primary" href="https://events.globalfurry.tv/" target="_blank" rel="noopener"><span data-icon="calendar"></span>Find a meet on HelloEvents</a>

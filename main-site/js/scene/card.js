@@ -1,23 +1,32 @@
 // The name card, front and back, drawn exactly over the hero's card picture
-// (#cardAnchor). At the top of the page it lies flat and still, so it looks
-// like the picture it replaces. As the hero scrolls away it turns over to
-// show its back and falls away into the page, taking its printed smile with
-// it. Once it is edge-on, the smile line (smile-line.js) starts from where
-// the smile's mouth ended.
+// (#cardAnchor), and the hero's timeline.
+//
+// The hero is pinned: its stage is sticky, so while the reader scrolls
+// through it the page holds still. Over the first part of that scroll the
+// card turns all the way over to its back, while its smile (smile-face.js)
+// drops off it to below the card. The card then stays, back up, and scrolls
+// away with the page; only once the pin is over does the smile grow the line
+// (smile-line.js).
+//
+// The front face is the card artwork with its printed smile painted out,
+// since the smile is drawn separately on top of it and leaves the card. At
+// rest the two together look exactly like the picture in the page.
 //
 // The faces are unlit (MeshBasicMaterial), so they show the artwork's own
 // colours, the same as the picture in the page.
 
 import {
   BoxGeometry,
+  CanvasTexture,
   Group,
   Mesh,
   MeshBasicMaterial,
   SRGBColorSpace,
   TextureLoader,
 } from '../vendor/three.module.min.js';
-import { clamp, easeInOut } from './maths.js';
+import { easeInOut, pinProgress, screenBox, smoothstep } from './maths.js';
 import { blobUrl } from '../blob-images.js';
+import { CARD_HEIGHT, CARD_WIDTH, EYES, MOUTH, STROKE_HALF_WIDTH } from './smile-shape.js';
 
 // The card's two faces, the originals. The front is the same file as the
 // picture in the hero, and blobUrl() fetches it once for both.
@@ -25,14 +34,48 @@ export const CARD_FRONT = '/assets/12Ann%20Front.png';
 export const CARD_BACK = '/assets/12Ann%20Back.png';
 const EDGE = '#f4f4f4';
 
-function loadTexture(loader, src, maxAnisotropy) {
+// The hero's timeline, as fractions of its pinned scroll. The card has turned
+// over, and the smile has landed below it, by TURN_END; the rest of the pin is
+// a pause before the page moves on.
+export const TURN_START = 0.04;
+export const TURN_END = 0.72;
+
+function loadImage(src) {
   return blobUrl(src).then((url) => new Promise((resolve, reject) => {
-    loader.load(url, (texture) => {
-      texture.colorSpace = SRGBColorSpace;
-      texture.anisotropy = maxAnisotropy;
-      resolve(texture);
-    }, undefined, reject);
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = reject;
+    image.src = url;
   }));
+}
+
+// The front artwork with its smile painted out in the white of the disc it
+// sits on: thick white strokes along the measured centrelines, wide enough to
+// cover the printed stroke and its soft edge.
+function frontWithoutSmile(image) {
+  const canvas = document.createElement('canvas');
+  canvas.width = CARD_WIDTH;
+  canvas.height = CARD_HEIGHT;
+  const context = canvas.getContext('2d');
+  context.drawImage(image, 0, 0, CARD_WIDTH, CARD_HEIGHT);
+  context.strokeStyle = '#ffffff';
+  context.lineWidth = (STROKE_HALF_WIDTH + 8) * 2;
+  context.lineCap = 'round';
+  context.lineJoin = 'round';
+  context.beginPath();
+  MOUTH.forEach(([x, y], index) => (index ? context.lineTo(x, y) : context.moveTo(x, y)));
+  context.stroke();
+  for (const [[x1, y1], [x2, y2]] of EYES) {
+    // The eye segments were measured a little short of the stroke's tips.
+    const length = Math.hypot(x2 - x1, y2 - y1);
+    const ux = (x2 - x1) / length;
+    const uy = (y2 - y1) / length;
+    context.beginPath();
+    context.moveTo(x1 - ux * 6, y1 - uy * 6);
+    context.lineTo(x2 + ux * 6, y2 + uy * 6);
+    context.stroke();
+  }
+  return canvas;
 }
 
 export class NameCard {
@@ -55,11 +98,15 @@ export class NameCard {
     for (const material of [edge, this.front, this.back]) material.depthWrite = false;
     this.group.add(this.mesh);
 
-    const loader = new TextureLoader();
     const anisotropy = renderer.capabilities.getMaxAnisotropy();
+    const finish = (texture) => {
+      texture.colorSpace = SRGBColorSpace;
+      texture.anisotropy = anisotropy;
+      return texture;
+    };
     this.ready = Promise.all([
-      loadTexture(loader, CARD_FRONT, anisotropy),
-      loadTexture(loader, CARD_BACK, anisotropy),
+      loadImage(CARD_FRONT).then((image) => finish(new CanvasTexture(frontWithoutSmile(image)))),
+      blobUrl(CARD_BACK).then((url) => new TextureLoader().loadAsync(url)).then(finish),
     ]).then(([front, back]) => {
       this.front.map = front;
       this.back.map = back;
@@ -67,52 +114,42 @@ export class NameCard {
       this.back.needsUpdate = true;
     });
 
-    this.box = null;
     this.turn = 0;
+    this.progress = 0;
+    this.size = null;
   }
 
-  // The card's rectangle in page pixels, measured on every layout.
-  layout(view) {
+  layout() {
     const rect = this.anchor.getBoundingClientRect();
-    const top = rect.top + view.scrollY;
-    this.box = {
-      left: rect.left,
-      top,
-      width: rect.width,
-      height: rect.height,
-    };
-    const thickness = Math.max(2, rect.width * 0.012);
-    this.thickness = thickness;
-    this.mesh.scale.set(rect.width, rect.height, thickness);
-    this.group.position.set(
-      rect.left + rect.width / 2 - view.width / 2,
-      -(top + rect.height / 2),
-      0,
-    );
-    const heroRect = this.hero.getBoundingClientRect();
-    this.heroBottom = heroRect.bottom + view.scrollY;
+    this.size = { width: rect.width, height: rect.height };
+    this.thickness = Math.max(2, rect.width * 0.012);
+    this.mesh.scale.set(rect.width, rect.height, this.thickness);
   }
 
-  // How far the hero has scrolled away, 0 to 1: done by the time three
-  // quarters of it has left the screen.
-  progress(view) {
-    if (!this.box) return 0;
-    return clamp(view.scrollY / Math.max(1, this.heroBottom * 0.75), 0, 1);
+  // How far through the hero's pin the page is, 0 to 1.
+  pin(view) {
+    return pinProgress(this.hero, view);
   }
 
   update(view) {
-    if (!this.box) return;
-    const p = this.progress(view);
-    const turn = easeInOut(clamp(p * 1.15, 0, 1));
-    // 0 flat, 0.5 edge-on, 1 turned over. The line waits for edge-on.
-    this.turn = turn;
-    // Turn over about the vertical axis, lean back a little on the way, and
-    // fall away from the reader so the smile is left in front of it.
-    this.mesh.rotation.y = turn * Math.PI;
-    this.mesh.rotation.x = Math.sin(turn * Math.PI) * 0.35;
-    this.mesh.rotation.z = Math.sin(turn * Math.PI) * -0.08;
-    this.mesh.position.z = -turn * this.box.width * 0.9 - this.thickness / 2;
-    this.mesh.position.y = turn * this.box.height * 0.35;
-    this.group.visible = view.scrollY < this.heroBottom + view.height;
+    if (!this.size) return;
+    this.progress = this.pin(view);
+    // 0 flat, 0.5 edge-on, 1 turned over.
+    this.turn = easeInOut(smoothstep(TURN_START, TURN_END, this.progress));
+    const swing = Math.sin(this.turn * Math.PI);
+
+    // Over the anchor every frame: the stage is sticky, so it does not move
+    // with the page while pinned.
+    const box = screenBox(this.anchor, view);
+    this.group.position.set(box.x, box.y, 0);
+
+    // Turn over about the vertical axis, leaning and dipping back a little on
+    // the way, and land flat on its back exactly where it started.
+    this.mesh.rotation.set(swing * 0.3, this.turn * Math.PI, swing * -0.06);
+    this.mesh.position.set(0, 0, -swing * this.size.width * 0.3 - this.thickness / 2);
+
+    const rect = this.anchor.getBoundingClientRect();
+    this.group.visible = rect.bottom > -view.height * 0.5 && rect.top < view.height * 1.5;
   }
 }
+

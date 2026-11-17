@@ -30,6 +30,20 @@ export const EYES = [
   [[925.4, 248.5], [960.5, 302.0]],
 ];
 
-// The box round the whole face (eyes and mouth together), used to fit the
-// smile into the closing chapter's square.
+// The box round the whole face (eyes and mouth together), used to place the
+// smile below the card in the hero.
 export const FACE_BOX = { left: 795, top: 240, right: 1102, bottom: 562 };
+
+// The HelloSmile sticker (assets/HelloSmile-V2.png, 2475 square) is the same
+// drawing as the card's smile, larger. Its strokes' box is 516 to 1674 across
+// and 1025 to 2220 down; the card's is 796 to 1101 and 245 to 560. One
+// uniform scale maps one onto the other, so the closing smile can be drawn
+// exactly over the sticker's own smile before the sticker fades in:
+//   sticker x = card x * STICKER.scale + STICKER.x
+//   sticker y = card y * STICKER.scale + STICKER.y
+export const STICKER = {
+  size: 2475,
+  scale: 3.795,
+  x: 516 - 796 * 3.795,
+  y: 1025 - 245 * 3.795,
+};

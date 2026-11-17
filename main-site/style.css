@@ -146,6 +146,12 @@
   --focus-ring: var(--brand-dark);
 }
 
+/* The background shapes (js/shapes-data.js) are artwork colours, the same in
+   every theme; only how strongly they show follows the mode. Faint enough
+   that text over them keeps its contrast. */
+:root[data-mode="light"] { --shape-opacity: 0.3; }
+:root[data-mode="dark"] { --shape-opacity: 0.16; }
+
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font); }
 /* Only html is held to the screen's height: body grows with the page (min-height below), or the
    sticky header, which can't leave body, would scroll away after the first screenful. */
@@ -594,6 +600,24 @@ body { display: flex; flex-direction: column; min-height: 100dvh; }
 
 .story { position: relative; z-index: 1; flex: 1 1 auto; width: 100%; }
 
+/* The background shapes as still pictures, when the scene is off and on the
+   404 page (js/backdrop-static.js). In the scene they are drawn in 3D. */
+body { position: relative; }
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+.backdrop svg {
+  position: absolute;
+  overflow: visible;
+  opacity: var(--shape-opacity);
+}
+
 .chapter {
   width: 100%;
   max-width: 72rem;
@@ -619,15 +643,29 @@ body { display: flex; flex-direction: column; min-height: 100dvh; }
 
 /* 1. hero: the name card */
 .hero {
+  padding-top: 1.5rem;
+  padding-bottom: 3rem;
+  text-align: center;
+}
+.hero-stage {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 2rem;
   min-height: calc(100svh - 6rem);
-  padding-top: 1.5rem;
-  padding-bottom: 3rem;
-  text-align: center;
+}
+/* With the scene on, the hero is pinned: the page holds still while the card
+   turns over and its smile drops below it, then moves on. */
+.scene-on .hero { height: 260vh; padding: 0; max-width: none; }
+.scene-on .hero-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  min-height: 0;
+  padding: 4.5rem 1rem 2rem;
+  overflow: hidden;
 }
 /* Sized so the card and the headline fit one screen at every width. */
 .name-card {
@@ -854,7 +892,15 @@ body { display: flex; flex-direction: column; min-height: 100dvh; }
 .outro-smile { width: min(60vw, 17rem); aspect-ratio: 1; }
 .not-found-title { font-size: clamp(1.75rem, 5vw, 3rem); font-weight: 700; line-height: 1.1; }
 .outro-smile img { width: 100%; height: 100%; }
-.scene-ready .outro-smile img { visibility: hidden; }
+/* With the scene on, the line draws the smile here, and the sticker fades in
+   over it once the smile is finished (smile-line.js sets .sticker-on). The
+   sticker's own smile lies exactly on the drawn one, so only its yellow disc
+   seems to arrive. */
+.scene-ready .outro-smile img {
+  opacity: 0;
+  transition: opacity 600ms ease;
+}
+.scene-ready .outro-smile.sticker-on img { opacity: 1; }
 
 @media (max-width: 480px) {
   .chapter { padding: 3.5rem 1rem; }

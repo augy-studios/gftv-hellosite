@@ -11,10 +11,13 @@
 //
 // Parts (each a module with layout() on every layout change and update()
 // every frame):
-//   card.js        the name card in the hero, turning over as it leaves
-//   smile-line.js  the line from the card's smile to the closing smile
+//   card.js        the name card in the pinned hero, turning over, and the
+//                  hero's timeline
+//   smile-face.js  the card's smile, dropping off it to below the card
+//   smile-line.js  the line from the smile's mouth to the closing smile
 //   ring.js        the photo ring in the gallery chapter
 //   bowl.js        the ramen bowl in the Takagi chapter
+//   shapes.js      the background shapes, drawn first in a pass of their own
 
 import {
   DirectionalLight,
@@ -24,9 +27,11 @@ import {
   WebGLRenderer,
 } from '../vendor/three.module.min.js';
 import { NameCard } from './card.js';
+import { SmileFace } from './smile-face.js';
 import { SmileLine } from './smile-line.js';
 import { PhotoRing } from './ring.js';
 import { RamenBowl } from './bowl.js';
+import { Shapes } from './shapes.js';
 import { onThemeChange, readTheme } from './colours.js';
 
 const FIELD_OF_VIEW = 30;
@@ -44,6 +49,9 @@ export function startScene({ photos, onFail }) {
     return;
   }
   renderer.setClearColor(0x000000, 0);
+  // Cleared by hand, so the background shapes can be drawn first and the
+  // rest drawn over them.
+  renderer.autoClear = false;
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 
   const scene = new Scene();
@@ -56,9 +64,16 @@ export function startScene({ photos, onFail }) {
   scene.add(sun);
 
   const card = new NameCard(scene, renderer);
+  const face = new SmileFace(scene);
   const line = new SmileLine(scene);
   const ring = new PhotoRing(scene, renderer, photos);
   const bowl = new RamenBowl(scene);
+  // The background shapes are a scene of their own, drawn before the main one
+  // with the depth cleared in between, so they are behind everything else
+  // whatever their depth. (In one scene, being see-through, they would be
+  // drawn last and land on top.)
+  const backdrop = new Scene();
+  const shapes = new Shapes(backdrop);
 
   const view = { width: 1, height: 1, scrollY: 0, maxScroll: 0 };
 
@@ -73,21 +88,28 @@ export function startScene({ photos, onFail }) {
     measure();
     renderer.setSize(view.width, view.height, false);
     const distance = (view.height / 2) / Math.tan((FIELD_OF_VIEW * Math.PI) / 360);
+    // The camera's distance from the page, for anything that has to work out
+    // where a point at some depth shows on screen.
+    view.distance = distance;
     camera.aspect = view.width / view.height;
     camera.position.z = distance;
     camera.near = distance * 0.02;
     camera.far = distance * 6;
     camera.updateProjectionMatrix();
     card.layout(view);
-    line.layout(view, card);
+    face.layout(view);
+    line.layout(view, face, card.pin(view));
     ring.layout(view);
     bowl.layout(view);
+    shapes.layout(view);
   }
 
   function applyTheme() {
     const theme = readTheme();
+    face.setTheme(theme);
     line.setTheme(theme);
     ring.setTheme(theme);
+    shapes.setTheme(theme);
   }
 
   let last = performance.now();
@@ -100,10 +122,15 @@ export function startScene({ photos, onFail }) {
     camera.position.set(0, -(view.scrollY + view.height / 2), camera.position.z);
 
     card.update(view);
-    line.update(view, seconds, card.turn);
+    face.update(view, seconds, card.progress);
+    line.update(view, seconds, card.progress);
     ring.update(view, seconds, now / 1000);
     bowl.update(view, seconds, now / 1000);
+    shapes.update(view);
 
+    renderer.clear();
+    renderer.render(backdrop, camera);
+    renderer.clearDepth();
     renderer.render(scene, camera);
     requestAnimationFrame(frame);
   }

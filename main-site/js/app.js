@@ -3,11 +3,14 @@
 
 import { initChrome } from './chrome.js';
 import { loadPhotos, renderPhotoList } from './photos.js';
+import { showStaticBackdrop } from './backdrop-static.js';
 
-// The static layout, for when the scene is off or cannot start.
+// The static layout, for when the scene is off or cannot start: the same
+// content, with the background shapes as still pictures.
 function sceneOff() {
   document.documentElement.classList.remove('scene-on');
   document.documentElement.classList.add('scene-off');
+  showStaticBackdrop();
 }
 
 async function startScene(photos) {
@@ -24,6 +27,7 @@ async function startScene(photos) {
 }
 
 initChrome();
+if (document.documentElement.classList.contains('scene-off')) showStaticBackdrop();
 
 const photos = await loadPhotos();
 renderPhotoList(document.getElementById('photoList'), photos);
