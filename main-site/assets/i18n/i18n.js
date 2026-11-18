@@ -106,10 +106,16 @@ function lookup(key, code) {
   return table && Object.prototype.hasOwnProperty.call(table, key) ? table[key] : undefined;
 }
 
+// en-ARR (Pirate) is not a tag Intl accepts, so its plural rules are those of
+// its base language, en.
+function pluralRules(code) {
+  try { return new Intl.PluralRules(code); } catch { return new Intl.PluralRules(code.split('-')[0]); }
+}
+
 export function t(key, params) {
   let k = key;
   if (params && typeof params.count === 'number') {
-    const cat = new Intl.PluralRules(active).select(params.count);
+    const cat = pluralRules(active).select(params.count);
     if (lookup(`${key}.${cat}`, active) !== undefined) k = `${key}.${cat}`;
     else if (lookup(`${key}.other`, active) !== undefined) k = `${key}.other`;
   }

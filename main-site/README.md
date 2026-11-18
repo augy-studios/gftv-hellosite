@@ -127,7 +127,8 @@ switches to that layout.
 ## Languages
 
 Every word on the site is in a language file, and a button next to the theme
-button in the header picks the language. Only English is there for now. The
+button in the header picks the language. There are 50, listed in
+`assets/i18n/locales.js`, with British English as the source and default. The
 setup is the one the GFTV sister sites use, from `../docs/i18n-retrofit-spec.md`.
 
 ### The files
@@ -135,7 +136,7 @@ setup is the one the GFTV sister sites use, from `../docs/i18n-retrofit-spec.md`
 | File | What it is | Edit it when |
 | --- | --- | --- |
 | `assets/i18n/en-GB.json` | Every word on the site in English, one key each: `"hero.title": "You found a HelloSpot!"`. The source every other language copies. | You change wording, or add a sentence. |
-| `assets/i18n/<code>.json` | The same keys in another language (`zh.json`, `ms.json` and so on). None yet. | You add or update a language. |
+| `assets/i18n/<code>.json` | The same keys in another language (`ms.json`, `zh-SG.json` and so on). | You add or update a language. |
 | `assets/i18n/locales.js` | The list of languages: which files to load, each language's own name and its writing direction. | You add a language (three lines). |
 | `sw.js` | The service worker. Its `PRECACHE` list must include every language file, and `VERSION` goes up by one on every change. | You add a language or change any wording. |
 | `index.html`, `404.html` | The pages. Each element with words has `data-i18n="key"` (or `data-i18n-attr="alt:key"` for an attribute), with the English still in place as a fallback. | You add a new element with words. |
@@ -150,24 +151,27 @@ every language.
 
 ### Adding a language
 
-Say Simplified Chinese, `zh`:
+Say Portuguese as spoken in Brazil, `pt-BR`:
 
-1. **Copy `assets/i18n/en-GB.json` to `assets/i18n/zh.json`** and translate the
+1. **Copy `assets/i18n/en-GB.json` to `assets/i18n/pt-BR.json`** and translate the
    values only. Keep every key exactly as it is, and keep anything in braces,
    like `{mode}` or `{language}`, untranslated: it is filled in when the page
    runs. Brand names (GFTV, HelloSpot, HelloSmile, Takagi) stay as they are.
 2. **Register it in `assets/i18n/locales.js`**, three lines:
    ```js
-   import zh from './zh.json' with { type: 'json' };
-   export const locales = { 'en-GB': en, zh };
+   import ptBR from './pt-BR.json' with { type: 'json' };
+   export const locales = { /* ... */ 'pt-BR': ptBR };
    export const registry = [
-     { code: 'en-GB', name: 'English (UK)', dir: 'ltr' },
-     { code: 'zh', name: '中文', dir: 'ltr' },
+     /* ... */
+     { code: 'pt-BR', name: 'Português (Brasil)', dir: 'ltr' },
    ];
    ```
-   `name` is the language's name in that language. `dir` is `rtl` for a
-   right-to-left language such as Arabic (see the note below).
-3. **Add it to the service worker**: in `sw.js`, add `'/assets/i18n/zh.json',`
+   `name` is the language's name in that language. A regional variant keeps
+   its region in brackets at the end, as here: `pt-BR` then shares a row with
+   `pt-PT` in the language dialog, with a dropdown to pick between them.
+   `dir` is `rtl` for a right-to-left language such as Arabic (see the note
+   below).
+3. **Add it to the service worker**: in `sw.js`, add `'/assets/i18n/pt-BR.json',`
    to the `PRECACHE` list beside `en-GB.json`, and raise `VERSION` by one.
 4. **Check it**, from `main-site/`:
    ```sh
@@ -183,12 +187,13 @@ Say Simplified Chinese, `zh`:
 A reader's language is chosen the first time they visit from their device's
 languages, in the device's order of preference: the exact code (`pt-BR`), then
 the base language (`pt`), then the closest site language sharing that base:
-`en-US` gets `en-GB`, and `zh-TW` gets `zh-SG` (or, if the site also had it,
-`zh-HK`, since both are Traditional Chinese; the same writing system counts
-first, then the same region). If the site has none of them, it is British
-English, `en-GB`
+`pt-BR` gets `pt-PT`, `en-AU` gets `en-GB`, and `zh-MO` gets `zh-TW` (it is
+Traditional Chinese, like `zh-TW` and `zh-HK`; the same writing system counts
+first, then the same region, then the order in `locales.js`). If the site has
+none of them, it is British English, `en-GB`
 (in `locales.js`, `<html lang>` on both pages and the manifest), whose words
-are in `en-GB.json`; a device asking for any other English gets it too. After
+are in `en-GB.json`; a device asking for an English the site does not have gets
+it too. After
 they pick one with the button, their choice is kept.
 
 The language dialog has a search box. It matches any part of a language's own
