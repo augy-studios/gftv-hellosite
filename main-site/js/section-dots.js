@@ -67,19 +67,40 @@ export function initSectionDots() {
   window.addEventListener('resize', request);
   new ResizeObserver(request).observe(document.body);
 
+  function goTo(section, behavior) {
+    const pinned = section.hasAttribute('data-pin');
+    const gap = pinned || section.id === 'hello' ? 0 : (header?.offsetHeight || 0) + 8;
+    const top = section.id === 'hello' ? 0 : Math.max(0, topOf(section) - gap);
+    window.scrollTo({ top, behavior });
+  }
+
+  // The address never shows a #chapter: the dots scroll without one, and an
+  // address that arrives with one (a shared or bookmarked /#how) lands on its
+  // chapter, then loses the #. The links keep their href="#how", so they
+  // still work without scripts and still read as links.
+  const clearHash = () => {
+    if (location.hash) history.replaceState(history.state, '', location.pathname + location.search);
+  };
+
   for (const { link, section } of items) {
     link.addEventListener('click', (event) => {
       event.preventDefault();
-      const pinned = section.hasAttribute('data-pin');
-      const gap = pinned || section.id === 'hello' ? 0 : (header?.offsetHeight || 0) + 8;
-      const top = section.id === 'hello' ? 0 : Math.max(0, topOf(section) - gap);
-      window.scrollTo({ top, behavior: reduce?.matches ? 'auto' : 'smooth' });
-      // Keep the address and the browser's back button in step, and move
-      // keyboard focus to the chapter, as following the link would.
-      history.replaceState(null, '', `#${section.id}`);
+      goTo(section, reduce?.matches ? 'auto' : 'smooth');
+      clearHash();
+      // Move keyboard focus to the chapter, as following the link would.
       if (!section.hasAttribute('tabindex')) section.setAttribute('tabindex', '-1');
       section.focus({ preventScroll: true });
     });
+  }
+
+  const arrived = location.hash && items.find(({ section }) => `#${section.id}` === location.hash);
+  if (arrived) {
+    // Once the page has laid out, so the chapter's place is final.
+    const land = () => { goTo(arrived.section, 'auto'); clearHash(); };
+    if (document.readyState === 'complete') land();
+    else window.addEventListener('load', land, { once: true });
+  } else {
+    clearHash();
   }
 
   update();
