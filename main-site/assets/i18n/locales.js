@@ -13,12 +13,15 @@
 // Every language not written in Latin letters also has a romanised variant,
 // tagged with the Latn script (ja-Latn, ko-Latn-KR, ru-Latn ...), named
 // "<its name in Latin letters> (Romanised)", which shares its row in the
-// dialog. Arabic has Arabizi (ar-Latn) as its romanised variant.
+// dialog. Arabic has Arabizi (ar-Latn) as its romanised variant, and
+// Palestinian Arabic its own (ar-Latn-PS), as Korean has one per region.
 //
+// Arabic comes as Modern Standard Arabic (ar) and as Palestinian Arabic
+// (ar-PS, the spoken Levantine of Palestine), which share the العربية row.
 // Malay also comes in Jawi, its Arabic-script spelling (ms-Arab), which
-// shares the Bahasa Melayu row. Arabic and Jawi are written right to left
-// (dir: 'rtl'); js/text-dir.js lists them too, to set the direction before
-// first paint, so keep the two in step.
+// shares the Bahasa Melayu row. Arabic, Hebrew and Jawi are written right to
+// left (dir: 'rtl'); js/text-dir.js lists them too, to set the direction
+// before first paint, so keep the two in step.
 //
 // The dialog lists languages in alphabetical order of their names (see
 // groupLocales in switcher.js), so the order here only
@@ -72,7 +75,11 @@ import vi from './vi.json' with { type: 'json' };
 import tl from './tl.json' with { type: 'json' };
 import tet from './tet.json' with { type: 'json' };
 import ar from './ar.json' with { type: 'json' };
+import arPS from './ar-PS.json' with { type: 'json' };
 import arLatn from './ar-Latn.json' with { type: 'json' };
+import arLatnPS from './ar-Latn-PS.json' with { type: 'json' };
+import he from './he.json' with { type: 'json' };
+import heLatn from './he-Latn.json' with { type: 'json' };
 import koKR from './ko-KR.json' with { type: 'json' };
 import koKP from './ko-KP.json' with { type: 'json' };
 import koLatnKR from './ko-Latn-KR.json' with { type: 'json' };
@@ -146,7 +153,11 @@ export const locales = {
   'tl': tl,
   'tet': tet,
   'ar': ar,
+  'ar-PS': arPS,
   'ar-Latn': arLatn,
+  'ar-Latn-PS': arLatnPS,
+  'he': he,
+  'he-Latn': heLatn,
   'ko-KR': koKR,
   'ko-KP': koKP,
   'ko-Latn-KR': koLatnKR,
@@ -218,8 +229,12 @@ export const registry = [
   { code: 'vi', name: 'Tiếng Việt', dir: 'ltr', en: 'Vietnamese' },
   { code: 'tl', name: 'Tagalog', dir: 'ltr', en: ['Tagalog', 'Filipino'] },
   { code: 'tet', name: 'Tetun', dir: 'ltr', en: ['Tetum', 'Tetun', 'East Timor'] },
-  { code: 'ar', name: 'العربية', dir: 'rtl', en: ['Arabic', 'Modern Standard Arabic', 'MSA', 'Fusha'], regions: ['SA', 'EG', 'AE', 'JO', 'LB', 'SY', 'IQ', 'KW', 'QA', 'BH', 'OM', 'YE', 'PS', 'MA', 'DZ', 'TN', 'LY', 'SD'] },
+  { code: 'ar', name: 'العربية', dir: 'rtl', en: ['Arabic', 'Modern Standard Arabic', 'MSA', 'Fusha'], regions: ['SA', 'EG', 'AE', 'JO', 'LB', 'SY', 'IQ', 'KW', 'QA', 'BH', 'OM', 'YE', 'MA', 'DZ', 'TN', 'LY', 'SD'] },
+  { code: 'ar-PS', name: 'العربية (فلسطين)', dir: 'rtl', en: ['Arabic', 'Palestinian Arabic', 'Levantine Arabic', 'Palestinian'] },
   { code: 'ar-Latn', name: 'Arabi (Romanised)', dir: 'ltr', en: ['Arabic', 'Arabizi', 'Franco-Arabic', 'Arabish', 'Romanised Arabic', 'Romanized Arabic'], regions: ['SA', 'EG', 'AE', 'JO', 'LB', 'SY', 'IQ', 'KW', 'QA', 'BH', 'OM', 'YE', 'PS', 'MA', 'DZ', 'TN', 'LY', 'SD'] },
+  { code: 'ar-Latn-PS', name: 'Falastini (Romanised)', dir: 'ltr', en: ['Arabic', 'Palestinian Arabic', 'Levantine Arabic', 'Palestinian', 'Arabizi', 'Romanised Palestinian Arabic', 'Romanized Palestinian Arabic'] },
+  { code: 'he', name: 'עברית', dir: 'rtl', en: ['Hebrew', 'Ivrit', 'Modern Hebrew'] },
+  { code: 'he-Latn', name: 'Ivrit (Romanised)', dir: 'ltr', en: ['Hebrew', 'Romanised Hebrew', 'Romanized Hebrew'] },
   { code: 'ko-KR', name: '한국어 (대한민국)', dir: 'ltr', en: ['Korean', 'South Korean'] },
   { code: 'ko-KP', name: '조선말 (조선)', dir: 'ltr', en: ['Korean', 'North Korean'] },
   { code: 'ko-Latn-KR', name: 'Hangugeo (Romanised)', dir: 'ltr', en: ['Korean', 'South Korean', 'Revised Romanisation', 'Romanised Korean', 'Romanized Korean'] },
