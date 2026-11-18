@@ -14,7 +14,7 @@ site banner and update bar.
 | Path | What it is |
 | --- | --- |
 | `main-site/` | The website. This is the folder Vercel deploys. See [main-site/README.md](main-site/README.md). |
-| `tools/make-icons.py` | Draws the app icon (`HSP-*.png`, Windows tiles), the official bar's flag and the flat HelloSmile. The favicon is GFTV PolicySpot's, copied as is, so the GFTV sites share one tab icon. |
+| `tools/make-icons.py` | Makes the app icon (`HSP-*.png`, Windows tiles) from GFTV PolicySpot's (`GHS-*.png`), so the GFTV sites share one icon, under HelloSpot's own file names; and draws the official bar's flag and the flat HelloSmile. The favicon is PolicySpot's too, copied as is. |
 | `tools/photos.py` | Adds a photo to the gallery, and re-reads photo sizes. |
 | `docs/` | The GFTV specs this site follows: theme, official banner, update bar, Proxima Nova. |
 
@@ -50,12 +50,14 @@ The ramen photos in the Takagi chapter are listed in `main-site/index.html`.
 (`pip install pillow numpy`), as does `tools/photos.py`.
 
 ```sh
-python tools/make-icons.py   # the icon set, from HelloSmile-V2.png and docs/gftv-flag.png
+python tools/make-icons.py   # the icon set, from PolicySpot's icon, HelloSmile-V2.png and docs/gftv-flag.png
 ```
 
-`make-icons.py` uses Arial Black for the wordmark, like the sister sites'
-icons. It ships with Windows and macOS; elsewhere, set `ARIAL_BLACK` to the
-font's path.
+The app icon comes from a checkout of `gftv-policyspot` next to this repo
+(`../gftv-policyspot/main-site/GHS-*.png`); set `POLICYSPOT` to its
+`main-site` folder if it is elsewhere. Run it again whenever PolicySpot's icon
+changes. Its picture runs to the edges, so the manifest lists the icons as
+`any` only, not `maskable`.
 
 After changing anything the service worker precaches, raise `VERSION` in
 `main-site/sw.js` by one. It is a whole number.
