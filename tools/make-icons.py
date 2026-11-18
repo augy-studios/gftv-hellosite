@@ -22,8 +22,6 @@
 #   HSP-main.png        1024   apple-touch-icon, og:image, twitter:image
 #   HSP-512.png         512    manifest
 #   HSP-192.png         192    manifest, header brand mark
-#   favicon.ico         16/32/48/64, the pin alone (the wordmark is a blur
-#                       at tab size)
 #   tile.png, tile-wide.png    browserconfig.xml (310 and 310 by 150)
 #   gftv-flag.png       72 by 48, the official bar's mark, from
 #                       docs/gftv-flag.png (gftv-official.md: never the full
@@ -220,11 +218,9 @@ def render():
     compose(art, 310, scale * 310).save(out('tile.png'), optimize=True)
     compose(art, 150, scale * 150 * 1.1, width=310).save(out('tile-wide.png'), optimize=True)
 
-    # The favicon is the pin alone, larger in its square.
-    glyph = centred_crop(artwork(font_path, with_wordmark=False))
-    glyph_scale = 0.47 / farthest_from_centre(glyph)
-    compose(glyph, 256, glyph_scale * 256).save(
-        out('favicon.ico'), sizes=[(16, 16), (32, 32), (48, 48), (64, 64)])
+    # No favicon here: main-site/favicon.ico is GFTV PolicySpot's, copied
+    # as is (gftv-policyspot/main-site/favicon.ico), so the GFTV sites share
+    # one browser-tab icon. Copy it again if PolicySpot's changes.
 
     # The flat HelloSmile on its own, transparent around the disc.
     smile = Image.new('RGBA', (px(CANVAS_SIZE), px(CANVAS_SIZE)), (0, 0, 0, 0))

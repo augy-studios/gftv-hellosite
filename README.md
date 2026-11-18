@@ -14,7 +14,7 @@ site banner and update bar.
 | Path | What it is |
 | --- | --- |
 | `main-site/` | The website. This is the folder Vercel deploys. See [main-site/README.md](main-site/README.md). |
-| `tools/make-icons.py` | Draws the app icon (`HSP-*.png`, `favicon.ico`, Windows tiles), the official bar's flag and the flat HelloSmile. |
+| `tools/make-icons.py` | Draws the app icon (`HSP-*.png`, Windows tiles), the official bar's flag and the flat HelloSmile. The favicon is GFTV PolicySpot's, copied as is, so the GFTV sites share one tab icon. |
 | `tools/photos.py` | Adds a photo to the gallery, and re-reads photo sizes. |
 | `docs/` | The GFTV specs this site follows: theme, official banner, update bar, Proxima Nova. |
 
