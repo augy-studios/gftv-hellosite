@@ -152,9 +152,9 @@
 :root[data-mode="light"] { --shape-opacity: 0.3; }
 :root[data-mode="dark"] { --shape-opacity: 0.16; }
 
-/* The light caught by the liquid glass cards (.liquid): their corner glints
-   and the shimmer along their edges. Bright on light pages, dimmer on dark
-   ones, where full white would glare. */
+/* The light caught by the liquid glass cards (.liquid): the slight shine
+   along their edges. Bright on light pages, dimmer on dark ones, where full
+   white would glare. */
 :root[data-mode="light"] { --glass-shine: rgba(255, 255, 255, 0.9); }
 :root[data-mode="dark"] { --glass-shine: rgba(255, 248, 220, 0.38); }
 
@@ -770,20 +770,24 @@ body { position: relative; }
    turns over and its smile drops below it, then moves on. */
 .scene-on .hero { height: 260vh; padding: 0; max-width: none; }
 /* Pinned where it starts, just below the official bar and the header
-   (--hero-top, measured by js/app.js), so the card does not move at all until
-   it has turned over: the first scroll only slides the official bar away. */
+   (--hero-top, measured by js/hero-top.js before first paint and kept up to
+   date by js/app.js), so the card does not move at all until it has turned
+   over: the first scroll only slides the official bar away. Exactly as tall as
+   the screen below that, so everything in it is in view. */
 .scene-on .hero-stage {
   position: sticky;
   top: var(--hero-top, 0px);
-  height: 100vh;
-  height: 100svh;
+  height: calc(100vh - var(--hero-top, 0px));
+  height: calc(100svh - var(--hero-top, 0px));
   min-height: 0;
   padding: 4.5rem 1rem 2rem;
   overflow: hidden;
 }
-/* Sized so the card and the headline fit one screen at every width. */
+/* Sized so the card and the headline fit the screen below the header at
+   every width: the screen's height, less the header, the stage's padding, the
+   gap and the words under the card. */
 .name-card {
-  width: min(90vw, 48rem, calc((100svh - 22rem) * 1280 / 768));
+  width: min(90vw, 48rem, calc((100svh - var(--hero-top, 0px) - 23rem) * 1280 / 768));
   min-width: min(90vw, 17rem);
   aspect-ratio: 1280 / 768;
 }
@@ -797,7 +801,8 @@ body { position: relative; }
    picture keeps the space and is the card for screen readers. */
 .scene-ready .name-card-face { visibility: hidden; }
 
-.hero-copy { max-width: 36rem; }
+.hero-copy { max-width: 44rem; }
+.hero-copy .lede { max-width: 36rem; margin-inline: auto; }
 .hero h1 { font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 700; line-height: 1.05; }
 .scroll-hint {
   display: inline-flex;
@@ -818,14 +823,14 @@ body { position: relative; }
 /* Liquid glass: the content cards (the three steps, and "Wait, what is
    GFTV?"). A lighter glass than the theme's, so the background shapes and the
    line show through as shapes rather than a smudge, with a blur just strong
-   enough that nothing behind the text competes with it. Light catches it: a
-   glint at two corners, and a shimmer that runs along its edge. As the card
-   moves up the screen, js/liquid-glass.js moves --shine from 1 to 0, and the
-   glints and the shimmer travel with it; with reduced motion they hold still.
+   enough that nothing behind the text competes with it. A slight shine runs
+   along its edge, like light on the rim of glass: as the card moves up the
+   screen, js/liquid-glass.js moves --shine from 1 to 0 and the shine travels
+   round the edge with it; with reduced motion it holds still.
 
-   The glints and the shimmer are soft gradients. They are HelloSpot's one
-   exception to the theme's no-gradients rule, asked for and logged in the
-   README, and they stay on .liquid: nothing else may use a gradient. */
+   The shine is a soft gradient. It is HelloSpot's one exception to the
+   theme's no-gradients rule, asked for and logged in the README, and it stays
+   on the edge of .liquid: nothing else may use a gradient. */
 .liquid {
   --shine: 0.5;
   position: relative;
@@ -842,21 +847,7 @@ body { position: relative; }
     inset 1px 0 0 color-mix(in srgb, var(--glass-shine) 45%, transparent),
     inset 0 -1px 0 color-mix(in srgb, var(--text) 6%, transparent);
 }
-/* The corner glints, under the text. */
-.liquid::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  pointer-events: none;
-  background:
-    radial-gradient(circle 8rem at calc(6% + var(--shine) * 20%) calc(4% + var(--shine) * 14%),
-      color-mix(in srgb, var(--glass-shine) 90%, transparent), transparent),
-    radial-gradient(circle 6rem at calc(94% - var(--shine) * 20%) calc(96% - var(--shine) * 14%),
-      color-mix(in srgb, var(--glass-shine) 60%, transparent), transparent);
-}
-/* The shimmer along the edge: a bright band across a ring as thin as a
+/* The shine along the edge: a soft bright band across a ring as thin as a
    border (the mask keeps only the ring). Its position follows --shine. */
 .liquid::after {
   content: "";
@@ -867,7 +858,7 @@ body { position: relative; }
   pointer-events: none;
   background: linear-gradient(120deg,
     transparent calc(var(--shine) * 100% - 22%),
-    var(--glass-shine) calc(var(--shine) * 100%),
+    color-mix(in srgb, var(--glass-shine) 70%, transparent) calc(var(--shine) * 100%),
     transparent calc(var(--shine) * 100% + 22%));
   /* A mask, not a colour: only the ring between the padding and the edge. */
   -webkit-mask: linear-gradient(black 0 0) content-box, linear-gradient(black 0 0);

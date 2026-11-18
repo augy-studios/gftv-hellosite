@@ -25,7 +25,7 @@ import {
   TubeGeometry,
   Vector3,
 } from '../vendor/three.module.min.js';
-import { approach, clamp, lerp, smoothstep, stickyTop } from './maths.js';
+import { approach, clamp, lerp, smoothstep } from './maths.js';
 import { EYES, MOUTH, STICKER, STROKE_HALF_WIDTH } from './smile-shape.js';
 import { PaintSmudge } from './paint.js';
 
@@ -71,8 +71,8 @@ export class SmileLine {
     this.tube = null;
     this.outroEyes = new Group();
     this.group.add(this.outroEyes);
-    // The line smudges and splashes under the pointer like wet paint.
-    this.paint = new PaintSmudge(this.group, this.material);
+    // The line smudges under the pointer like wet paint.
+    this.paint = new PaintSmudge();
 
     this.head = 0;          // drawn segments, eased
     this.eyesIn = 0;        // the closing smile's eyes, 0 to 1
@@ -208,7 +208,7 @@ export class SmileLine {
     positions.needsUpdate = true;
     geometry.computeBoundingSphere();
 
-    this.paint.reset(geometry, centres, radii, segments, ring);
+    this.paint.reset(geometry, centres, segments, ring);
 
     this.tube = new Mesh(geometry, this.material);
     this.tube.frustumCulled = false;
@@ -235,12 +235,11 @@ export class SmileLine {
     this.centres = centres;
     this.radii = radii;
     this.due = due;
-    // The scroll position at which the hero's pin ends and the line may start
-    // (the stage is pinned at its sticky top, not the top of the screen).
+    // The scroll position at which the hero's pin ends and the line may start:
+    // when the hero's bottom reaches the bottom of the screen.
     const hero = document.getElementById('hello');
     this.pinEnd = hero
       ? hero.getBoundingClientRect().top + view.scrollY + hero.offsetHeight - view.height
-        - stickyTop(document.getElementById('heroStage'))
       : 0;
 
     this.startCap.position.copy(centres[0]);

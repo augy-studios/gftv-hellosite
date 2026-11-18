@@ -1,7 +1,7 @@
-// The light on the liquid glass cards (.liquid in style.css) follows the
-// scroll: each card's --shine runs from 1 as it comes up from the bottom of
-// the screen to 0 as it leaves at the top, and the stylesheet slides the
-// corner glints and the edge shimmer by it, like light catching glass as it
+// The shine on the edge of the liquid glass cards (.liquid in style.css)
+// follows the scroll: each card's --shine runs from 1 as it comes up from the
+// bottom of the screen to 0 as it leaves at the top, and the stylesheet moves
+// the shine round the card's edge by it, like light on the rim of glass as it
 // passes. Nothing moves while the page is still.
 //
 // With reduced motion the light holds still, at one place on every card.
