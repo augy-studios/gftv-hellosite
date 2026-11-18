@@ -23,6 +23,7 @@ import { icon, hydrateIcons } from './icons.js';
 import { openModal, wireModals } from './ui.js';
 import { initUpdateBar } from './update-bar.js';
 import { hydrateBlobImages } from './blob-images.js';
+import { initCardFront } from './card-front.js';
 
 // "09:00" for 9.
 function hourLabel(hour) {
@@ -159,6 +160,7 @@ function wireFooterYear() {
 export function initChrome() {
   initTheme();
   hydrateIcons();
+  initCardFront();
   hydrateBlobImages();
   wireModals();
   wireTheme();

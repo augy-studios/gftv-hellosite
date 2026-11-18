@@ -16,6 +16,7 @@ site banner and update bar.
 | `main-site/` | The website. This is the folder Vercel deploys. See [main-site/README.md](main-site/README.md). |
 | `tools/make-icons.py` | Makes the app icon (`HSP-*.png`, Windows tiles) from GFTV PolicySpot's (`GHS-*.png`), so the GFTV sites share one icon, under HelloSpot's own file names; and draws the official bar's flag and the flat HelloSmile. The favicon is PolicySpot's too, copied as is. |
 | `tools/photos.py` | Adds a photo to the gallery, and re-reads photo sizes. |
+| `tools/make-hewwo.py` | Makes the English (uwu) card front, `main-site/assets/12Ann Front uwu.png`, from the printed one: "Hello!" becomes "Hewwo!" (the card's own H, e, o and !, with each w in Montserrat). Run again if the card artwork changes: `python tools/make-hewwo.py "main-site/assets/12Ann Front.png" Montserrat[wght].ttf "main-site/assets/12Ann Front uwu.png"`, with Montserrat from Google Fonts. |
 | `docs/` | The GFTV specs this site follows: theme, official banner, update bar, Proxima Nova. |
 
 ## Deploying

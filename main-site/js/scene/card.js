@@ -26,11 +26,13 @@ import {
 } from '../vendor/three.module.min.js';
 import { easeInOut, pinProgress, screenBox, smoothstep, stickyTop } from './maths.js';
 import { blobUrl } from '../blob-images.js';
+import { cardFront, onCardFrontChange } from '../card-front.js';
 import { CARD_HEIGHT, CARD_WIDTH, EYES, MOUTH, STROKE_HALF_WIDTH } from './smile-shape.js';
 
-// The card's two faces, the originals. The front is the same file as the
-// picture in the hero, and blobUrl() fetches it once for both.
-export const CARD_FRONT = '/assets/12Ann%20Front.png';
+// The card's two faces. The front is the same file as the picture in the
+// hero (the printed card, or the uwu one; see js/card-front.js), and
+// blobUrl() fetches it once for both. The uwu front differs only in its
+// word, so the smile is in the same place on both.
 export const CARD_BACK = '/assets/12Ann%20Back.png';
 const EDGE = '#f4f4f4';
 
@@ -105,14 +107,24 @@ export class NameCard {
       texture.anisotropy = anisotropy;
       return texture;
     };
+    const frontTexture = (src) => loadImage(src).then((image) => finish(new CanvasTexture(frontWithoutSmile(image))));
     this.ready = Promise.all([
-      loadImage(CARD_FRONT).then((image) => finish(new CanvasTexture(frontWithoutSmile(image)))),
+      frontTexture(cardFront()),
       blobUrl(CARD_BACK).then((url) => new TextureLoader().loadAsync(url)).then(finish),
     ]).then(([front, back]) => {
       this.front.map = front;
       this.back.map = back;
       this.front.needsUpdate = true;
       this.back.needsUpdate = true;
+    });
+    // A language change can swap the front (English (uwu) has its own).
+    onCardFrontChange((src) => {
+      Promise.all([frontTexture(src), this.ready]).then(([texture]) => {
+        const old = this.front.map;
+        this.front.map = texture;
+        this.front.needsUpdate = true;
+        if (old) old.dispose();
+      }).catch((cause) => console.warn('card front not loaded:', cause));
     });
 
     this.turn = 0;
