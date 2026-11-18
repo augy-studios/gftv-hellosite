@@ -1,8 +1,13 @@
 // The chrome every page shares: theme, icons, pictures (as blob: URLs),
 // dialogs, the update bar, the sticky header and the footer year. Adapted from gftv-helloevents'
-// js/app.js, English only. index.html runs it through app.js, which adds the
-// photos and the 3D scene; 404.html through page.js.
+// js/app.js. index.html runs it through app.js, which adds the photos and
+// the 3D scene; 404.html through page.js. Its words are in
+// assets/i18n/en.json (theme.*), looked up with t().
 
+// The i18n runtime first, so t() is ready before anything below uses it. The
+// same module the page's <head> loads, so it runs once.
+import '../assets/i18n/boot.js';
+import { t as translate, onChange } from '../assets/i18n/i18n.js';
 import {
   COLOR_THEMES,
   initTheme,
@@ -19,8 +24,6 @@ import { openModal, wireModals } from './ui.js';
 import { initUpdateBar } from './update-bar.js';
 import { hydrateBlobImages } from './blob-images.js';
 
-const MODE_NAMES = { light: 'Light', dark: 'Dark', time: 'Time-based' };
-
 // "09:00" for 9.
 function hourLabel(hour) {
   return `${String(hour).padStart(2, '0')}:00`;
@@ -31,7 +34,7 @@ function syncThemeButton() {
   if (!themeButton) return;
   const mode = getStoredMode();
   themeButton.innerHTML = icon(mode === 'dark' ? 'moon' : 'sun');
-  themeButton.setAttribute('aria-label', `Theme, ${MODE_NAMES[mode]} mode`);
+  themeButton.setAttribute('aria-label', translate('theme.button', { mode: translate(`theme.mode.${mode}`) }));
 }
 
 // Brings the theme dialog in line with what is stored: the pressed mode
@@ -51,7 +54,11 @@ function syncThemeModal() {
   const note = document.getElementById('modeNote');
   if (note) {
     if (preference === 'time') {
-      note.textContent = `Light from ${hourLabel(LIGHT_FROM_HOUR)} to ${hourLabel(LIGHT_UNTIL_HOUR)}, dark otherwise, by your device's clock. ${MODE_NAMES[resolved]} right now.`;
+      note.textContent = translate('theme.time-note', {
+        from: hourLabel(LIGHT_FROM_HOUR),
+        until: hourLabel(LIGHT_UNTIL_HOUR),
+        mode: translate(`theme.mode.${resolved}`),
+      });
       note.hidden = false;
     } else {
       note.hidden = true;
@@ -85,7 +92,8 @@ function buildSwatches() {
     dot.className = 'swatch-dot';
     dot.setAttribute('aria-hidden', 'true');
     const label = document.createElement('span');
-    label.textContent = theme.label;
+    label.setAttribute('data-i18n', `theme.swatch.${theme.id}`);
+    label.textContent = translate(`theme.swatch.${theme.id}`);
     button.append(dot, label);
     grid.appendChild(button);
   }
@@ -120,6 +128,8 @@ function wireTheme() {
   // A tab left open across 09:00 or 18:00 redraws rather than showing the
   // answer from before dinner.
   document.addEventListener('gftv:modechange', syncThemeModal);
+  // Words built in code are redrawn when the language changes.
+  onChange(syncThemeModal);
   syncThemeModal();
 }
 

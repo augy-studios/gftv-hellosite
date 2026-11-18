@@ -2,7 +2,11 @@
 // Classic script, loaded synchronously as the first thing in <body>, so the
 // bar is in the document before anything below it is parsed and nothing
 // shifts. Permanent: there is no close control and nothing stored hides it.
-// Only the expansion is remembered. Taken from gftv-helloevents, English only.
+// Only the expansion is remembered. Taken from gftv-helloevents.
+//
+// The copy carries data-i18n keys (assets/i18n/en.json) with English as the
+// initial content, so the i18n runtime translates it on its first pass like
+// any other markup.
 (function () {
   // The two things a site has to know about officialness live together.
   var OFFICIAL_DOMAINS = ["globalfurry.tv", "gftv.asia"];
@@ -18,11 +22,11 @@
       '<div class="gov-bar-inner">' +
         '<img class="gov-bar-mark" src="/gftv-flag.png" alt="" width="24" height="16">' +
         '<p class="gov-bar-line">' +
-          '<span class="gov-bar-line-long">An official Global Furry Television website</span>' +
-          '<span class="gov-bar-line-short">An official GFTV website</span>' +
+          '<span class="gov-bar-line-long" data-i18n="official.line">An official Global Furry Television website</span>' +
+          '<span class="gov-bar-line-short" data-i18n="official.line-short">An official GFTV website</span>' +
         '</p>' +
         '<button type="button" class="gov-bar-toggle" id="officialBarToggle" aria-expanded="false" aria-controls="officialBarPanel">' +
-          '<span>How to identify</span>' +
+          '<span data-i18n="official.toggle">How to identify</span>' +
           '<span data-icon="chevron-down" aria-hidden="true"></span>' +
         '</button>' +
       '</div>' +
@@ -31,16 +35,16 @@
           '<div class="gov-bar-point">' +
             '<span data-icon="globe" aria-hidden="true"></span>' +
             '<div>' +
-              '<h2>Official GFTV sites end with ' + domains + '</h2>' +
-              '<p>Read the address from the end, at the last dot before the first single slash. A site ending in anything else is not GFTV, even if the name appears earlier in the address.</p>' +
-              '<p><a href="' + TRUSTED_SITES_URL + '">The full list of official GFTV sites</a></p>' +
+              '<h2 data-i18n="official.domain-heading">Official GFTV sites end with ' + domains + '</h2>' +
+              '<p data-i18n="official.domain-body">Read the address from the end, at the last dot before the first single slash. A site ending in anything else is not GFTV, even if the name appears earlier in the address.</p>' +
+              '<p><a href="' + TRUSTED_SITES_URL + '" data-i18n="official.trusted-link">The full list of official GFTV sites</a></p>' +
             '</div>' +
           '</div>' +
           '<div class="gov-bar-point">' +
             '<span data-icon="lock" aria-hidden="true"></span>' +
             '<div>' +
-              '<h2>Secure sites use HTTPS</h2>' +
-              '<p>Look for a padlock, or https:// at the start of the address. Only share personal details on an official site over a secure connection.</p>' +
+              '<h2 data-i18n="official.secure-heading">Secure sites use HTTPS</h2>' +
+              '<p data-i18n="official.secure-body">Look for a padlock, or https:// at the start of the address. Only share personal details on an official site over a secure connection.</p>' +
             '</div>' +
           '</div>' +
         '</div>' +

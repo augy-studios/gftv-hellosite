@@ -90,6 +90,7 @@ switches to that layout.
 | `js/liquid-glass.js` | Moves the shine on the liquid glass cards' edges with the scroll. |
 | `js/scene/paint.js` | The smudge on the line. |
 | `js/blob-images.js` | Shows pictures through `blob:` URLs, for the page and the 3D scene. |
+| `assets/i18n/` | The words of the site in each language, and the code that swaps them. See Languages below. |
 | `js/chrome.js` | What every page shares: theme, icons, pictures, dialogs, the update bar, the sticky header. |
 | `js/app.js` | The home page: the chrome, the photo list, and starting the scene. |
 | `js/scene/` | The 3D scene. `main.js` explains how scene units map to page pixels; there is one module per part (card, smile, smile line, photo ring, bowl). `card.js` holds the hero's timeline. |
@@ -118,6 +119,77 @@ switches to that layout.
   text colour softened towards the page background, so they sit behind the
   words. The only fixed colours are the card's printed ink and the ramen,
   which are objects rather than interface.
-- **English only, for now.** Strings are written straight into the markup. When
-  languages are added, `../docs/i18n-retrofit-spec.md` is the plan the sister
-  sites follow.
+- **Every word the reader sees comes from `assets/i18n/en.json`.** A new
+  sentence on the page gets a key there (and in every other language file),
+  and the element gets `data-i18n="the.key"`, or `t('the.key')` in a script.
+  See Languages below.
+
+## Languages
+
+Every word on the site is in a language file, and a button next to the theme
+button in the header picks the language. Only English is there for now. The
+setup is the one the GFTV sister sites use, from `../docs/i18n-retrofit-spec.md`.
+
+### The files
+
+| File | What it is | Edit it when |
+| --- | --- | --- |
+| `assets/i18n/en.json` | Every word on the site in English, one key each: `"hero.title": "You found a HelloSpot!"`. The source every other language copies. | You change wording, or add a sentence. |
+| `assets/i18n/<code>.json` | The same keys in another language (`zh.json`, `ms.json` and so on). None yet. | You add or update a language. |
+| `assets/i18n/locales.js` | The list of languages: which files to load, each language's own name and its writing direction. | You add a language (three lines). |
+| `sw.js` | The service worker. Its `PRECACHE` list must include every language file, and `VERSION` goes up by one on every change. | You add a language or change any wording. |
+| `index.html`, `404.html` | The pages. Each element with words has `data-i18n="key"` (or `data-i18n-attr="alt:key"` for an attribute), with the English still in place as a fallback. | You add a new element with words. |
+| `assets/i18n/check-keys.js` | Checks every language file against `en.json`: missing or extra keys, broken `{placeholders}`, empty values. | Run it after any change (below). |
+| `assets/i18n/i18n.js`, `switcher.js`, `boot.js` | The runtime and the language button. Shared with the sister sites. | Never, normally. |
+
+The words that scripts write are in `en.json` too: the official bar
+(`official.*`), the update bar (`update.*`) and the theme dialog (`theme.*`).
+The photo captions in `photos.json` are event names and stay as they are in
+every language.
+
+### Adding a language
+
+Say Simplified Chinese, `zh`:
+
+1. **Copy `assets/i18n/en.json` to `assets/i18n/zh.json`** and translate the
+   values only. Keep every key exactly as it is, and keep anything in braces,
+   like `{mode}` or `{language}`, untranslated: it is filled in when the page
+   runs. Brand names (GFTV, HelloSpot, HelloSmile, Takagi) stay as they are.
+2. **Register it in `assets/i18n/locales.js`**, three lines:
+   ```js
+   import zh from './zh.json' with { type: 'json' };
+   export const locales = { en, zh };
+   export const registry = [
+     { code: 'en', name: 'English', dir: 'ltr' },
+     { code: 'zh', name: '中文', dir: 'ltr' },
+   ];
+   ```
+   `name` is the language's name in that language. `dir` is `rtl` for a
+   right-to-left language such as Arabic (see the note below).
+3. **Add it to the service worker**: in `sw.js`, add `'/assets/i18n/zh.json',`
+   to the `PRECACHE` list beside `en.json`, and raise `VERSION` by one.
+4. **Check it**, from `main-site/`:
+   ```sh
+   node assets/i18n/check-keys.js
+   ```
+   It lists any key that is missing, extra, empty or has different
+   `{placeholders}` from English, and ends with `ok` when there are none.
+   Notes headed "same as English" are only reminders to look at.
+5. **Look at it**: pick the language with the button in the header and read
+   down the page, including the "How to identify" panel at the top and the
+   theme dialog. Reload, and it should stay picked.
+
+A reader's language is chosen the first time they visit from their browser's
+language, if the site has it, and English otherwise. After they pick one with
+the button, their choice is kept.
+
+**Right-to-left languages.** The layout is written for left-to-right. Before
+the first right-to-left language goes live, the stylesheet's `left` and
+`right` rules need checking (section 9 of `../docs/i18n-retrofit-spec.md`).
+
+### Changing the wording
+
+Edit the value in `en.json` (and the same key in each other language file),
+leave the key as it is, raise `VERSION` in `sw.js`, and run `check-keys.js`.
+The English inside the HTML is only a fallback for the moment before the
+language file loads; keep it in step with `en.json` so the two do not drift.

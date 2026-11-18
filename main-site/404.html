@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>Page not found | GFTV HelloSpot</title>
-    <meta name="description" content="Where newcomers make new friends at furmeets and furry conventions. By Global Furry Television.">
+    <title data-i18n="meta.title-404">Page not found | GFTV HelloSpot</title>
+    <meta name="description" content="Where newcomers make new friends at furmeets and furry conventions. By Global Furry Television." data-i18n-attr="content:meta.description">
     <meta name="robots" content="noindex">
 
     <meta name="theme-color" content="#fffde0">
@@ -28,6 +28,8 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FMCYFTFPEL"></script>
     <script src="/js/analytics.js"></script>
+
+    <script type="module" src="/assets/i18n/boot.js"></script>
 </head>
 
 <body>
@@ -36,9 +38,10 @@
     <header class="site-header">
         <a class="brand" href="/">
             <img src="/HSP-192.png" alt="" width="32" height="32">
-            <span>GFTV HelloSpot</span>
+            <span data-i18n="site.name">GFTV HelloSpot</span>
         </a>
         <div class="header-actions">
+            <div data-language-switcher></div>
             <button class="icon-btn" type="button" id="themeBtn" aria-label="Theme" aria-haspopup="dialog" aria-controls="themeModal">
                 <span data-icon="sun"></span>
             </button>
@@ -51,40 +54,40 @@
                 <img data-src="/images/hellosmile.png" data-eager width="512" height="512" alt="">
             </div>
             <span class="eyebrow">404</span>
-            <h1 id="notFoundTitle" class="not-found-title">This spot is empty</h1>
-            <p class="lede">That address does not lead anywhere on this site.</p>
-            <a class="btn btn-primary" href="/"><span data-icon="map"></span>Back to the HelloSpot</a>
+            <h1 id="notFoundTitle" class="not-found-title" data-i18n="notfound.title">This spot is empty</h1>
+            <p class="lede" data-i18n="notfound.lede">That address does not lead anywhere on this site.</p>
+            <a class="btn btn-primary" href="/"><span data-icon="map"></span><span data-i18n="notfound.home">Back to the HelloSpot</span></a>
         </section>
     </main>
 
     <footer class="site-footer">
         <nav>
-            <a href="https://globalfurrytv.news.blog/about-us/" target="_blank" rel="noopener">About GFTV</a>
-            <a href="https://policy.globalfurry.tv/legal/terms" target="_blank" rel="noopener">Terms of Use</a>
-            <a href="https://policy.globalfurry.tv/legal/privacy" target="_blank" rel="noopener">Privacy Policy</a>
+            <a href="https://globalfurrytv.news.blog/about-us/" target="_blank" rel="noopener" data-i18n="footer.about">About GFTV</a>
+            <a href="https://policy.globalfurry.tv/legal/terms" target="_blank" rel="noopener" data-i18n="footer.terms">Terms of Use</a>
+            <a href="https://policy.globalfurry.tv/legal/privacy" target="_blank" rel="noopener" data-i18n="footer.privacy">Privacy Policy</a>
         </nav>
-        <span>Made with</span> <span data-icon="heart"></span> <span>in</span>
-        <a href="https://www.google.com/maps/place/Singapore" target="_blank" rel="noopener">Singapore</a>
-        <span>by Global Furry Television</span> &copy; 2014-<span id="currentYear"></span>.
-        <span>All rights reserved.</span>
+        <span data-i18n="footer.made">Made with</span> <span data-icon="heart"></span> <span data-i18n="footer.in">in</span>
+        <a href="https://www.google.com/maps/place/Singapore" target="_blank" rel="noopener" data-i18n="footer.singapore">Singapore</a>
+        <span data-i18n="footer.by">by Global Furry Television</span> &copy; 2014-<span id="currentYear"></span>.
+        <span data-i18n="footer.rights">All rights reserved.</span>
     </footer>
 
     <div class="modal-backdrop hidden" id="themeModal">
         <div class="modal glass-card" role="dialog" aria-modal="true" aria-labelledby="themeModalTitle">
             <div class="modal-head">
-                <h2 id="themeModalTitle">Theme</h2>
-                <button class="icon-btn small" type="button" data-close-modal="themeModal" aria-label="Close">
+                <h2 id="themeModalTitle" data-i18n="theme.title">Theme</h2>
+                <button class="icon-btn small" type="button" data-close-modal="themeModal" aria-label="Close" data-i18n-attr="aria-label:common.close">
                     <span data-icon="close"></span>
                 </button>
             </div>
-            <p class="modal-section-label">Mode</p>
+            <p class="modal-section-label" data-i18n="theme.mode-label">Mode</p>
             <div class="mode-toggle" id="modeToggle">
-                <button class="mode-btn" type="button" data-mode="light" aria-pressed="false"><span data-icon="sun"></span><span>Light</span></button>
-                <button class="mode-btn" type="button" data-mode="dark" aria-pressed="false"><span data-icon="moon"></span><span>Dark</span></button>
-                <button class="mode-btn mode-btn-wide" type="button" data-mode="time" aria-pressed="false"><span data-icon="clock"></span><span>Time-based</span></button>
+                <button class="mode-btn" type="button" data-mode="light" aria-pressed="false"><span data-icon="sun"></span><span data-i18n="theme.mode.light">Light</span></button>
+                <button class="mode-btn" type="button" data-mode="dark" aria-pressed="false"><span data-icon="moon"></span><span data-i18n="theme.mode.dark">Dark</span></button>
+                <button class="mode-btn mode-btn-wide" type="button" data-mode="time" aria-pressed="false"><span data-icon="clock"></span><span data-i18n="theme.mode.time">Time-based</span></button>
             </div>
             <p class="mode-note" id="modeNote" hidden></p>
-            <p class="modal-section-label">Colour theme</p>
+            <p class="modal-section-label" data-i18n="theme.color-label">Colour theme</p>
             <div class="swatch-grid" id="swatchGrid"></div>
         </div>
     </div>

@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>GFTV HelloSpot</title>
-    <meta name="description" content="Where newcomers make new friends at furmeets and furry conventions. By Global Furry Television.">
+    <title data-i18n="meta.title-home">GFTV HelloSpot</title>
+    <meta name="description" content="Where newcomers make new friends at furmeets and furry conventions. By Global Furry Television." data-i18n-attr="content:meta.description">
 
     <meta name="theme-color" content="#fffde0">
     <script src="/js/prepaint.js"></script>
@@ -30,6 +30,8 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FMCYFTFPEL"></script>
     <script src="/js/analytics.js"></script>
+
+    <script type="module" src="/assets/i18n/boot.js"></script>
 </head>
 
 <body>
@@ -38,9 +40,10 @@
     <header class="site-header">
         <a class="brand" href="/">
             <img src="/HSP-192.png" alt="" width="32" height="32">
-            <span>GFTV HelloSpot</span>
+            <span data-i18n="site.name">GFTV HelloSpot</span>
         </a>
         <div class="header-actions">
+            <div data-language-switcher></div>
             <button class="icon-btn" type="button" id="themeBtn" aria-label="Theme" aria-haspopup="dialog" aria-controls="themeModal">
                 <span data-icon="sun"></span>
             </button>
@@ -61,13 +64,13 @@
             <div class="hero-stage" id="heroStage">
                 <figure class="name-card" id="cardAnchor">
                     <img class="name-card-face" data-src="/assets/12Ann%20Front.png" data-eager width="1280" height="768"
-                        alt="The HelloSpot name card. It says Hello and 哈喽 beside a big smile, over GFTV's rainbow stripes.">
+                        alt="The HelloSpot name card. It says Hello and 哈喽 beside a big smile, over GFTV's rainbow stripes." data-i18n-attr="alt:hero.card-alt">
                 </figure>
                 <div class="hero-copy">
-                    <span class="eyebrow">GFTV HelloSpot</span>
-                    <h1 id="heroTitle">You found a HelloSpot!</h1>
-                    <p class="lede">At furmeets and furry conventions, a HelloSpot is where newcomers make new friends.</p>
-                    <p class="scroll-hint" aria-hidden="true"><span>Scroll</span><span data-icon="chevron-down"></span></p>
+                    <span class="eyebrow" data-i18n="hero.eyebrow">GFTV HelloSpot</span>
+                    <h1 id="heroTitle" data-i18n="hero.title">You found a HelloSpot!</h1>
+                    <p class="lede" data-i18n="hero.lede">At furmeets and furry conventions, a HelloSpot is where newcomers make new friends.</p>
+                    <p class="scroll-hint" aria-hidden="true"><span data-i18n="hero.scroll">Scroll</span><span data-icon="chevron-down"></span></p>
                 </div>
             </div>
         </section>
@@ -75,24 +78,24 @@
         <!-- 2. What a HelloSpot is. -->
         <section class="chapter how" id="how" aria-labelledby="howTitle">
             <div class="chapter-head">
-                <span class="eyebrow">New here?</span>
-                <h2 id="howTitle">How a HelloSpot works</h2>
+                <span class="eyebrow" data-i18n="how.eyebrow">New here?</span>
+                <h2 id="howTitle" data-i18n="how.title">How a HelloSpot works</h2>
             </div>
             <ol class="steps">
                 <li class="step glass-card liquid">
                     <span class="step-icon" data-icon="map"></span>
-                    <h3>Spot the smile</h3>
-                    <p>Look for the HelloSmile on a card, a lanyard or a sign. Wherever it is, that is a HelloSpot.</p>
+                    <h3 data-i18n="how.spot.title">Spot the smile</h3>
+                    <p data-i18n="how.spot.body">Look for the HelloSmile on a card, a lanyard or a sign. Wherever it is, that is a HelloSpot.</p>
                 </li>
                 <li class="step glass-card liquid">
                     <span class="step-icon" data-icon="smile"></span>
-                    <h3>Say hello</h3>
-                    <p>Come over and say hi. Nobody at a HelloSpot expects you to know anyone yet.</p>
+                    <h3 data-i18n="how.hello.title">Say hello</h3>
+                    <p data-i18n="how.hello.body">Come over and say hi. Nobody at a HelloSpot expects you to know anyone yet.</p>
                 </li>
                 <li class="step glass-card liquid">
                     <span class="step-icon" data-icon="users"></span>
-                    <h3>Make a friend</h3>
-                    <p>Meet the people around you, and leave with someone to look out for at the next meet.</p>
+                    <h3 data-i18n="how.friend.title">Make a friend</h3>
+                    <p data-i18n="how.friend.body">Meet the people around you, and leave with someone to look out for at the next meet.</p>
                 </li>
             </ol>
         </section>
@@ -102,8 +105,8 @@
         <section class="chapter pinned gallery" id="gallery" aria-labelledby="galleryTitle" data-pin="gallery">
             <div class="stage">
                 <div class="chapter-head stage-head">
-                    <span class="eyebrow">Hello from past meets</span>
-                    <h2 id="galleryTitle">Friends made at HelloSpots</h2>
+                    <span class="eyebrow" data-i18n="gallery.eyebrow">Hello from past meets</span>
+                    <h2 id="galleryTitle" data-i18n="gallery.title">Friends made at HelloSpots</h2>
                 </div>
                 <div class="ring-anchor" id="ringAnchor"></div>
                 <p class="ring-caption" id="ringCaption" aria-hidden="true"></p>
@@ -120,28 +123,28 @@
                 <div class="bowl-anchor" id="bowlAnchor"></div>
                 <div class="takagi-steps">
                     <div class="takagi-step" data-step="0">
-                        <span class="eyebrow">After the meet</span>
-                        <h2 id="takagiTitle">Takagi when?</h2>
-                        <p>The question every meet ends with.</p>
+                        <span class="eyebrow" data-i18n="takagi.eyebrow">After the meet</span>
+                        <h2 id="takagiTitle" data-i18n="takagi.when.title">Takagi when?</h2>
+                        <p data-i18n="takagi.when.body">The question every meet ends with.</p>
                     </div>
                     <div class="takagi-step" data-step="1">
-                        <span class="eyebrow">After the meet</span>
-                        <p class="takagi-line">Takagi NOW!!</p>
-                        <p>Ok, stop asking when.</p>
+                        <span class="eyebrow" data-i18n="takagi.eyebrow">After the meet</span>
+                        <p class="takagi-line" data-i18n="takagi.now.title">Takagi NOW!!</p>
+                        <p data-i18n="takagi.now.body">Ok, stop asking when.</p>
                     </div>
                     <div class="takagi-step" data-step="2">
-                        <span class="eyebrow">After the meet</span>
-                        <p class="takagi-line">Takagi eaten.</p>
-                        <p>Same time next meet?</p>
+                        <span class="eyebrow" data-i18n="takagi.eyebrow">After the meet</span>
+                        <p class="takagi-line" data-i18n="takagi.eaten.title">Takagi eaten.</p>
+                        <p data-i18n="takagi.eaten.body">Same time next meet?</p>
                     </div>
                 </div>
-                <ul class="ramen-photos" aria-label="Ramen after past meets">
-                    <li><img data-src="/assets/ramen-1.jpg" width="2560" height="1920" alt="A tray with a bowl of ramen and a side of noodles, a small Eevee plush beside it"></li>
-                    <li><img data-src="/assets/ramen-2.jpg" width="2560" height="1920" alt="A takeaway Takagi Ramen order with chopsticks and two small salads"></li>
-                    <li><img data-src="/assets/ramen-3.jpg" width="2560" height="1920" alt="A tray with ramen, a side of noodles, fried chicken and salad"></li>
-                    <li><img data-src="/assets/ramen-4.jpg" width="1280" height="960" alt="A tray with a bowl of pork ramen, gyoza and an iced tea"></li>
-                    <li><img data-src="/assets/ramen-5.jpg" width="1920" height="2560" alt="A bowl of ramen with chopsticks, extra noodles and an iced lemon tea"></li>
-                    <li><img data-src="/assets/ramen-6.jpg" width="2560" height="1920" alt="The Takagi Express shopfront, with red stools at the counter"></li>
+                <ul class="ramen-photos" aria-label="Ramen after past meets" data-i18n-attr="aria-label:takagi.photos-label">
+                    <li><img data-src="/assets/ramen-1.jpg" width="2560" height="1920" alt="A tray with a bowl of ramen and a side of noodles, a small Eevee plush beside it" data-i18n-attr="alt:takagi.photo-1"></li>
+                    <li><img data-src="/assets/ramen-2.jpg" width="2560" height="1920" alt="A takeaway Takagi Ramen order with chopsticks and two small salads" data-i18n-attr="alt:takagi.photo-2"></li>
+                    <li><img data-src="/assets/ramen-3.jpg" width="2560" height="1920" alt="A tray with ramen, a side of noodles, fried chicken and salad" data-i18n-attr="alt:takagi.photo-3"></li>
+                    <li><img data-src="/assets/ramen-4.jpg" width="1280" height="960" alt="A tray with a bowl of pork ramen, gyoza and an iced tea" data-i18n-attr="alt:takagi.photo-4"></li>
+                    <li><img data-src="/assets/ramen-5.jpg" width="1920" height="2560" alt="A bowl of ramen with chopsticks, extra noodles and an iced lemon tea" data-i18n-attr="alt:takagi.photo-5"></li>
+                    <li><img data-src="/assets/ramen-6.jpg" width="2560" height="1920" alt="The Takagi Express shopfront, with red stools at the counter" data-i18n-attr="alt:takagi.photo-6"></li>
                 </ul>
             </div>
         </section>
@@ -149,15 +152,15 @@
         <!-- 5. About GFTV, from globalfurrytv.news.blog/about-us. -->
         <section class="chapter about" id="about" aria-labelledby="aboutTitle">
             <div class="about-card glass-card liquid">
-                <span class="eyebrow">Wait, what is GFTV?</span>
-                <h2 id="aboutTitle">Global Furry Television</h2>
-                <p>Global Furry Television (GFTV) is Asia's biggest furry fandom news channel, based in Singapore.</p>
-                <p>We showcase furries' growth for everyone today and tomorrow to appreciate, and we host spaces so people can learn about and understand each other.</p>
-                <p>Spanning major continents from home, GFTV's team is international, multicultural and multilingual.</p>
+                <span class="eyebrow" data-i18n="about.eyebrow">Wait, what is GFTV?</span>
+                <h2 id="aboutTitle" data-i18n="about.title">Global Furry Television</h2>
+                <p data-i18n="about.body-1">Global Furry Television (GFTV) is Asia's biggest furry fandom news channel, based in Singapore.</p>
+                <p data-i18n="about.body-2">We showcase furries' growth for everyone today and tomorrow to appreciate, and we host spaces so people can learn about and understand each other.</p>
+                <p data-i18n="about.body-3">Spanning major continents from home, GFTV's team is international, multicultural and multilingual.</p>
                 <div class="link-row">
-                    <a class="btn btn-primary" href="https://globalfurrytv.news.blog/about-us/" target="_blank" rel="noopener"><span data-icon="info"></span>About GFTV</a>
-                    <a class="btn" href="http://t.me/gftvfurrynews" target="_blank" rel="noopener"><span data-icon="send"></span>News on Telegram</a>
-                    <a class="btn" href="http://youtube.com/c/GlobalFurryTelevision" target="_blank" rel="noopener"><span data-icon="video"></span>YouTube</a>
+                    <a class="btn btn-primary" href="https://globalfurrytv.news.blog/about-us/" target="_blank" rel="noopener"><span data-icon="info"></span><span data-i18n="about.link-about">About GFTV</span></a>
+                    <a class="btn" href="http://t.me/gftvfurrynews" target="_blank" rel="noopener"><span data-icon="send"></span><span data-i18n="about.link-telegram">News on Telegram</span></a>
+                    <a class="btn" href="http://youtube.com/c/GlobalFurryTelevision" target="_blank" rel="noopener"><span data-icon="video"></span><span data-i18n="about.link-youtube">YouTube</span></a>
                 </div>
             </div>
         </section>
@@ -167,8 +170,8 @@
             <div class="outro-smile" id="outroAnchor">
                 <img data-src="/assets/HelloSmile-V2.png" width="2475" height="2475" alt="">
             </div>
-            <h2 id="outroTitle">See you at the next HelloSpot!</h2>
-            <a class="btn btn-primary" href="https://events.globalfurry.tv/" target="_blank" rel="noopener"><span data-icon="calendar"></span>Find a meet on HelloEvents</a>
+            <h2 id="outroTitle" data-i18n="outro.title">See you at the next HelloSpot!</h2>
+            <a class="btn btn-primary" href="https://events.globalfurry.tv/" target="_blank" rel="noopener"><span data-icon="calendar"></span><span data-i18n="outro.cta">Find a meet on HelloEvents</span></a>
         </section>
     </main>
 
@@ -176,45 +179,45 @@
          a track that fills as the page scrolls (js/section-dots.js). The
          browser's own scroll bar is hidden. Plain links, so they work without
          scripts too. -->
-    <nav class="section-dots" aria-label="Sections">
+    <nav class="section-dots" aria-label="Sections" data-i18n-attr="aria-label:dots.label">
         <ol>
-            <li><a href="#hello"><span class="dot" aria-hidden="true"><span data-icon="check"></span></span><span class="dot-label">You found a HelloSpot!</span></a></li>
-            <li><a href="#how"><span class="dot" aria-hidden="true"><span data-icon="check"></span></span><span class="dot-label">How a HelloSpot works</span></a></li>
-            <li><a href="#gallery"><span class="dot" aria-hidden="true"><span data-icon="check"></span></span><span class="dot-label">Friends made at HelloSpots</span></a></li>
-            <li><a href="#takagi"><span class="dot" aria-hidden="true"><span data-icon="check"></span></span><span class="dot-label">Takagi when?</span></a></li>
-            <li><a href="#about"><span class="dot" aria-hidden="true"><span data-icon="check"></span></span><span class="dot-label">Wait, what is GFTV?</span></a></li>
-            <li><a href="#seeyou"><span class="dot" aria-hidden="true"><span data-icon="check"></span></span><span class="dot-label">See you at the next HelloSpot!</span></a></li>
+            <li><a href="#hello"><span class="dot" aria-hidden="true"><span data-icon="check"></span></span><span class="dot-label" data-i18n="dots.hello">You found a HelloSpot!</span></a></li>
+            <li><a href="#how"><span class="dot" aria-hidden="true"><span data-icon="check"></span></span><span class="dot-label" data-i18n="dots.how">How a HelloSpot works</span></a></li>
+            <li><a href="#gallery"><span class="dot" aria-hidden="true"><span data-icon="check"></span></span><span class="dot-label" data-i18n="dots.gallery">Friends made at HelloSpots</span></a></li>
+            <li><a href="#takagi"><span class="dot" aria-hidden="true"><span data-icon="check"></span></span><span class="dot-label" data-i18n="dots.takagi">Takagi when?</span></a></li>
+            <li><a href="#about"><span class="dot" aria-hidden="true"><span data-icon="check"></span></span><span class="dot-label" data-i18n="dots.about">Wait, what is GFTV?</span></a></li>
+            <li><a href="#seeyou"><span class="dot" aria-hidden="true"><span data-icon="check"></span></span><span class="dot-label" data-i18n="dots.seeyou">See you at the next HelloSpot!</span></a></li>
         </ol>
     </nav>
 
     <footer class="site-footer">
         <nav>
-            <a href="https://globalfurrytv.news.blog/about-us/" target="_blank" rel="noopener">About GFTV</a>
-            <a href="https://policy.globalfurry.tv/legal/terms" target="_blank" rel="noopener">Terms of Use</a>
-            <a href="https://policy.globalfurry.tv/legal/privacy" target="_blank" rel="noopener">Privacy Policy</a>
+            <a href="https://globalfurrytv.news.blog/about-us/" target="_blank" rel="noopener" data-i18n="footer.about">About GFTV</a>
+            <a href="https://policy.globalfurry.tv/legal/terms" target="_blank" rel="noopener" data-i18n="footer.terms">Terms of Use</a>
+            <a href="https://policy.globalfurry.tv/legal/privacy" target="_blank" rel="noopener" data-i18n="footer.privacy">Privacy Policy</a>
         </nav>
-        <span>Made with</span> <span data-icon="heart"></span> <span>in</span>
-        <a href="https://www.google.com/maps/place/Singapore" target="_blank" rel="noopener">Singapore</a>
-        <span>by Global Furry Television</span> &copy; 2014-<span id="currentYear"></span>.
-        <span>All rights reserved.</span>
+        <span data-i18n="footer.made">Made with</span> <span data-icon="heart"></span> <span data-i18n="footer.in">in</span>
+        <a href="https://www.google.com/maps/place/Singapore" target="_blank" rel="noopener" data-i18n="footer.singapore">Singapore</a>
+        <span data-i18n="footer.by">by Global Furry Television</span> &copy; 2014-<span id="currentYear"></span>.
+        <span data-i18n="footer.rights">All rights reserved.</span>
     </footer>
 
     <div class="modal-backdrop hidden" id="themeModal">
         <div class="modal glass-card" role="dialog" aria-modal="true" aria-labelledby="themeModalTitle">
             <div class="modal-head">
-                <h2 id="themeModalTitle">Theme</h2>
-                <button class="icon-btn small" type="button" data-close-modal="themeModal" aria-label="Close">
+                <h2 id="themeModalTitle" data-i18n="theme.title">Theme</h2>
+                <button class="icon-btn small" type="button" data-close-modal="themeModal" aria-label="Close" data-i18n-attr="aria-label:common.close">
                     <span data-icon="close"></span>
                 </button>
             </div>
-            <p class="modal-section-label">Mode</p>
+            <p class="modal-section-label" data-i18n="theme.mode-label">Mode</p>
             <div class="mode-toggle" id="modeToggle">
-                <button class="mode-btn" type="button" data-mode="light" aria-pressed="false"><span data-icon="sun"></span><span>Light</span></button>
-                <button class="mode-btn" type="button" data-mode="dark" aria-pressed="false"><span data-icon="moon"></span><span>Dark</span></button>
-                <button class="mode-btn mode-btn-wide" type="button" data-mode="time" aria-pressed="false"><span data-icon="clock"></span><span>Time-based</span></button>
+                <button class="mode-btn" type="button" data-mode="light" aria-pressed="false"><span data-icon="sun"></span><span data-i18n="theme.mode.light">Light</span></button>
+                <button class="mode-btn" type="button" data-mode="dark" aria-pressed="false"><span data-icon="moon"></span><span data-i18n="theme.mode.dark">Dark</span></button>
+                <button class="mode-btn mode-btn-wide" type="button" data-mode="time" aria-pressed="false"><span data-icon="clock"></span><span data-i18n="theme.mode.time">Time-based</span></button>
             </div>
             <p class="mode-note" id="modeNote" hidden></p>
-            <p class="modal-section-label">Colour theme</p>
+            <p class="modal-section-label" data-i18n="theme.color-label">Colour theme</p>
             <div class="swatch-grid" id="swatchGrid"></div>
         </div>
     </div>

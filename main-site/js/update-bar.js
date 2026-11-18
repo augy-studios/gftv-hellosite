@@ -1,9 +1,12 @@
 // Service worker registration and the update prompt bar, see
 // docs/update-bar-spec.md. A new worker never activates on its own; only the
 // Reload button promotes it, and the reload happens on controllerchange.
-// From gftv-helloevents, English only.
+// From gftv-helloevents. Its words are in assets/i18n/en.json (update.*), and
+// it redraws when the language changes.
 
+import { t, onChange } from '../assets/i18n/i18n.js';
 import { icon } from './icons.js';
+import { escapeHtml } from './ui.js';
 
 const SW_URL = '/sw.js';
 
@@ -24,12 +27,12 @@ function render() {
   const bar = existing ?? document.createElement('div');
   bar.className = 'update-notice';
   bar.setAttribute('role', 'status');
-  bar.setAttribute('aria-label', 'Update');
+  bar.setAttribute('aria-label', t('update.label'));
   bar.innerHTML = `
     <div class="update-notice-inner">
-      <p>A new version of GFTV HelloSpot is ready.</p>
-      <button type="button" class="btn btn-primary" data-sw-update>${icon('refresh')}Reload</button>
-      <button type="button" class="btn btn-quiet" data-sw-later>Not now</button>
+      <p>${escapeHtml(t('update.ready'))}</p>
+      <button type="button" class="btn btn-primary" data-sw-update>${icon('refresh')}${escapeHtml(t('update.reload'))}</button>
+      <button type="button" class="btn btn-quiet" data-sw-later>${escapeHtml(t('update.later'))}</button>
     </div>
   `;
 
@@ -98,6 +101,8 @@ function registerWorker() {
 }
 
 export function initUpdateBar() {
+  // The bar is written by script, so it is redrawn on a language change.
+  onChange(render);
   // Register on load, so precaching does not compete with the page's own
   // first fetches.
   if (document.readyState === 'complete') registerWorker();
