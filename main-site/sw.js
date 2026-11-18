@@ -17,7 +17,7 @@
 //                          ramen photos, fetched by js/blob-images.js)
 //   other origins          never touched (Google Analytics)
 
-const VERSION = 13;
+const VERSION = 14;
 // Every cache this site has made starts with PREFIX, including release 1's
 // date-named one, so activate clears them all but the current.
 const PREFIX = 'gftv-hellospot-';
@@ -91,6 +91,24 @@ const PRECACHE = [
   '/assets/i18n/ro.json',
   '/assets/i18n/sk.json',
   '/assets/i18n/sl.json',
+  '/assets/i18n/en-UWU.json',
+  '/assets/i18n/zh-Latn.json',
+  '/assets/i18n/ta-Latn.json',
+  '/assets/i18n/hi-Latn.json',
+  '/assets/i18n/bn-Latn.json',
+  '/assets/i18n/te-Latn.json',
+  '/assets/i18n/th-Latn.json',
+  '/assets/i18n/my-Latn.json',
+  '/assets/i18n/lo-Latn.json',
+  '/assets/i18n/ar-Latn.json',
+  '/assets/i18n/ko-Latn-KR.json',
+  '/assets/i18n/ko-Latn-KP.json',
+  '/assets/i18n/ja-Latn.json',
+  '/assets/i18n/ru-Latn.json',
+  '/assets/i18n/uk-Latn.json',
+  '/assets/i18n/bg-Latn.json',
+  '/assets/i18n/el-Latn.json',
+  '/assets/i18n/la.json',
   '/js/prepaint.js',
   '/js/scene-flag.js',
   '/js/hero-top.js',

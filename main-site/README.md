@@ -127,8 +127,11 @@ switches to that layout.
 ## Languages
 
 Every word on the site is in a language file, and a button next to the theme
-button in the header picks the language. There are 50, listed in
-`assets/i18n/locales.js`, with British English as the source and default. The
+button in the header picks the language. There are 68, listed in
+`assets/i18n/locales.js`, with British English as the source and default.
+They include English (US), Pirate and uwu, Latin, and a romanised variant
+(`-Latn`) of every language not written in Latin letters, plus Arabic in
+Latin letters only (Arabizi). The
 setup is the one the GFTV sister sites use, from `../docs/i18n-retrofit-spec.md`.
 
 ### The files

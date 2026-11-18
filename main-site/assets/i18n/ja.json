@@ -1,10 +1,10 @@
 {
   "meta.title-home": "GFTV HelloSpot",
   "meta.title-404": "ページが見つかりません | GFTV HelloSpot",
-  "meta.description": "ファーミートやケモノ系コンベンションで、初めての人が新しい友だちを作れる場所。Global Furry Television がお届けします。",
+  "meta.description": "ファーミートやケモノ系コンベンションで、初めての人が新しい友だちを作れる場所。グローバル・ファーリー・テレビジョンがお届けします。",
   "site.name": "GFTV HelloSpot",
 
-  "official.line": "Global Furry Television の公式ウェブサイト",
+  "official.line": "グローバル・ファーリー・テレビジョンの公式ウェブサイト",
   "official.line-short": "GFTV の公式ウェブサイト",
   "official.toggle": "見分け方",
   "official.domain-heading": "GFTV の公式サイトは globalfurry.tv または gftv.asia で終わります",
@@ -52,8 +52,8 @@
   "takagi.photo-6": "カウンターに赤いスツールが並ぶ Takagi Express の店先",
 
   "about.eyebrow": "ところで、GFTV って？",
-  "about.title": "Global Furry Television",
-  "about.body-1": "Global Furry Television（GFTV）は、シンガポールを拠点とするアジア最大のケモノ・ファーリーファンダムのニュースチャンネルです。",
+  "about.title": "グローバル・ファーリー・テレビジョン",
+  "about.body-1": "グローバル・ファーリー・テレビジョン（GFTV）は、シンガポールを拠点とするアジア最大のケモノ・ファーリーファンダムのニュースチャンネルです。",
   "about.body-2": "私たちは、今日も明日も誰もが楽しめるようにファーリー文化の成長を紹介し、人々が互いを知り、理解し合える場をつくっています。",
   "about.body-3": "拠点から主要な大陸へと広がる GFTV のチームは、国際的で、多文化で、多言語です。",
   "about.link-about": "GFTV について",
@@ -81,7 +81,7 @@
   "footer.made": "愛を込めて",
   "footer.in": "制作地：",
   "footer.singapore": "シンガポール",
-  "footer.by": "· 制作：Global Furry Television",
+  "footer.by": "· 制作：グローバル・ファーリー・テレビジョン",
   "footer.rights": "無断転載を禁じます。",
 
   "theme.title": "テーマ",

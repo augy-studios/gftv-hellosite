@@ -7,8 +7,13 @@
 //
 // The site's English is British English, so its code is en-GB (what <html
 // lang> is set to). Its words live in en-GB.json. A reader whose browser asks for
-// any other English (en-AU, plain en) gets this one, as the default; en-US
-// and en-ARR (Pirate) are there to be picked.
+// any other English (en-AU, plain en) gets this one, as the default; en-US,
+// en-ARR (Pirate) and en-UWU (uwu) are there to be picked.
+//
+// Every language not written in Latin letters also has a romanised variant,
+// tagged with the Latn script (ja-Latn, ko-Latn-KR, ru-Latn ...), named
+// "<its name in Latin letters> (Romanised)", which shares its row in the
+// dialog. Arabic (ar-Latn, Arabizi) is here only in Latin letters.
 //
 // `name` is each language's name in that language. Regional variants keep the
 // region in brackets at the end ("中文（大陆）", "Español (México)"): the
@@ -26,36 +31,52 @@
 import enGB from './en-GB.json' with { type: 'json' };
 import enUS from './en-US.json' with { type: 'json' };
 import enARR from './en-ARR.json' with { type: 'json' };
+import enUWU from './en-UWU.json' with { type: 'json' };
 import zhSG from './zh-SG.json' with { type: 'json' };
 import zhCN from './zh-CN.json' with { type: 'json' };
 import zhTW from './zh-TW.json' with { type: 'json' };
 import zhHK from './zh-HK.json' with { type: 'json' };
+import zhLatn from './zh-Latn.json' with { type: 'json' };
 import ms from './ms.json' with { type: 'json' };
 import ta from './ta.json' with { type: 'json' };
+import taLatn from './ta-Latn.json' with { type: 'json' };
 import id from './id.json' with { type: 'json' };
 import hi from './hi.json' with { type: 'json' };
+import hiLatn from './hi-Latn.json' with { type: 'json' };
 import bn from './bn.json' with { type: 'json' };
+import bnLatn from './bn-Latn.json' with { type: 'json' };
 import te from './te.json' with { type: 'json' };
+import teLatn from './te-Latn.json' with { type: 'json' };
 import esMX from './es-MX.json' with { type: 'json' };
 import esES from './es-ES.json' with { type: 'json' };
 import nl from './nl.json' with { type: 'json' };
 import eo from './eo.json' with { type: 'json' };
 import th from './th.json' with { type: 'json' };
+import thLatn from './th-Latn.json' with { type: 'json' };
 import my from './my.json' with { type: 'json' };
+import myLatn from './my-Latn.json' with { type: 'json' };
 import lo from './lo.json' with { type: 'json' };
+import loLatn from './lo-Latn.json' with { type: 'json' };
 import vi from './vi.json' with { type: 'json' };
 import tl from './tl.json' with { type: 'json' };
 import tet from './tet.json' with { type: 'json' };
+import arLatn from './ar-Latn.json' with { type: 'json' };
 import koKR from './ko-KR.json' with { type: 'json' };
 import koKP from './ko-KP.json' with { type: 'json' };
+import koLatnKR from './ko-Latn-KR.json' with { type: 'json' };
+import koLatnKP from './ko-Latn-KP.json' with { type: 'json' };
 import ja from './ja.json' with { type: 'json' };
+import jaLatn from './ja-Latn.json' with { type: 'json' };
 import ru from './ru.json' with { type: 'json' };
+import ruLatn from './ru-Latn.json' with { type: 'json' };
 import uk from './uk.json' with { type: 'json' };
+import ukLatn from './uk-Latn.json' with { type: 'json' };
 import ptPT from './pt-PT.json' with { type: 'json' };
 import da from './da.json' with { type: 'json' };
 import nb from './nb.json' with { type: 'json' };
 import sv from './sv.json' with { type: 'json' };
 import bg from './bg.json' with { type: 'json' };
+import bgLatn from './bg-Latn.json' with { type: 'json' };
 import hr from './hr.json' with { type: 'json' };
 import cs from './cs.json' with { type: 'json' };
 import et from './et.json' with { type: 'json' };
@@ -63,9 +84,11 @@ import fi from './fi.json' with { type: 'json' };
 import fr from './fr.json' with { type: 'json' };
 import de from './de.json' with { type: 'json' };
 import el from './el.json' with { type: 'json' };
+import elLatn from './el-Latn.json' with { type: 'json' };
 import hu from './hu.json' with { type: 'json' };
 import ga from './ga.json' with { type: 'json' };
 import it from './it.json' with { type: 'json' };
+import la from './la.json' with { type: 'json' };
 import lv from './lv.json' with { type: 'json' };
 import lt from './lt.json' with { type: 'json' };
 import mt from './mt.json' with { type: 'json' };
@@ -80,36 +103,52 @@ export const locales = {
   'en-GB': enGB,
   'en-US': enUS,
   'en-ARR': enARR,
+  'en-UWU': enUWU,
   'zh-SG': zhSG,
   'zh-CN': zhCN,
   'zh-TW': zhTW,
   'zh-HK': zhHK,
+  'zh-Latn': zhLatn,
   'ms': ms,
   'ta': ta,
+  'ta-Latn': taLatn,
   'id': id,
   'hi': hi,
+  'hi-Latn': hiLatn,
   'bn': bn,
+  'bn-Latn': bnLatn,
   'te': te,
+  'te-Latn': teLatn,
   'es-MX': esMX,
   'es-ES': esES,
   'nl': nl,
   'eo': eo,
   'th': th,
+  'th-Latn': thLatn,
   'my': my,
+  'my-Latn': myLatn,
   'lo': lo,
+  'lo-Latn': loLatn,
   'vi': vi,
   'tl': tl,
   'tet': tet,
+  'ar-Latn': arLatn,
   'ko-KR': koKR,
   'ko-KP': koKP,
+  'ko-Latn-KR': koLatnKR,
+  'ko-Latn-KP': koLatnKP,
   'ja': ja,
+  'ja-Latn': jaLatn,
   'ru': ru,
+  'ru-Latn': ruLatn,
   'uk': uk,
+  'uk-Latn': ukLatn,
   'pt-PT': ptPT,
   'da': da,
   'nb': nb,
   'sv': sv,
   'bg': bg,
+  'bg-Latn': bgLatn,
   'hr': hr,
   'cs': cs,
   'et': et,
@@ -117,9 +156,11 @@ export const locales = {
   'fr': fr,
   'de': de,
   'el': el,
+  'el-Latn': elLatn,
   'hu': hu,
   'ga': ga,
   'it': it,
+  'la': la,
   'lv': lv,
   'lt': lt,
   'mt': mt,
@@ -133,36 +174,52 @@ export const registry = [
   { code: 'en-GB', name: 'English (UK)', dir: 'ltr', en: 'British English' },
   { code: 'en-US', name: 'English (US)', dir: 'ltr', en: 'American English' },
   { code: 'en-ARR', name: 'English (Pirate)', dir: 'ltr', en: 'Pirate English' },
+  { code: 'en-UWU', name: 'English (uwu)', dir: 'ltr', en: ['UwU', 'OwO', 'uwu speak', 'uwuspeak'] },
   { code: 'zh-SG', name: '中文（新加坡）', dir: 'ltr', en: ['Chinese', 'Simplified Chinese', 'Mandarin'] },
   { code: 'zh-CN', name: '中文（大陆）', dir: 'ltr', en: ['Chinese', 'Simplified Chinese', 'Mandarin', 'Mainland China'] },
   { code: 'zh-TW', name: '中文（台灣）', dir: 'ltr', en: ['Chinese', 'Traditional Chinese', 'Mandarin'] },
   { code: 'zh-HK', name: '中文（香港）', dir: 'ltr', en: ['Chinese', 'Traditional Chinese'] },
+  { code: 'zh-Latn', name: 'Zhōngwén (Romanised)', dir: 'ltr', en: ['Chinese', 'Pinyin', 'Hanyu Pinyin', 'Mandarin', 'Romanised Chinese', 'Romanized Chinese'], regions: ['CN', 'SG', 'TW', 'HK'] },
   { code: 'ms', name: 'Bahasa Melayu', dir: 'ltr', en: 'Malay', regions: ['MY', 'BN', 'SG'] },
   { code: 'ta', name: 'தமிழ்', dir: 'ltr', en: 'Tamil', regions: ['IN', 'LK', 'SG', 'MY'] },
+  { code: 'ta-Latn', name: 'Tamil (Romanised)', dir: 'ltr', en: ['Tamil', 'Tanglish', 'Romanised Tamil', 'Romanized Tamil'], regions: ['IN', 'LK', 'SG', 'MY'] },
   { code: 'id', name: 'Bahasa Indonesia', dir: 'ltr', en: 'Indonesian' },
   { code: 'hi', name: 'हिन्दी', dir: 'ltr', en: 'Hindi' },
+  { code: 'hi-Latn', name: 'Hindi (Romanised)', dir: 'ltr', en: ['Hindi', 'Hinglish', 'Romanised Hindi', 'Romanized Hindi'] },
   { code: 'bn', name: 'বাংলা', dir: 'ltr', en: ['Bengali', 'Bangla'], regions: ['BD', 'IN'] },
+  { code: 'bn-Latn', name: 'Bangla (Romanised)', dir: 'ltr', en: ['Bengali', 'Bangla', 'Romanised Bengali', 'Romanized Bengali'], regions: ['BD', 'IN'] },
   { code: 'te', name: 'తెలుగు', dir: 'ltr', en: 'Telugu' },
+  { code: 'te-Latn', name: 'Telugu (Romanised)', dir: 'ltr', en: ['Telugu', 'Romanised Telugu', 'Romanized Telugu'] },
   { code: 'es-MX', name: 'Español (México)', dir: 'ltr', en: ['Spanish', 'Mexican Spanish', 'Latin American Spanish'] },
   { code: 'es-ES', name: 'Español (España)', dir: 'ltr', en: ['Spanish', 'European Spanish', 'Castilian'] },
   { code: 'nl', name: 'Nederlands', dir: 'ltr', en: ['Dutch', 'Flemish'], regions: ['NL', 'BE', 'SR'] },
   { code: 'eo', name: 'Esperanto', dir: 'ltr', en: 'Esperanto' },
   { code: 'th', name: 'ไทย', dir: 'ltr', en: 'Thai' },
+  { code: 'th-Latn', name: 'Phasa Thai (Romanised)', dir: 'ltr', en: ['Thai', 'RTGS', 'Romanised Thai', 'Romanized Thai'] },
   { code: 'my', name: 'မြန်မာ', dir: 'ltr', en: 'Burmese' },
+  { code: 'my-Latn', name: 'Myanma (Romanised)', dir: 'ltr', en: ['Burmese', 'Romanised Burmese', 'Romanized Burmese'] },
   { code: 'lo', name: 'ລາວ', dir: 'ltr', en: 'Lao' },
+  { code: 'lo-Latn', name: 'Phasa Lao (Romanised)', dir: 'ltr', en: ['Lao', 'Romanised Lao', 'Romanized Lao'] },
   { code: 'vi', name: 'Tiếng Việt', dir: 'ltr', en: 'Vietnamese' },
   { code: 'tl', name: 'Tagalog', dir: 'ltr', en: ['Tagalog', 'Filipino'] },
   { code: 'tet', name: 'Tetun', dir: 'ltr', en: ['Tetum', 'Tetun', 'East Timor'] },
+  { code: 'ar-Latn', name: 'Arabi (Romanised)', dir: 'ltr', en: ['Arabic', 'Arabizi', 'Franco-Arabic', 'Arabish', 'Romanised Arabic', 'Romanized Arabic'], regions: ['SA', 'EG', 'AE', 'JO', 'LB', 'SY', 'IQ', 'KW', 'QA', 'BH', 'OM', 'YE', 'PS', 'MA', 'DZ', 'TN', 'LY', 'SD'] },
   { code: 'ko-KR', name: '한국어 (대한민국)', dir: 'ltr', en: ['Korean', 'South Korean'] },
   { code: 'ko-KP', name: '조선말 (조선)', dir: 'ltr', en: ['Korean', 'North Korean'] },
+  { code: 'ko-Latn-KR', name: 'Hangugeo (Romanised)', dir: 'ltr', en: ['Korean', 'South Korean', 'Revised Romanisation', 'Romanised Korean', 'Romanized Korean'] },
+  { code: 'ko-Latn-KP', name: 'Chosŏnmal (Romanised)', dir: 'ltr', en: ['Korean', 'North Korean', 'McCune-Reischauer', 'Romanised Korean', 'Romanized Korean'] },
   { code: 'ja', name: '日本語', dir: 'ltr', en: 'Japanese' },
+  { code: 'ja-Latn', name: 'Nihongo (Romanised)', dir: 'ltr', en: ['Japanese', 'Romaji', 'Rōmaji', 'Hepburn', 'Romanised Japanese', 'Romanized Japanese'] },
   { code: 'ru', name: 'Русский', dir: 'ltr', en: 'Russian' },
+  { code: 'ru-Latn', name: 'Russkiy (Romanised)', dir: 'ltr', en: ['Russian', 'Translit', 'Romanised Russian', 'Romanized Russian'] },
   { code: 'uk', name: 'Українська', dir: 'ltr', en: 'Ukrainian' },
+  { code: 'uk-Latn', name: 'Ukrainska (Romanised)', dir: 'ltr', en: ['Ukrainian', 'Romanised Ukrainian', 'Romanized Ukrainian'] },
   { code: 'pt-PT', name: 'Português (Portugal)', dir: 'ltr', en: ['Portuguese', 'European Portuguese'] },
   { code: 'da', name: 'Dansk', dir: 'ltr', en: 'Danish' },
   { code: 'nb', name: 'Norsk bokmål', dir: 'ltr', en: ['Norwegian', 'Norwegian Bokmål'] },
   { code: 'sv', name: 'Svenska', dir: 'ltr', en: 'Swedish' },
   { code: 'bg', name: 'Български', dir: 'ltr', en: 'Bulgarian' },
+  { code: 'bg-Latn', name: 'Balgarski (Romanised)', dir: 'ltr', en: ['Bulgarian', 'Romanised Bulgarian', 'Romanized Bulgarian'] },
   { code: 'hr', name: 'Hrvatski', dir: 'ltr', en: 'Croatian' },
   { code: 'cs', name: 'Čeština', dir: 'ltr', en: ['Czech', 'Czech Republic'] },
   { code: 'et', name: 'Eesti', dir: 'ltr', en: 'Estonian' },
@@ -170,9 +227,11 @@ export const registry = [
   { code: 'fr', name: 'Français', dir: 'ltr', en: 'French' },
   { code: 'de', name: 'Deutsch', dir: 'ltr', en: 'German', regions: ['DE', 'AT', 'CH'] },
   { code: 'el', name: 'Ελληνικά', dir: 'ltr', en: 'Greek', regions: ['GR', 'CY'] },
+  { code: 'el-Latn', name: 'Ellinika (Romanised)', dir: 'ltr', en: ['Greek', 'Greeklish', 'Romanised Greek', 'Romanized Greek'] },
   { code: 'hu', name: 'Magyar', dir: 'ltr', en: 'Hungarian' },
   { code: 'ga', name: 'Gaeilge', dir: 'ltr', en: ['Irish', 'Irish Gaelic'] },
   { code: 'it', name: 'Italiano', dir: 'ltr', en: 'Italian' },
+  { code: 'la', name: 'Latina', dir: 'ltr', en: ['Latin', 'Classical Latin'], regions: ['VA', 'IT'] },
   { code: 'lv', name: 'Latviešu', dir: 'ltr', en: 'Latvian' },
   { code: 'lt', name: 'Lietuvių', dir: 'ltr', en: 'Lithuanian' },
   { code: 'mt', name: 'Malti', dir: 'ltr', en: 'Maltese' },

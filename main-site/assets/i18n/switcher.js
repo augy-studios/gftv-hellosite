@@ -58,9 +58,11 @@ function familyName(lang, entries) {
   return bare[0];
 }
 
+// A name with no brackets is the language in its own script (日本語 beside
+// "Nihongo (Romanised)"): the row already says it, so nothing is added.
 function variantLabel(entry) {
   const m = entry.name.match(BRACKETS);
-  return m ? m[1] : entry.name;
+  return m ? m[1] : '';
 }
 
 function groupLocales() {
