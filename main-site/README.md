@@ -197,8 +197,11 @@ it too. After
 they pick one with the button, their choice is kept.
 
 The language dialog has a search box. It matches any part of a language's own
-name, its name in the page's current language and in English (from the
-browser, so "chinese" finds 中文), or its code (`en-gb`, `en_gb`, `gb`),
+name; its English names, from `en` in `locales.js` ("bengali", "tagalog",
+"traditional chinese"); its name in the page's current language and in
+English from the browser (so "chinese" finds 中文); the countries it comes
+from, in English and in the page's language ("japan", "sri lanka" for
+Tamil, from `regions` or the code); or its code (`en-gb`, `en_gb`, `gb`),
 ignoring case and accents. Every word typed must match. Enter picks the first
 row left; Escape clears the search, then closes.
 

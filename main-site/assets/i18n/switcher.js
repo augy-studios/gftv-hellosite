@@ -264,14 +264,42 @@ function displayNames(inLocale) {
   return names;
 }
 
+const haystacks = { locale: null, text: new Map() };
+
+function regionNames(inLocale) {
+  try { return [new Intl.DisplayNames([inLocale], { type: 'region' })]; }
+  catch { return []; }
+}
+
+// The countries a language comes from, as ISO codes: the registry's `regions`
+// where it lists them, else the code's own region (zh-SG), else the browser's
+// likeliest region for the language (ja → JP). Never "world" (eo → 001).
+function regionsOf(entry) {
+  if (Array.isArray(entry.regions) && entry.regions.length) return entry.regions;
+  try {
+    const loc = new Intl.Locale(entry.code);
+    const region = loc.region || loc.maximize().region;
+    return region && /^[A-Z]{2}$/.test(region) ? [region] : [];
+  } catch {
+    return [];
+  }
+}
+
 // Everything a variant can be found by: its own name, its family's name, its
-// name in the page's language and in English, and its code written as en-gb,
-// en_gb or engb.
-function haystack(entry, family, namers) {
+// English names from the registry (`en`), its name in the page's language and
+// in English from the browser, the names of its countries of origin in both,
+// and its code written as en-gb, en_gb or engb.
+function haystack(entry, family, namers, regioners) {
   const code = entry.code.toLowerCase();
   const words = [entry.name, family, code, code.replace(/-/g, '_'), code.replace(/-/g, '')];
+  words.push(...[].concat(entry.en || []));
   for (const namer of namers) {
     try { words.push(namer.of(entry.code)); } catch { /* code Intl does not know */ }
+  }
+  for (const region of regionsOf(entry)) {
+    for (const namer of regioners) {
+      try { words.push(namer.of(region)); } catch { /* region Intl does not know */ }
+    }
   }
   return words.filter(Boolean).map(fold).join('\n');
 }
@@ -296,14 +324,29 @@ function filter() {
   if (!search || !list) return;
   const query = search.value.trim();
   const terms = fold(query).replace(/_/g, '-').split(/\s+/).filter(Boolean);
-  const namers = [...displayNames(getLocale()), ...displayNames('en')];
+  // Haystacks depend only on the page's language, so they are built once per
+  // language rather than on every keystroke.
+  if (haystacks.locale !== getLocale()) {
+    haystacks.locale = getLocale();
+    haystacks.text.clear();
+  }
+  let namers = null;
+  let regioners = null;
+  const textOf = (entry, family) => {
+    if (!haystacks.text.has(entry.code)) {
+      namers = namers || [...displayNames(getLocale()), ...displayNames('en')];
+      regioners = regioners || [...regionNames(getLocale()), ...regionNames('en')];
+      haystacks.text.set(entry.code, haystack(entry, family, namers, regioners));
+    }
+    return haystacks.text.get(entry.code);
+  };
   const order = [];
   let showing = 0;
   for (const fam of families) {
     let best = 3;
     let matches = 0;
     for (const v of fam.variants) {
-      const text = haystack(v.entry, fam.name, namers);
+      const text = textOf(v.entry, fam.name);
       v.match = terms.every((term) => text.includes(term));
       if (fam.multi) v.button.parentElement.hidden = !v.match;
       if (v.match) {
