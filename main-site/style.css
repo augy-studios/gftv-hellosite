@@ -52,6 +52,27 @@ html[lang="en-UWU"] {
   font-synthesis: none;
 }
 
+/* Arabic and Malay in Jawi: Noto Sans Arabic, a sans serif to sit beside
+   Proxima Nova, for the Arabic letters only (Latin, such as GFTV and
+   HelloSpot, stays in Proxima Nova). Devices' own Arabic fonts often lack
+   Jawi's extra letters (ڠ ڤ ݢ ڽ ۏ), so it is self hosted: its Arabic subset,
+   one variable file for every weight (SIL OFL, licence beside it). The
+   browser fetches it only when this rule applies. */
+@font-face {
+  font-family: 'Noto Sans Arabic';
+  src: url('/assets/fonts/NotoSansArabic-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1,
+    U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74,
+    U+FE76-FEFC;
+}
+html:is([lang="ar"], [lang="ms-Arab"]) {
+  --font: 'Proxima Nova', 'Noto Sans Arabic', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
 /* one block per colour theme x mode */
 :root[data-color-theme="classic"][data-mode="light"] {
   --brand: #ffffff;
@@ -744,16 +765,18 @@ body { display: flex; flex-direction: column; min-height: 100dvh; }
 html { scrollbar-width: none; }
 html::-webkit-scrollbar { display: none; }
 
-/* The section dots: one per chapter, down the right edge (js/section-dots.js).
+/* The section dots: one per chapter, down the right edge (js/section-dots.js),
+   or the left edge in a right-to-left language, where a scroll bar would be.
    Passed chapters are ticked, the current one is ringed, and the track
    between them fills as the page scrolls. */
 .section-dots {
   --dot: 14px;
   --gap: 34px;
   --progress: 0;
+  --slide: 6px;
   position: fixed;
   top: 50%;
-  right: max(0.75rem, env(safe-area-inset-right));
+  inset-inline-end: max(0.75rem, env(safe-area-inset-right));
   z-index: 25;
   transform: translateY(-50%);
 }
@@ -765,7 +788,7 @@ html::-webkit-scrollbar { display: none; }
   position: absolute;
   top: calc(var(--gap) / 2);
   bottom: calc(var(--gap) / 2);
-  right: calc(16px - 1px);
+  inset-inline-end: calc(16px - 1px);
   width: 2px;
   border-radius: 1px;
 }
@@ -792,7 +815,7 @@ html::-webkit-scrollbar { display: none; }
   justify-content: center;
   width: var(--dot);
   height: var(--dot);
-  margin-right: calc(16px - var(--dot) / 2);
+  margin-inline-end: calc(16px - var(--dot) / 2);
   border-radius: 50%;
   background: var(--bg);
   border: 2px solid var(--border-strong);
@@ -812,7 +835,7 @@ html::-webkit-scrollbar { display: none; }
 /* The chapter's name, on hover or keyboard focus. */
 .dot-label {
   position: absolute;
-  right: 36px;
+  inset-inline-end: 36px;
   top: 50%;
   padding: 0.3rem 0.7rem;
   border-radius: 999px;
@@ -824,18 +847,22 @@ html::-webkit-scrollbar { display: none; }
   border: 1px solid var(--border);
   box-shadow: var(--shadow) 0 4px 12px;
   opacity: 0;
-  transform: translate(6px, -50%);
+  /* Slides in from the dots' side. */
+  transform: translate(var(--slide), -50%);
   pointer-events: none;
   transition: opacity var(--motion) ease, transform var(--motion) ease;
 }
 .section-dots a:hover .dot-label,
 .section-dots a:focus-visible .dot-label { opacity: 1; transform: translate(0, -50%); }
+[dir="rtl"] .section-dots { --slide: -6px; }
+[dir="rtl"] .section-dots { inset-inline-end: max(0.75rem, env(safe-area-inset-left)); }
 /* A chapter given focus by a dot is not a control, and shows no ring. */
 .chapter[tabindex="-1"]:focus { outline: none; box-shadow: none; }
 
 @media (max-width: 480px) {
   /* Smaller, closer to the edge, still a full tap target across. */
-  .section-dots { --dot: 10px; --gap: 28px; right: max(0.25rem, env(safe-area-inset-right)); }
+  .section-dots { --dot: 10px; --gap: 28px; inset-inline-end: max(0.25rem, env(safe-area-inset-right)); }
+  [dir="rtl"] .section-dots { inset-inline-end: max(0.25rem, env(safe-area-inset-left)); }
 }
 
 /* The background shapes as still pictures, when the scene is off and on the
@@ -1213,3 +1240,15 @@ body { position: relative; }
   .about-card { padding: 1.5rem; }
   .link-row .btn { flex: 1 1 100%; }
 }
+
+/* Arabic script (Arabic, and Malay in Jawi). The layout mirrors on its own:
+   it is written with logical properties (inline-start and inline-end), and
+   flex and grid follow the writing direction, so the header, the dialogs and
+   the bars flip, the dots move to the left edge and the Takagi bowl moves
+   to the left of its words. Two things do not carry over from Latin:
+   - Letter spacing pulls apart joined letters, so the small capitals labels
+     (which have no capitals in Arabic script either) are set solid.
+   - Arabic letters reach higher and lower than Latin ones, so the big
+     headings, set tight for Latin, get room between their lines. */
+[dir="rtl"] :is(.eyebrow, .scroll-hint, .modal-section-label) { letter-spacing: 0; }
+[dir="rtl"] :is(.hero h1, .chapter h2, .takagi-line, .not-found-title) { line-height: 1.4; }

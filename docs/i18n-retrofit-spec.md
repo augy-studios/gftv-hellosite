@@ -247,7 +247,11 @@ option cannot contain a button, so there the list is a plain `<ul>` of
 `<button>`s with `aria-current="true"` on the active language, and the
 dropdown button carries `aria-expanded` and `aria-controls`. Arrow keys,
 Home/End and typeahead still move between rows; → and ← open and close a row's
-variants. See `main-site/README.md`, Languages.
+variants. Rows are in alphabetical order of the name each shows (Latin
+first, then other scripts in Unicode's order), not registry order; each
+row is laid out in the page's direction with its name in `dir="auto"`, and
+`js/text-dir.js` sets `dir` before first paint for a stored right-to-left
+choice. See `main-site/README.md`, Languages.
 
 ### 8.2 Behaviour
 

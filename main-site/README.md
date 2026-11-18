@@ -127,11 +127,13 @@ switches to that layout.
 ## Languages
 
 Every word on the site is in a language file, and a button next to the theme
-button in the header picks the language. There are 68, listed in
+button in the header picks the language. There are 70, listed in
 `assets/i18n/locales.js`, with British English as the source and default.
-They include English (US), Pirate and uwu, Latin, and a romanised variant
-(`-Latn`) of every language not written in Latin letters, plus Arabic in
-Latin letters only (Arabizi). The
+They include English (US), Pirate and uwu, Latin, a romanised variant
+(`-Latn`) of every language not written in Latin letters (Arabic's is
+Arabizi), and Malay in Jawi (`ms-Arab`) beside Malay in Latin letters.
+Arabic and Jawi are written right to left (see Right-to-left languages
+below). The language dialog lists them in alphabetical order. The
 setup is the one the GFTV sister sites use, from `../docs/i18n-retrofit-spec.md`.
 
 ### The files
@@ -141,6 +143,7 @@ setup is the one the GFTV sister sites use, from `../docs/i18n-retrofit-spec.md`
 | `assets/i18n/en-GB.json` | Every word on the site in English, one key each: `"hero.title": "You found a HelloSpot!"`. The source every other language copies. | You change wording, or add a sentence. |
 | `assets/i18n/<code>.json` | The same keys in another language (`ms.json`, `zh-SG.json` and so on). | You add or update a language. |
 | `assets/i18n/locales.js` | The list of languages: which files to load, each language's own name and its writing direction. | You add a language (three lines). |
+| `js/text-dir.js` | Sets right-to-left before first paint for a reader who picked Arabic or Jawi, or whose device's first language is Arabic. Lists the right-to-left codes. | You add a right-to-left language. |
 | `sw.js` | The service worker. Its `PRECACHE` list must include every language file, and `VERSION` goes up by one on every change. | You add a language or change any wording. |
 | `index.html`, `404.html` | The pages. Each element with words has `data-i18n="key"` (or `data-i18n-attr="alt:key"` for an attribute), with the English still in place as a fallback. | You add a new element with words. |
 | `assets/i18n/check-keys.js` | Checks every language file against `en-GB.json`: missing or extra keys, broken `{placeholders}`, empty values. | Run it after any change (below). |
@@ -172,8 +175,11 @@ Say Portuguese as spoken in Brazil, `pt-BR`:
    `name` is the language's name in that language. A regional variant keeps
    its region in brackets at the end, as here: `pt-BR` then shares a row with
    `pt-PT` in the language dialog, with a dropdown to pick between them.
-   `dir` is `rtl` for a right-to-left language such as Arabic (see the note
-   below).
+   `dir` is `rtl` for a right-to-left language such as Arabic; add its code
+   to `RTL` in `js/text-dir.js` too (see Right-to-left languages below).
+   Where the entry goes in the list does not change where it shows in the
+   dialog, which is alphabetical; it only matters among a language's own
+   variants, where the first is the main one.
 3. **Add it to the service worker**: in `sw.js`, add `'/assets/i18n/pt-BR.json',`
    to the `PRECACHE` list beside `en-GB.json`, and raise `VERSION` by one.
 4. **Check it**, from `main-site/`:
@@ -199,6 +205,13 @@ are in `en-GB.json`; a device asking for an English the site does not have gets
 it too. After
 they pick one with the button, their choice is kept.
 
+The language dialog lists one row per language in alphabetical order of the
+name the row shows, the same in every page language: Latin names A to Z
+(ignoring accents and case, so Čeština is among the Cs), then the other
+scripts in Unicode's order: Greek, Cyrillic, Arabic, the Indian scripts,
+Thai, Lao, Burmese, Korean, Chinese and Japanese. A language's variants keep
+their order from `locales.js` in its dropdown.
+
 The language dialog has a search box. It matches any part of a language's own
 name; its English names, from `en` in `locales.js` ("bengali", "tagalog",
 "traditional chinese"); its name in the page's current language and in
@@ -218,9 +231,39 @@ region in brackets at the end of its `name` (`English (US)`,
 name. A search that matches only some variants ("us") opens the dropdown on
 just those. With the keyboard, → opens a row's variants and ← closes them.
 
-**Right-to-left languages.** The layout is written for left-to-right. Before
-the first right-to-left language goes live, the stylesheet's `left` and
-`right` rules need checking (section 9 of `../docs/i18n-retrofit-spec.md`).
+**Right-to-left languages.** Arabic (`ar`) and Malay in Jawi (`ms-Arab`) are
+written right to left. Picking one sets `<html dir="rtl">` and the whole
+page mirrors: the header, the official bar, the dialogs, the section dots
+(which move to the left edge, where a right-to-left reader's scroll bar
+would be) and the Takagi chapter (the bowl moves to the left of its words).
+This works because the stylesheet uses logical properties
+(`inset-inline-end`, `margin-inline-start`, `padding-inline` and so on)
+rather than `left` and `right`, and flex and grid follow the writing
+direction; keep it that way (section 9 of `../docs/i18n-retrofit-spec.md`).
+The 3D scene places the card, ring and bowl over their anchor elements, so it
+follows the mirrored layout without changes. The end of `style.css` sets
+Arabic-script headings with more line height and the small capitals labels
+without letter spacing, which would pull joined letters apart.
+
+`js/text-dir.js` sets the direction before first paint, so the page does not
+flip as it loads; its `RTL` list must match the `rtl` entries in `locales.js`.
+In the language dialog every row is laid out in the page's direction, and
+each name runs in its own (`dir="auto"`), so العربية reads correctly on an
+English page and English on an Arabic one.
+
+Arabic and Jawi are set in Noto Sans Arabic
+(`assets/fonts/NotoSansArabic-Variable.woff2`, its Arabic letters only, one
+variable file for every weight, SIL OFL, licence beside it), because many
+devices' own Arabic fonts lack Jawi's extra letters (ڠ ڤ ݢ ڽ ۏ). Latin words
+in those pages, like GFTV and HelloSpot, stay in Proxima Nova. The font is
+fetched only on those two languages, and is not precached.
+
+Brand names stay in Latin letters inside right-to-left text, and the
+browser places them correctly. One thing it cannot place: a Latin run that
+ends in punctuation followed by Arabic script, such as `https://` before an
+Arabic word, shows its punctuation on the wrong side. Write such text so
+the Latin run ends in a letter (the Arabic and Jawi files say
+`https://hello.globalfurry.tv`, not a bare `https://`).
 
 ### Changing the wording
 

@@ -4,7 +4,9 @@
 // from js/ui.js: focus trap, inert background, scroll lock, Escape and
 // backdrop to close.
 //
-// Two departures from section 8, both asked for:
+// Three departures from section 8, all asked for:
+// - Rows are in alphabetical order of the name they show, not registry order
+//   (see sortFamilies).
 // - A search box above the list (name or code).
 // - Languages with regional variants (en-GB and en-US, zh-SG and zh-TW) share
 //   one row, with a dropdown button at its far end listing the variants. A
@@ -20,7 +22,7 @@ let button = null;
 let search = null;
 let list = null;
 
-// One per base language, in registry order of its first variant:
+// One per base language, in alphabetical order (index is the position):
 // { lang, name, index, multi, item, head, toggle, variants: [{ entry, button }] }
 let families = [];
 // Families whose dropdown the reader opened. Cleared each time the modal opens.
@@ -46,11 +48,15 @@ function renderButton() {
 const BRACKETS = /\s*[(（]([^()（）]+)[)）]\s*$/;
 
 // The family's own name: the registry names with their brackets removed when
-// they agree ("English"), else the browser's name for the base language in
-// that language, else the first variant's name.
+// they agree ("English"); else the name of a variant without brackets, which
+// is the language in its usual script ("日本語" beside "Nihongo (Romanised)",
+// "Bahasa Melayu" beside its Jawi); else the browser's name for the base
+// language in that language; else the first variant's name.
 function familyName(lang, entries) {
   const bare = entries.map((e) => e.name.replace(BRACKETS, ''));
   if (bare.every((s) => s === bare[0]) && bare[0] !== entries[0].name) return bare[0];
+  const plain = entries.find((e) => !BRACKETS.test(e.name));
+  if (plain) return plain.name;
   try {
     const own = new Intl.DisplayNames([lang], { type: 'language' }).of(lang);
     if (own && own.toLowerCase() !== lang) return own.charAt(0).toLocaleUpperCase(lang) + own.slice(1);
@@ -65,20 +71,31 @@ function variantLabel(entry) {
   return m ? m[1] : '';
 }
 
+// Rows in alphabetical order of the name each row shows, the same order in
+// every page language: Latin names A to Z (accents and case ignored, so
+// Čeština sits among the Cs), then the other scripts in Unicode's order
+// (Greek, Cyrillic, Arabic, the Indian scripts, Thai, Lao, Burmese, Korean,
+// Chinese and Japanese). A family's variants keep their registry order in its
+// dropdown, so the main variant comes first.
+const collator = new Intl.Collator('en', { sensitivity: 'base', numeric: true });
+
 function groupLocales() {
   const byLang = new Map();
-  getLocales().forEach((entry, index) => {
+  getLocales().forEach((entry) => {
     const lang = entry.code.split('-')[0].toLowerCase();
-    if (!byLang.has(lang)) byLang.set(lang, { lang, index, entries: [] });
+    if (!byLang.has(lang)) byLang.set(lang, { lang, entries: [] });
     byLang.get(lang).entries.push(entry);
   });
-  return [...byLang.values()].map(({ lang, index, entries }) => ({
-    lang,
-    index,
-    name: familyName(lang, entries),
-    multi: entries.length > 1,
-    entries,
-  }));
+  return [...byLang.values()]
+    .map(({ lang, entries }) => ({
+      lang,
+      name: familyName(lang, entries),
+      multi: entries.length > 1,
+      entries,
+    }))
+    .map((fam) => ({ ...fam, label: fam.multi ? fam.name : fam.entries[0].name }))
+    .sort((a, b) => collator.compare(a.label, b.label))
+    .map((fam, index) => ({ ...fam, index }));
 }
 
 function optionButton(entry, className, text) {
@@ -87,11 +104,18 @@ function optionButton(entry, className, text) {
   b.className = className;
   b.setAttribute('data-locale', entry.code);
   b.setAttribute('lang', entry.code);
-  b.setAttribute('dir', entry.dir);
   // The language's own name only, no flag (i18n-retrofit-spec.md section 1).
+  // The row is laid out in the page's direction, so every row starts on the
+  // same side (section 8.1); each name runs in its own script's direction
+  // (dir="auto"), so العربية reads right to left on an English page and
+  // "English" left to right on an Arabic one.
   const label = document.createElement('span');
   label.className = 'lang-label';
-  label.textContent = text;
+  const name = document.createElement('span');
+  name.className = 'lang-own';
+  name.dir = 'auto';
+  name.textContent = text;
+  label.appendChild(name);
   const check = document.createElement('span');
   check.className = 'lang-check';
   check.setAttribute('aria-hidden', 'true');
@@ -109,7 +133,7 @@ function buildFamily(fam) {
   item.appendChild(row);
 
   const first = fam.entries[0];
-  const head = optionButton(first, 'lang-option lang-head', fam.multi ? fam.name : first.name);
+  const head = optionButton(first, 'lang-option lang-head', fam.label);
   head.setAttribute('data-family', fam.lang);
   row.appendChild(head);
   const built = { ...fam, item, row, head, toggle: null, panel: null, variants: [] };
@@ -122,6 +146,7 @@ function buildFamily(fam) {
   // The variant this row stands for is shown after the family name.
   const hint = document.createElement('span');
   hint.className = 'lang-variant';
+  hint.dir = 'auto';
   // The space keeps the accessible name "English UK", not "EnglishUK".
   head.querySelector('.lang-label').append(' ', hint);
 
@@ -239,7 +264,6 @@ function syncSelection() {
     const pick = fam.entries.find((e) => e.code === preferred(fam));
     fam.head.setAttribute('data-locale', pick.code);
     fam.head.setAttribute('lang', pick.code);
-    fam.head.setAttribute('dir', pick.dir);
     fam.head.querySelector('.lang-variant').textContent = variantLabel(pick);
     fam.toggle.setAttribute('aria-label', t('language.variants', { language: fam.name }));
     for (const v of fam.variants) setCurrent(v.button, v.entry.code === active);
@@ -363,7 +387,7 @@ function filter() {
     if (matches > 0) showing += 1;
     order.push({ fam, score: best });
   }
-  // Best fit first, registry order within each; an empty query restores it.
+  // Best fit first, alphabetical within each; an empty query restores it.
   order.sort((a, b) => a.score - b.score || a.fam.index - b.fam.index);
   // Rows move only when the order changes: moving a focused row drops focus.
   const moved = order.some(({ fam }, n) => list.children[n] !== fam.item);

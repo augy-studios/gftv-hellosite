@@ -13,7 +13,17 @@
 // Every language not written in Latin letters also has a romanised variant,
 // tagged with the Latn script (ja-Latn, ko-Latn-KR, ru-Latn ...), named
 // "<its name in Latin letters> (Romanised)", which shares its row in the
-// dialog. Arabic (ar-Latn, Arabizi) is here only in Latin letters.
+// dialog. Arabic has Arabizi (ar-Latn) as its romanised variant.
+//
+// Malay also comes in Jawi, its Arabic-script spelling (ms-Arab), which
+// shares the Bahasa Melayu row. Arabic and Jawi are written right to left
+// (dir: 'rtl'); js/text-dir.js lists them too, to set the direction before
+// first paint, so keep the two in step.
+//
+// The dialog lists languages in alphabetical order of their names (see
+// groupLocales in switcher.js), so the order here only
+// matters within a language: its first variant is the main one, listed first
+// in its dropdown and picked when nothing else decides.
 //
 // `name` is each language's name in that language. Regional variants keep the
 // region in brackets at the end ("中文（大陆）", "Español (México)"): the
@@ -38,6 +48,7 @@ import zhTW from './zh-TW.json' with { type: 'json' };
 import zhHK from './zh-HK.json' with { type: 'json' };
 import zhLatn from './zh-Latn.json' with { type: 'json' };
 import ms from './ms.json' with { type: 'json' };
+import msArab from './ms-Arab.json' with { type: 'json' };
 import ta from './ta.json' with { type: 'json' };
 import taLatn from './ta-Latn.json' with { type: 'json' };
 import id from './id.json' with { type: 'json' };
@@ -60,6 +71,7 @@ import loLatn from './lo-Latn.json' with { type: 'json' };
 import vi from './vi.json' with { type: 'json' };
 import tl from './tl.json' with { type: 'json' };
 import tet from './tet.json' with { type: 'json' };
+import ar from './ar.json' with { type: 'json' };
 import arLatn from './ar-Latn.json' with { type: 'json' };
 import koKR from './ko-KR.json' with { type: 'json' };
 import koKP from './ko-KP.json' with { type: 'json' };
@@ -110,6 +122,7 @@ export const locales = {
   'zh-HK': zhHK,
   'zh-Latn': zhLatn,
   'ms': ms,
+  'ms-Arab': msArab,
   'ta': ta,
   'ta-Latn': taLatn,
   'id': id,
@@ -132,6 +145,7 @@ export const locales = {
   'vi': vi,
   'tl': tl,
   'tet': tet,
+  'ar': ar,
   'ar-Latn': arLatn,
   'ko-KR': koKR,
   'ko-KP': koKP,
@@ -180,7 +194,8 @@ export const registry = [
   { code: 'zh-TW', name: '中文（台灣）', dir: 'ltr', en: ['Chinese', 'Traditional Chinese', 'Mandarin'] },
   { code: 'zh-HK', name: '中文（香港）', dir: 'ltr', en: ['Chinese', 'Traditional Chinese'] },
   { code: 'zh-Latn', name: 'Zhōngwén (Romanised)', dir: 'ltr', en: ['Chinese', 'Pinyin', 'Hanyu Pinyin', 'Mandarin', 'Romanised Chinese', 'Romanized Chinese'], regions: ['CN', 'SG', 'TW', 'HK'] },
-  { code: 'ms', name: 'Bahasa Melayu', dir: 'ltr', en: 'Malay', regions: ['MY', 'BN', 'SG'] },
+  { code: 'ms', name: 'Bahasa Melayu', dir: 'ltr', en: ['Malay', 'Rumi'], regions: ['MY', 'BN', 'SG'] },
+  { code: 'ms-Arab', name: 'بهاس ملايو (جاوي)', dir: 'rtl', en: ['Malay', 'Jawi', 'Malay in Jawi', 'Jawi script'], regions: ['MY', 'BN', 'SG', 'ID', 'TH'] },
   { code: 'ta', name: 'தமிழ்', dir: 'ltr', en: 'Tamil', regions: ['IN', 'LK', 'SG', 'MY'] },
   { code: 'ta-Latn', name: 'Tamil (Romanised)', dir: 'ltr', en: ['Tamil', 'Tanglish', 'Romanised Tamil', 'Romanized Tamil'], regions: ['IN', 'LK', 'SG', 'MY'] },
   { code: 'id', name: 'Bahasa Indonesia', dir: 'ltr', en: 'Indonesian' },
@@ -203,6 +218,7 @@ export const registry = [
   { code: 'vi', name: 'Tiếng Việt', dir: 'ltr', en: 'Vietnamese' },
   { code: 'tl', name: 'Tagalog', dir: 'ltr', en: ['Tagalog', 'Filipino'] },
   { code: 'tet', name: 'Tetun', dir: 'ltr', en: ['Tetum', 'Tetun', 'East Timor'] },
+  { code: 'ar', name: 'العربية', dir: 'rtl', en: ['Arabic', 'Modern Standard Arabic', 'MSA', 'Fusha'], regions: ['SA', 'EG', 'AE', 'JO', 'LB', 'SY', 'IQ', 'KW', 'QA', 'BH', 'OM', 'YE', 'PS', 'MA', 'DZ', 'TN', 'LY', 'SD'] },
   { code: 'ar-Latn', name: 'Arabi (Romanised)', dir: 'ltr', en: ['Arabic', 'Arabizi', 'Franco-Arabic', 'Arabish', 'Romanised Arabic', 'Romanized Arabic'], regions: ['SA', 'EG', 'AE', 'JO', 'LB', 'SY', 'IQ', 'KW', 'QA', 'BH', 'OM', 'YE', 'PS', 'MA', 'DZ', 'TN', 'LY', 'SD'] },
   { code: 'ko-KR', name: '한국어 (대한민국)', dir: 'ltr', en: ['Korean', 'South Korean'] },
   { code: 'ko-KP', name: '조선말 (조선)', dir: 'ltr', en: ['Korean', 'North Korean'] },
