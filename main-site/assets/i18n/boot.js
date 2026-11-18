@@ -3,8 +3,8 @@
 // same module URL and so runs once. Module scripts are deferred, so the DOM
 // is parsed when init runs and applyTo finds every binding on the first pass.
 import { init } from './i18n.js';
-import { locales, registry } from './locales.js';
+import { DEFAULT_LOCALE, locales, registry } from './locales.js';
 import { mountSwitcher } from './switcher.js';
 
-init({ locales, registry });
+init({ locales, registry, defaultLocale: DEFAULT_LOCALE });
 mountSwitcher(document.querySelector('[data-language-switcher]'));

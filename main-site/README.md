@@ -158,9 +158,9 @@ Say Simplified Chinese, `zh`:
 2. **Register it in `assets/i18n/locales.js`**, three lines:
    ```js
    import zh from './zh.json' with { type: 'json' };
-   export const locales = { en, zh };
+   export const locales = { 'en-GB': en, zh };
    export const registry = [
-     { code: 'en', name: 'English', dir: 'ltr' },
+     { code: 'en-GB', name: 'English', dir: 'ltr' },
      { code: 'zh', name: '中文', dir: 'ltr' },
    ];
    ```
@@ -180,7 +180,10 @@ Say Simplified Chinese, `zh`:
    theme dialog. Reload, and it should stay picked.
 
 A reader's language is chosen the first time they visit from their browser's
-language, if the site has it, and English otherwise. After they pick one with
+language, if the site has it, and English otherwise. The site's English is
+British English, tagged `en-GB` (in `locales.js`, `<html lang>` on both pages
+and the manifest); its words are still in `en.json`, and a browser asking for
+any other English gets it. After they pick one with
 the button, their choice is kept.
 
 **Right-to-left languages.** The layout is written for left-to-right. Before
