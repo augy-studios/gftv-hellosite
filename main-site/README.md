@@ -119,7 +119,7 @@ switches to that layout.
   text colour softened towards the page background, so they sit behind the
   words. The only fixed colours are the card's printed ink and the ramen,
   which are objects rather than interface.
-- **Every word the reader sees comes from `assets/i18n/en.json`.** A new
+- **Every word the reader sees comes from `assets/i18n/en-GB.json`.** A new
   sentence on the page gets a key there (and in every other language file),
   and the element gets `data-i18n="the.key"`, or `t('the.key')` in a script.
   See Languages below.
@@ -134,16 +134,17 @@ setup is the one the GFTV sister sites use, from `../docs/i18n-retrofit-spec.md`
 
 | File | What it is | Edit it when |
 | --- | --- | --- |
-| `assets/i18n/en.json` | Every word on the site in English, one key each: `"hero.title": "You found a HelloSpot!"`. The source every other language copies. | You change wording, or add a sentence. |
+| `assets/i18n/en-GB.json` | Every word on the site in English, one key each: `"hero.title": "You found a HelloSpot!"`. The source every other language copies. | You change wording, or add a sentence. |
 | `assets/i18n/<code>.json` | The same keys in another language (`zh.json`, `ms.json` and so on). None yet. | You add or update a language. |
 | `assets/i18n/locales.js` | The list of languages: which files to load, each language's own name and its writing direction. | You add a language (three lines). |
 | `sw.js` | The service worker. Its `PRECACHE` list must include every language file, and `VERSION` goes up by one on every change. | You add a language or change any wording. |
 | `index.html`, `404.html` | The pages. Each element with words has `data-i18n="key"` (or `data-i18n-attr="alt:key"` for an attribute), with the English still in place as a fallback. | You add a new element with words. |
-| `assets/i18n/check-keys.js` | Checks every language file against `en.json`: missing or extra keys, broken `{placeholders}`, empty values. | Run it after any change (below). |
+| `assets/i18n/check-keys.js` | Checks every language file against `en-GB.json`: missing or extra keys, broken `{placeholders}`, empty values. | Run it after any change (below). |
 | `assets/i18n/i18n.js`, `switcher.js`, `boot.js` | The runtime and the language button. Shared with the sister sites. | Never, normally. |
 
-The words that scripts write are in `en.json` too: the official bar
-(`official.*`), the update bar (`update.*`) and the theme dialog (`theme.*`).
+The words that scripts write are in `en-GB.json` too: the official bar
+(`official.*`), the update bar (`update.*`), the theme dialog (`theme.*`)
+and the language dialog (`language.*`).
 The photo captions in `photos.json` are event names and stay as they are in
 every language.
 
@@ -151,7 +152,7 @@ every language.
 
 Say Simplified Chinese, `zh`:
 
-1. **Copy `assets/i18n/en.json` to `assets/i18n/zh.json`** and translate the
+1. **Copy `assets/i18n/en-GB.json` to `assets/i18n/zh.json`** and translate the
    values only. Keep every key exactly as it is, and keep anything in braces,
    like `{mode}` or `{language}`, untranslated: it is filled in when the page
    runs. Brand names (GFTV, HelloSpot, HelloSmile, Takagi) stay as they are.
@@ -160,14 +161,14 @@ Say Simplified Chinese, `zh`:
    import zh from './zh.json' with { type: 'json' };
    export const locales = { 'en-GB': en, zh };
    export const registry = [
-     { code: 'en-GB', name: 'English', dir: 'ltr' },
+     { code: 'en-GB', name: 'English (UK)', dir: 'ltr' },
      { code: 'zh', name: '中文', dir: 'ltr' },
    ];
    ```
    `name` is the language's name in that language. `dir` is `rtl` for a
    right-to-left language such as Arabic (see the note below).
 3. **Add it to the service worker**: in `sw.js`, add `'/assets/i18n/zh.json',`
-   to the `PRECACHE` list beside `en.json`, and raise `VERSION` by one.
+   to the `PRECACHE` list beside `en-GB.json`, and raise `VERSION` by one.
 4. **Check it**, from `main-site/`:
    ```sh
    node assets/i18n/check-keys.js
@@ -179,12 +180,32 @@ Say Simplified Chinese, `zh`:
    down the page, including the "How to identify" panel at the top and the
    theme dialog. Reload, and it should stay picked.
 
-A reader's language is chosen the first time they visit from their browser's
-language, if the site has it, and English otherwise. The site's English is
-British English, tagged `en-GB` (in `locales.js`, `<html lang>` on both pages
-and the manifest); its words are still in `en.json`, and a browser asking for
-any other English gets it. After they pick one with
-the button, their choice is kept.
+A reader's language is chosen the first time they visit from their device's
+languages, in the device's order of preference: the exact code (`pt-BR`), then
+the base language (`pt`), then the closest site language sharing that base:
+`en-US` gets `en-GB`, and `zh-TW` gets `zh-SG` (or, if the site also had it,
+`zh-HK`, since both are Traditional Chinese; the same writing system counts
+first, then the same region). If the site has none of them, it is British
+English, `en-GB`
+(in `locales.js`, `<html lang>` on both pages and the manifest), whose words
+are in `en-GB.json`; a device asking for any other English gets it too. After
+they pick one with the button, their choice is kept.
+
+The language dialog has a search box. It matches any part of a language's own
+name, its name in the page's current language and in English (from the
+browser, so "chinese" finds 中文), or its code (`en-gb`, `en_gb`, `gb`),
+ignoring case and accents. Every word typed must match. Enter picks the first
+row left; Escape clears the search, then closes.
+
+**Regional variants.** Languages that share a base code (`en-GB` and `en-US`,
+`zh-SG` and `zh-TW`) get one row, "English UK", with a dropdown button at its
+far end listing each variant. Tapping the row itself picks the variant in use,
+or else the one closest to the reader's device. Nothing extra is needed to set
+this up: add the variant to `locales.js` as a language of its own, with its
+region in brackets at the end of its `name` (`English (US)`,
+`中文（台灣）`). The bracketed part is what the row shows after the language
+name. A search that matches only some variants ("us") opens the dropdown on
+just those. With the keyboard, → opens a row's variants and ← closes them.
 
 **Right-to-left languages.** The layout is written for left-to-right. Before
 the first right-to-left language goes live, the stylesheet's `left` and
@@ -192,7 +213,7 @@ the first right-to-left language goes live, the stylesheet's `left` and
 
 ### Changing the wording
 
-Edit the value in `en.json` (and the same key in each other language file),
+Edit the value in `en-GB.json` (and the same key in each other language file),
 leave the key as it is, raise `VERSION` in `sw.js`, and run `check-keys.js`.
 The English inside the HTML is only a fallback for the moment before the
-language file loads; keep it in step with `en.json` so the two do not drift.
+language file loads; keep it in step with `en-GB.json` so the two do not drift.

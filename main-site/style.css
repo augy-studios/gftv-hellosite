@@ -589,29 +589,85 @@ body { display: flex; flex-direction: column; min-height: 100dvh; }
   .lang-btn .lang-name { display: none; }
   .lang-btn .lang-code { display: inline; }
 }
-.lang-list { list-style: none; display: grid; gap: 0.4rem; margin-top: 0.25rem; }
+.lang-search { position: relative; margin: 0.5rem 0 0.75rem; }
+.lang-search svg {
+  position: absolute;
+  inset-inline-start: 0.85rem;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+.lang-search input {
+  width: 100%;
+  min-height: 48px;
+  padding-block: 0.5rem;
+  padding-inline: 2.6rem 0.85rem;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transition: border-color var(--motion) ease;
+}
+.lang-search input::placeholder { color: var(--text-muted); opacity: 1; }
+.lang-search input:focus-visible { border-color: var(--focus-ring); }
+.lang-list,
+.lang-variants { list-style: none; display: grid; gap: 0.4rem; }
+.lang-list { margin-top: 0.25rem; }
+.lang-list [hidden] { display: none; }
+.lang-empty { margin-top: 0.75rem; color: var(--text-muted); }
+.lang-empty:empty { display: none; }
+/* One bordered row per language. A language with regional variants has a
+   dropdown button at the row's far end, and its variants listed below. */
+.lang-row,
+.lang-sub {
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transition: background-color var(--motion) ease, border-color var(--motion) ease;
+}
+.lang-row { display: flex; align-items: stretch; }
+.lang-row.is-current,
+.lang-sub[aria-current="true"] { border-color: var(--focus-ring); background: var(--surface-active); }
 .lang-option {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
+  width: 100%;
+  min-width: 0;
   min-height: 48px;
   padding: 0.5rem 0.85rem;
   border-radius: var(--radius-sm);
-  background: var(--surface);
-  border: 1px solid var(--border);
   font-weight: 600;
   text-align: start;
-  cursor: pointer;
-  transition: background-color var(--motion) ease, border-color var(--motion) ease;
+  transition: background-color var(--motion) ease;
 }
 .lang-option:hover { background: var(--surface-hover); }
-.lang-option[aria-selected="true"] { border-color: var(--focus-ring); background: var(--surface-active); }
-.lang-option .lang-label { display: inline-flex; align-items: center; gap: 0.65rem; min-width: 0; }
-.lang-option .lang-check { visibility: hidden; color: var(--brand-text); }
-.lang-option[aria-selected="true"] .lang-check { visibility: visible; }
+.lang-option .lang-label { display: inline-flex; align-items: baseline; flex-wrap: wrap; gap: 0 0.5rem; min-width: 0; }
+.lang-option .lang-variant { font-weight: 500; color: var(--text-muted); }
+.lang-option .lang-check { flex: none; visibility: hidden; color: var(--brand-text); }
+.lang-option[aria-current="true"] .lang-check { visibility: visible; }
 .lang-option .lang-check svg { width: 18px; height: 18px; }
-.lang-option:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.lang-option:focus-visible,
+.lang-more:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.lang-more {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  border-inline-start: 1px solid var(--border);
+  border-start-end-radius: var(--radius-sm);
+  border-end-end-radius: var(--radius-sm);
+  color: var(--text-muted-strong);
+  transition: background-color var(--motion) ease, color var(--motion) ease;
+}
+.lang-more:hover { background: var(--surface-hover); color: var(--text); }
+.lang-more svg { width: 18px; height: 18px; transition: transform var(--motion) ease; }
+.lang-more[aria-expanded="true"] svg { transform: rotate(180deg); }
+.lang-variants { margin-top: 0.4rem; padding-inline-start: 1rem; }
 .lang-close { margin-top: 1rem; }
 @media (max-width: 480px) {
   /* A bottom sheet on a phone, per 8.2. */

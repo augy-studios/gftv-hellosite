@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 // assets/i18n/check-keys.js
-// node assets/i18n/check-keys.js          compare every locale with en.json
+// node assets/i18n/check-keys.js          compare every locale with en-GB.json
 // node assets/i18n/check-keys.js --scan   also check keys used in HTML and JS
 //
 // Section 11.2 of i18n-retrofit-spec.md. Exits non-zero on missing keys,
 // stale keys, plural families without .other, placeholder mismatches, and
-// (with --scan) keys used in code that en.json does not have. Values
-// identical to English, and en.json keys used nowhere, are listed only.
+// (with --scan) keys used in code that en-GB.json does not have. Values
+// identical to English, and en-GB.json keys used nowhere, are listed only.
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, dirname, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -18,26 +18,26 @@ const read = (file) => JSON.parse(readFileSync(join(here, file), 'utf8'));
 const placeholders = (s) => [...String(s).matchAll(/\{(\w+)\}/g)].map((m) => m[1]).sort().join(',');
 const base = (k) => k.replace(PLURAL, '');
 
-const en = read('en.json');
+const en = read('en-GB.json');
 let errors = 0;
 const fail = (msg) => { errors += 1; console.log(`  error  ${msg}`); };
 const info = (msg) => console.log(`  note   ${msg}`);
 
 for (const [key, value] of Object.entries(en)) {
-  if (typeof value !== 'string') fail(`en.json ${key} is not a string`);
-  else if (value === '') fail(`en.json ${key} is empty`);
+  if (typeof value !== 'string') fail(`en-GB.json ${key} is not a string`);
+  else if (value === '') fail(`en-GB.json ${key} is empty`);
 }
 const enBases = new Set(Object.keys(en).map(base));
 for (const b of enBases) {
-  if (Object.keys(en).some((k) => PLURAL.test(k) && base(k) === b) && !(`${b}.other` in en)) fail(`en.json plural ${b} has no .other`);
+  if (Object.keys(en).some((k) => PLURAL.test(k) && base(k) === b) && !(`${b}.other` in en)) fail(`en-GB.json plural ${b} has no .other`);
 }
 
-for (const file of readdirSync(here).filter((f) => f.endsWith('.json') && f !== 'en.json')) {
+for (const file of readdirSync(here).filter((f) => f.endsWith('.json') && f !== 'en-GB.json')) {
   console.log(`${file}`);
   const loc = read(file);
   const locBases = new Set(Object.keys(loc).map(base));
   for (const b of enBases) if (!locBases.has(b)) fail(`missing ${b}`);
-  for (const b of locBases) if (!enBases.has(b)) fail(`not in en.json: ${b}`);
+  for (const b of locBases) if (!enBases.has(b)) fail(`not in en-GB.json: ${b}`);
   for (const b of locBases) {
     const family = Object.keys(loc).filter((k) => PLURAL.test(k) && base(k) === b);
     if (family.length && !(`${b}.other` in loc)) fail(`plural ${b} has no .other`);
@@ -76,13 +76,13 @@ if (process.argv.includes('--scan')) {
     for (const m of text.matchAll(/i18n:\s*'([^']+)'/g)) used.add(m[1]);
     for (const m of text.matchAll(/['"]([a-z0-9-]+(?:\.[a-z0-9-]+)+)['"]/g)) mentioned.add(m[1]);
   }
-  for (const key of used) if (!enBases.has(key) && !(key in en)) fail(`used but not in en.json: ${key}`);
+  for (const key of used) if (!enBases.has(key) && !(key in en)) fail(`used but not in en-GB.json: ${key}`);
   // Keys reached through a template (error.${code}, theme.mode.${mode} and so
   // on) cannot be checked statically; list their prefixes so an unused-key
   // report does not flag them.
   const prefixes = [...new Set(dynamic.map((d) => d.split('${')[0]))].filter(Boolean);
   for (const key of enBases) {
-    if (!used.has(key) && !mentioned.has(key) && !prefixes.some((p) => key.startsWith(p))) info(`in en.json but not found in code: ${key}`);
+    if (!used.has(key) && !mentioned.has(key) && !prefixes.some((p) => key.startsWith(p))) info(`in en-GB.json but not found in code: ${key}`);
   }
   info(`dynamic prefixes: ${prefixes.join(' ')}`);
 }

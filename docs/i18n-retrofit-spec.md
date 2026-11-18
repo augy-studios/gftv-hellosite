@@ -157,7 +157,10 @@ Resolution order on `init`:
 1. `localStorage[storageKey]`, if it names a locale in the registry.
 2. Each entry of `navigator.languages` in order. For each: exact match
    (`pt-br`), then base language match (`pt-br` → `pt`), against registry codes
-   compared case-insensitively.
+   compared case-insensitively, then the closest registry code sharing that
+   base language (`en-us` → `en-GB`, `zh-tw` → `zh-SG`), preferring the same
+   script, then the same region (by `Intl.Locale.maximize()`). The first device
+   language with any match wins, so `en-US, fr` gives `en-GB`, not `fr`.
 3. `defaultLocale`.
 
 `setLocale` writes the code to `localStorage`. Every storage read and write
@@ -236,6 +239,15 @@ A single control that opens the modal.
 Rows come from `getLocales()` in registry order. Each row shows the native
 name only, left-aligned in LTR locales and right-aligned in RTL, and its own
 `lang` attribute set to its code so screen readers pronounce it correctly.
+
+**GFTV HelloSpot variation.** HelloSpot adds a search box above the list, and
+groups registry entries that share a base language (`en-GB`, `en-US`) into one
+row with a dropdown button at its far end listing the variants. A listbox
+option cannot contain a button, so there the list is a plain `<ul>` of
+`<button>`s with `aria-current="true"` on the active language, and the
+dropdown button carries `aria-expanded` and `aria-controls`. Arrow keys,
+Home/End and typeahead still move between rows; → and ← open and close a row's
+variants. See `main-site/README.md`, Languages.
 
 ### 8.2 Behaviour
 

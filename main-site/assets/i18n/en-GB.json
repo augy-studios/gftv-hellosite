@@ -96,6 +96,10 @@
   "theme.swatch.hello": "Hello",
 
   "language.modal.title": "Choose a language",
+  "language.search.label": "Search languages by name or code",
+  "language.search.placeholder": "Search, e.g. English or en-GB",
+  "language.search.empty": "No language matches “{query}”.",
+  "language.variants": "Regional variants of {language}",
   "a11y.language-switcher": "Change language, current: {language}",
   "common.close": "Close"
 }

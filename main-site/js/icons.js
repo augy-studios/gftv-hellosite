@@ -23,6 +23,8 @@ const PATHS = {
   video: '<rect x="2" y="5" width="15" height="14" rx="2"/><path d="M23 7l-6 5 6 5V7z"/>',
   info: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>',
   check: '<path d="M20 6L9 17l-5-5"/>',
+  search: '<circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>',
+  'chevron-down': '<path d="M6 9l6 6 6-6"/>',
 };
 
 export function icon(name) {
