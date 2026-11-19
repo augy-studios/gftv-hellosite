@@ -2,8 +2,10 @@
 
 The GFTV HelloSpot website, served at hello.globalfurry.tv. It is static HTML,
 CSS and ES modules with no build step. Three.js is vendored in
-`js/vendor/three.module.min.js` (r169, MIT, licence beside it), so the site
-loads nothing from a third-party host except Google Analytics.
+`js/vendor/three.module.min.js` (r169, MIT, licence beside it), and the QR
+encoder in `js/vendor/qrcode.module.js` (qrcode-generator 2.0.4, MIT, licence
+beside it), so the site loads nothing from a third-party host except Google
+Analytics.
 
 ## The page
 
@@ -91,7 +93,8 @@ switches to that layout.
 | `js/scene/paint.js` | The smudge on the line. |
 | `js/blob-images.js` | Shows pictures through `blob:` URLs, for the page and the 3D scene. |
 | `assets/i18n/` | The words of the site in each language, and the code that swaps them. See Languages below. |
-| `js/chrome.js` | What every page shares: theme, icons, pictures, dialogs, the update bar, the sticky header. |
+| `js/chrome.js` | What every page shares: theme, icons, pictures, dialogs, the update bar, the sticky header, the share dialog. |
+| `js/share.js` | The "Share the page" button in the footer and its dialog: a QR code for hello.globalfurry.tv with the app icon (`HSP-512.png`) in the middle, to download, copy or share. Drawn like the GFTV Redirects Portal's QR codes: high error correction so the icon can cover the middle, dark on light in every theme (`--qr-bg`, `--qr-fg` in section 1 of `style.css`). It always encodes the live site's address, whichever address the page was opened at. |
 | `js/app.js` | The home page: the chrome, the photo list, and starting the scene. |
 | `js/scene/` | The 3D scene. `main.js` explains how scene units map to page pixels; there is one module per part (card, smile, smile line, photo ring, bowl). `card.js` holds the hero's timeline. |
 | `js/scene/smile-shape.js` | The card's smile, measured from the artwork. Re-measure it if the card's front changes; the comment says how. |
@@ -151,8 +154,8 @@ setup is the one the GFTV sister sites use, from `../docs/i18n-retrofit-spec.md`
 | `assets/i18n/i18n.js`, `switcher.js`, `boot.js` | The runtime and the language button. Shared with the sister sites. | Never, normally. |
 
 The words that scripts write are in `en-GB.json` too: the official bar
-(`official.*`), the update bar (`update.*`), the theme dialog (`theme.*`)
-and the language dialog (`language.*`).
+(`official.*`), the update bar (`update.*`), the theme dialog (`theme.*`),
+the share dialog (`share.*`) and the language dialog (`language.*`).
 The photo captions in `photos.json` are event names and stay as they are in
 every language.
 

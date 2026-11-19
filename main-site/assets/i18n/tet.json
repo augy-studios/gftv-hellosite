@@ -84,6 +84,16 @@
   "footer.by": "husi Global Furry Television",
   "footer.rights": "Direitu hotu reservadu.",
 
+  "share.title": "Fahe pájina",
+  "share.hint": "Eskaneia kódigu ho kámara telemóvel nian hodi loke pájina ida-ne'e.",
+  "share.qr-alt": "Kódigu QR ba {url}",
+  "share.download": "Hatun",
+  "share.copy": "Kopia",
+  "share.share": "Fahe",
+  "share.copied": "Kódigu QR kopia ona.",
+  "share.link-copied": "Ligasaun kopia ona.",
+  "share.failed": "Ida-ne'e la la'o iha navegadór ida-ne'e.",
+
   "theme.title": "Tema",
   "theme.button": "Tema, modu {mode}",
   "theme.mode-label": "Modu",

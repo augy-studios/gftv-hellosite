@@ -84,6 +84,16 @@
   "footer.by": "· 国际兽视呈献",
   "footer.rights": "版权所有。",
 
+  "share.title": "分享这个页面",
+  "share.hint": "用手机相机扫描二维码，就能打开这个页面。",
+  "share.qr-alt": "{url} 的二维码",
+  "share.download": "下载",
+  "share.copy": "复制",
+  "share.share": "分享",
+  "share.copied": "二维码已复制。",
+  "share.link-copied": "链接已复制。",
+  "share.failed": "这个浏览器无法完成这个操作。",
+
   "theme.title": "主题",
   "theme.button": "主题：{mode}模式",
   "theme.mode-label": "模式",

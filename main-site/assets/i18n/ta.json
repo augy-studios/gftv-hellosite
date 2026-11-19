@@ -84,6 +84,16 @@
   "footer.by": "· Global Furry Television",
   "footer.rights": "அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.",
 
+  "share.title": "பக்கத்தைப் பகிர்",
+  "share.hint": "இந்தப் பக்கத்தைத் திறக்க, தொலைபேசி கேமராவால் குறியீட்டை ஸ்கேன் செய்யவும்.",
+  "share.qr-alt": "{url}-க்கான QR குறியீடு",
+  "share.download": "பதிவிறக்கு",
+  "share.copy": "நகலெடு",
+  "share.share": "பகிர்",
+  "share.copied": "QR குறியீடு நகலெடுக்கப்பட்டது.",
+  "share.link-copied": "இணைப்பு நகலெடுக்கப்பட்டது.",
+  "share.failed": "இந்த உலாவியில் இது வேலை செய்யவில்லை.",
+
   "theme.title": "தீம்",
   "theme.button": "தீம்: {mode} பயன்முறை",
   "theme.mode-label": "பயன்முறை",

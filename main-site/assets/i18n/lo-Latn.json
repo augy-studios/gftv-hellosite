@@ -84,6 +84,16 @@
   "footer.by": "Doy Global Furry Television",
   "footer.rights": "Sanguan likhasit.",
 
+  "share.title": "Baeng pan na ni",
+  "share.hint": "Sakaen lahat duay kong thai hup khong tholasap pheua poet na ni.",
+  "share.qr-alt": "Lahat QR samlap {url}",
+  "share.download": "Daolot",
+  "share.copy": "Samnao",
+  "share.share": "Baeng pan",
+  "share.copied": "Samnao lahat QR laeo.",
+  "share.link-copied": "Samnao ling laeo.",
+  "share.failed": "Bo samlet nai brausoe ni.",
+
   "theme.title": "Thim",
   "theme.button": "Thim, mot {mode}",
   "theme.mode-label": "Mot",

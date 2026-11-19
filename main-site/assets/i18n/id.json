@@ -84,6 +84,16 @@
   "footer.by": "oleh Global Furry Television",
   "footer.rights": "Hak cipta dilindungi.",
 
+  "share.title": "Bagikan halaman",
+  "share.hint": "Pindai kode dengan kamera ponsel untuk membuka halaman ini.",
+  "share.qr-alt": "Kode QR untuk {url}",
+  "share.download": "Unduh",
+  "share.copy": "Salin",
+  "share.share": "Bagikan",
+  "share.copied": "Kode QR disalin.",
+  "share.link-copied": "Tautan disalin.",
+  "share.failed": "Itu tidak berhasil di browser ini.",
+
   "theme.title": "Tema",
   "theme.button": "Tema, mode {mode}",
   "theme.mode-label": "Mode",

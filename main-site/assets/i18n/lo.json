@@ -84,6 +84,16 @@
   "footer.by": "ໂດຍ Global Furry Television",
   "footer.rights": "ສະຫງວນລິຂະສິດ.",
 
+  "share.title": "ແບ່ງປັນໜ້ານີ້",
+  "share.hint": "ສະແກນລະຫັດດ້ວຍກ້ອງຖ່າຍຮູບຂອງໂທລະສັບເພື່ອເປີດໜ້ານີ້.",
+  "share.qr-alt": "ລະຫັດ QR ສຳລັບ {url}",
+  "share.download": "ດາວໂຫຼດ",
+  "share.copy": "ສຳເນົາ",
+  "share.share": "ແບ່ງປັນ",
+  "share.copied": "ສຳເນົາລະຫັດ QR ແລ້ວ.",
+  "share.link-copied": "ສຳເນົາລິ້ງແລ້ວ.",
+  "share.failed": "ບໍ່ສຳເລັດໃນບຣາວເຊີນີ້.",
+
   "theme.title": "ທີມ",
   "theme.button": "ທີມ, ໂໝດ{mode}",
   "theme.mode-label": "ໂໝດ",

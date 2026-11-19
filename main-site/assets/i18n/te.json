@@ -84,6 +84,16 @@
   "footer.by": "· రూపకర్త: Global Furry Television",
   "footer.rights": "అన్ని హక్కులూ ప్రత్యేకించబడ్డాయి.",
 
+  "share.title": "పేజీని షేర్ చేయండి",
+  "share.hint": "ఈ పేజీని తెరవడానికి ఫోన్ కెమెరాతో కోడ్‌ను స్కాన్ చేయండి.",
+  "share.qr-alt": "{url} కోసం QR కోడ్",
+  "share.download": "డౌన్‌లోడ్",
+  "share.copy": "కాపీ",
+  "share.share": "షేర్",
+  "share.copied": "QR కోడ్ కాపీ అయింది.",
+  "share.link-copied": "లింక్ కాపీ అయింది.",
+  "share.failed": "ఈ బ్రౌజర్‌లో ఇది పని చేయలేదు.",
+
   "theme.title": "థీమ్",
   "theme.button": "థీమ్: {mode} మోడ్",
   "theme.mode-label": "మోడ్",

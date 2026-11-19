@@ -84,6 +84,16 @@
   "footer.by": "· 制作：グローバル・ファーリー・テレビジョン",
   "footer.rights": "無断転載を禁じます。",
 
+  "share.title": "ページを共有",
+  "share.hint": "スマートフォンのカメラでコードを読み取ると、このページが開きます。",
+  "share.qr-alt": "{url} の QR コード",
+  "share.download": "ダウンロード",
+  "share.copy": "コピー",
+  "share.share": "共有",
+  "share.copied": "QR コードをコピーしました。",
+  "share.link-copied": "リンクをコピーしました。",
+  "share.failed": "このブラウザではうまくいきませんでした。",
+
   "theme.title": "テーマ",
   "theme.button": "テーマ：{mode}モード",
   "theme.mode-label": "モード",

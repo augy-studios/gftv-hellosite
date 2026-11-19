@@ -84,6 +84,16 @@
   "footer.by": "Doi Global Furry Television",
   "footer.rights": "Sa-nguan likkhasit",
 
+  "share.title": "Chae na ni",
+  "share.hint": "Sakaen khot duai klong thorasap phuea poet na ni",
+  "share.qr-alt": "QR khot samrap {url}",
+  "share.download": "Daonlot",
+  "share.copy": "Khatlok",
+  "share.share": "Chae",
+  "share.copied": "Khatlok QR khot laeo",
+  "share.link-copied": "Khatlok link laeo",
+  "share.failed": "Chai mai dai nai braosoe ni",
+
   "theme.title": "Thim",
   "theme.button": "Thim, mot {mode}",
   "theme.mode-label": "Mot",

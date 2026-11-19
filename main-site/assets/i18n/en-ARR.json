@@ -84,6 +84,16 @@
   "footer.by": "by the crew o' Global Furry Television",
   "footer.rights": "All plunder reserved.",
 
+  "share.title": "Spread the word",
+  "share.hint": "Point a phone's spyglass at the code t' find this page.",
+  "share.qr-alt": "Treasure code fer {url}",
+  "share.download": "Haul it aboard",
+  "share.copy": "Copy",
+  "share.share": "Pass it 'round",
+  "share.copied": "Treasure code copied, arr!",
+  "share.link-copied": "Link copied, arr!",
+  "share.failed": "That be not workin' in this browser.",
+
   "theme.title": "Ship's colours",
   "theme.button": "Ship's colours, {mode} seas",
   "theme.mode-label": "Seas",

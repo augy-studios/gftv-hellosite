@@ -84,6 +84,16 @@
   "footer.by": "командою Global Furry Television",
   "footer.rights": "Усі права захищено.",
 
+  "share.title": "Поділитися сторінкою",
+  "share.hint": "Відскануйте код камерою телефона, щоб відкрити цю сторінку.",
+  "share.qr-alt": "QR-код для {url}",
+  "share.download": "Завантажити",
+  "share.copy": "Копіювати",
+  "share.share": "Поділитися",
+  "share.copied": "QR-код скопійовано.",
+  "share.link-copied": "Посилання скопійовано.",
+  "share.failed": "У цьому браузері не вийшло.",
+
   "theme.title": "Тема",
   "theme.button": "Тема, режим: {mode}",
   "theme.mode-label": "Режим",

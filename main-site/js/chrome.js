@@ -1,5 +1,6 @@
 // The chrome every page shares: theme, icons, pictures (as blob: URLs),
-// dialogs, the update bar, the sticky header and the footer year. Adapted from gftv-helloevents'
+// dialogs, the update bar, the sticky header, the footer year and the
+// footer's share dialog. Adapted from gftv-helloevents'
 // js/app.js. index.html runs it through app.js, which adds the photos and
 // the 3D scene; 404.html through page.js. Its words are in
 // assets/i18n/en.json (theme.*), looked up with t().
@@ -24,6 +25,7 @@ import { openModal, wireModals } from './ui.js';
 import { initUpdateBar } from './update-bar.js';
 import { hydrateBlobImages } from './blob-images.js';
 import { initCardFront } from './card-front.js';
+import { initShare } from './share.js';
 
 // "09:00" for 9.
 function hourLabel(hour) {
@@ -166,5 +168,6 @@ export function initChrome() {
   wireTheme();
   wireStickyHeader();
   wireFooterYear();
+  initShare();
   initUpdateBar();
 }

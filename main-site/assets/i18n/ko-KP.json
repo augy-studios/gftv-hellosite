@@ -84,6 +84,16 @@
   "footer.by": "· 세계수인텔레비죤",
   "footer.rights": "모든 권리 보유.",
 
+  "share.title": "페지 공유",
+  "share.hint": "손전화 사진기로 코드를 읽으면 이 페지가 열립니다.",
+  "share.qr-alt": "{url}의 QR코드",
+  "share.download": "내리적재",
+  "share.copy": "복사",
+  "share.share": "공유",
+  "share.copied": "QR코드를 복사하였습니다.",
+  "share.link-copied": "련결을 복사하였습니다.",
+  "share.failed": "이 열람기에서는 되지 않았습니다.",
+
   "theme.title": "화면주제",
   "theme.button": "화면주제: {mode} 방식",
   "theme.mode-label": "방식",

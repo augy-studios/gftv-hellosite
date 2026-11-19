@@ -84,6 +84,16 @@
   "footer.by": "de Global Furry Television",
   "footer.rights": "Toate drepturile rezervate.",
 
+  "share.title": "Distribuie pagina",
+  "share.hint": "Scanează codul cu camera telefonului ca să deschizi această pagină.",
+  "share.qr-alt": "Cod QR pentru {url}",
+  "share.download": "Descarcă",
+  "share.copy": "Copiază",
+  "share.share": "Distribuie",
+  "share.copied": "Codul QR a fost copiat.",
+  "share.link-copied": "Linkul a fost copiat.",
+  "share.failed": "Nu a mers în acest browser.",
+
   "theme.title": "Temă",
   "theme.button": "Temă, mod: {mode}",
   "theme.mode-label": "Mod",

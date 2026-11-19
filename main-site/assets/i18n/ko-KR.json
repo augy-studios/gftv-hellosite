@@ -84,6 +84,16 @@
   "footer.by": "· 글로벌 퍼리 텔레비전",
   "footer.rights": "모든 권리 보유.",
 
+  "share.title": "페이지 공유",
+  "share.hint": "휴대폰 카메라로 코드를 스캔하면 이 페이지가 열립니다.",
+  "share.qr-alt": "{url} QR 코드",
+  "share.download": "다운로드",
+  "share.copy": "복사",
+  "share.share": "공유",
+  "share.copied": "QR 코드를 복사했습니다.",
+  "share.link-copied": "링크를 복사했습니다.",
+  "share.failed": "이 브라우저에서는 작동하지 않았습니다.",
+
   "theme.title": "테마",
   "theme.button": "테마: {mode} 모드",
   "theme.mode-label": "모드",

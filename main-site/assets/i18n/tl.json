@@ -84,6 +84,16 @@
   "footer.by": "ng Global Furry Television",
   "footer.rights": "Nakalaan ang lahat ng karapatan.",
 
+  "share.title": "Ibahagi ang pahina",
+  "share.hint": "I-scan ang code gamit ang camera ng phone para buksan ang pahinang ito.",
+  "share.qr-alt": "QR code para sa {url}",
+  "share.download": "I-download",
+  "share.copy": "Kopyahin",
+  "share.share": "Ibahagi",
+  "share.copied": "Nakopya na ang QR code.",
+  "share.link-copied": "Nakopya na ang link.",
+  "share.failed": "Hindi ito gumana sa browser na ito.",
+
   "theme.title": "Tema",
   "theme.button": "Tema, {mode} mode",
   "theme.mode-label": "Mode",

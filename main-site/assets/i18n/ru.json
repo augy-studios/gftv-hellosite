@@ -84,6 +84,16 @@
   "footer.by": "командой Глобального фурри-телевидения",
   "footer.rights": "Все права защищены.",
 
+  "share.title": "Поделиться страницей",
+  "share.hint": "Отсканируйте код камерой телефона, чтобы открыть эту страницу.",
+  "share.qr-alt": "QR-код для {url}",
+  "share.download": "Скачать",
+  "share.copy": "Копировать",
+  "share.share": "Поделиться",
+  "share.copied": "QR-код скопирован.",
+  "share.link-copied": "Ссылка скопирована.",
+  "share.failed": "В этом браузере не получилось.",
+
   "theme.title": "Тема",
   "theme.button": "Тема, режим: {mode}",
   "theme.mode-label": "Режим",

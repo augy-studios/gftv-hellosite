@@ -84,6 +84,16 @@
   "footer.by": "– Global Furry Television",
   "footer.rights": "Sva prava pridržana.",
 
+  "share.title": "Podijeli stranicu",
+  "share.hint": "Skenirajte kôd kamerom mobitela da biste otvorili ovu stranicu.",
+  "share.qr-alt": "QR kôd za {url}",
+  "share.download": "Preuzmi",
+  "share.copy": "Kopiraj",
+  "share.share": "Podijeli",
+  "share.copied": "QR kôd je kopiran.",
+  "share.link-copied": "Poveznica je kopirana.",
+  "share.failed": "To nije uspjelo u ovom pregledniku.",
+
   "theme.title": "Tema",
   "theme.button": "Tema, način: {mode}",
   "theme.mode-label": "Način",

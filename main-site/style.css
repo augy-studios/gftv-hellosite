@@ -211,6 +211,10 @@ html[lang="he"] {
 :root[data-mode="light"] { --shape-opacity: 0.3; }
 :root[data-mode="dark"] { --shape-opacity: 0.16; }
 
+/* The share dialog's QR code (js/share.js): dark on light in every theme
+   and mode, because scanners need it that way round. */
+:root { --qr-bg: #ffffff; --qr-fg: #000000; }
+
 /* The light caught by the liquid glass cards (.liquid): the slight shine
    along their edges. Bright on light pages, dimmer on dark ones, where full
    white would glare. */
@@ -750,6 +754,30 @@ body { display: flex; flex-direction: column; min-height: 100dvh; }
 .site-footer svg { display: inline-block; width: 13px; height: 13px; vertical-align: -2px; color: var(--link); }
 .site-footer a { font-weight: 600; }
 .site-footer nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.25rem 1rem; margin-bottom: 0.4rem; }
+.site-footer .footer-share { display: flex; justify-content: center; margin-bottom: 0.6rem; }
+.site-footer .footer-share .btn { font-size: 0.875rem; }
+.site-footer .footer-share svg { width: 16px; height: 16px; vertical-align: 0; color: inherit; }
+
+/* share dialog (js/share.js) */
+.share-url { font-size: 0.875rem; font-weight: 600; color: var(--text-muted); word-break: break-all; }
+.share-qr {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  max-width: 17rem;
+  margin: 0.75rem auto 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--qr-bg);
+}
+.share-qr canvas { display: block; width: 100%; height: auto; }
+/* While the code is drawn: the same shape as the finished picture. */
+.share-qr.skeleton { aspect-ratio: 1 / 1.1; background: var(--surface-active); }
+.share-hint { margin-top: 0.6rem; font-size: 0.875rem; color: var(--text-muted); text-align: center; }
+.share-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-top: 1rem; }
+.share-actions .btn { flex: 1 1 auto; }
+.share-status { min-height: 1.5em; margin-top: 0.5rem; font-size: 0.875rem; color: var(--text-muted); text-align: center; }
+.share-status.error { color: var(--danger); }
 
 /* ---------------------------------------------------------------------- */
 /* 3. The story                                                            */

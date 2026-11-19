@@ -84,6 +84,16 @@
   "footer.by": "– Global Furry Television",
   "footer.rights": "Vse pravice pridržane.",
 
+  "share.title": "Deli stran",
+  "share.hint": "Skenirajte kodo s kamero telefona, da odprete to stran.",
+  "share.qr-alt": "Koda QR za {url}",
+  "share.download": "Prenesi",
+  "share.copy": "Kopiraj",
+  "share.share": "Deli",
+  "share.copied": "Koda QR je kopirana.",
+  "share.link-copied": "Povezava je kopirana.",
+  "share.failed": "To v tem brskalniku ni uspelo.",
+
   "theme.title": "Tema",
   "theme.button": "Tema, način: {mode}",
   "theme.mode-label": "Način",

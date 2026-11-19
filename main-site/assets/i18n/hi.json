@@ -84,6 +84,16 @@
   "footer.by": "· निर्माता: Global Furry Television",
   "footer.rights": "सर्वाधिकार सुरक्षित।",
 
+  "share.title": "पेज शेयर करें",
+  "share.hint": "यह पेज खोलने के लिए फ़ोन के कैमरे से कोड स्कैन करें।",
+  "share.qr-alt": "{url} का QR कोड",
+  "share.download": "डाउनलोड",
+  "share.copy": "कॉपी",
+  "share.share": "शेयर",
+  "share.copied": "QR कोड कॉपी हो गया।",
+  "share.link-copied": "लिंक कॉपी हो गया।",
+  "share.failed": "यह इस ब्राउज़र में नहीं चला।",
+
   "theme.title": "थीम",
   "theme.button": "थीम: {mode} मोड",
   "theme.mode-label": "मोड",

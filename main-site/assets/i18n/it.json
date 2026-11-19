@@ -84,6 +84,16 @@
   "footer.by": "da Global Furry Television",
   "footer.rights": "Tutti i diritti riservati.",
 
+  "share.title": "Condividi la pagina",
+  "share.hint": "Inquadra il codice con la fotocamera del telefono per aprire questa pagina.",
+  "share.qr-alt": "Codice QR per {url}",
+  "share.download": "Scarica",
+  "share.copy": "Copia",
+  "share.share": "Condividi",
+  "share.copied": "Codice QR copiato.",
+  "share.link-copied": "Link copiato.",
+  "share.failed": "Non ha funzionato in questo browser.",
+
   "theme.title": "Tema",
   "theme.button": "Tema, modalità: {mode}",
   "theme.mode-label": "Modalità",

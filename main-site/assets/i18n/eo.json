@@ -84,6 +84,16 @@
   "footer.by": "de Global Furry Television",
   "footer.rights": "Ĉiuj rajtoj rezervitaj.",
 
+  "share.title": "Kunhavigi la paĝon",
+  "share.hint": "Skanu la kodon per telefona fotilo por malfermi ĉi tiun paĝon.",
+  "share.qr-alt": "QR-kodo por {url}",
+  "share.download": "Elŝuti",
+  "share.copy": "Kopii",
+  "share.share": "Kunhavigi",
+  "share.copied": "QR-kodo kopiita.",
+  "share.link-copied": "Ligilo kopiita.",
+  "share.failed": "Tio ne funkciis en ĉi tiu retumilo.",
+
   "theme.title": "Etoso",
   "theme.button": "Etoso, reĝimo: {mode}",
   "theme.mode-label": "Reĝimo",

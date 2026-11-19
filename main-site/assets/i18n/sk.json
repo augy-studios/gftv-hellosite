@@ -84,6 +84,16 @@
   "footer.by": "tímom Global Furry Television",
   "footer.rights": "Všetky práva vyhradené.",
 
+  "share.title": "Zdieľať stránku",
+  "share.hint": "Naskenujte kód fotoaparátom telefónu a otvorte túto stránku.",
+  "share.qr-alt": "QR kód pre {url}",
+  "share.download": "Stiahnuť",
+  "share.copy": "Kopírovať",
+  "share.share": "Zdieľať",
+  "share.copied": "QR kód bol skopírovaný.",
+  "share.link-copied": "Odkaz bol skopírovaný.",
+  "share.failed": "V tomto prehliadači to nefungovalo.",
+
   "theme.title": "Motív",
   "theme.button": "Motív, režim: {mode}",
   "theme.mode-label": "Režim",

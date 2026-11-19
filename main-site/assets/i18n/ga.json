@@ -84,6 +84,16 @@
   "footer.by": "ag Global Furry Television",
   "footer.rights": "Gach ceart ar cosaint.",
 
+  "share.title": "Roinn an leathanach",
+  "share.hint": "Scan an cód le ceamara fóin chun an leathanach seo a oscailt.",
+  "share.qr-alt": "Cód QR do {url}",
+  "share.download": "Íoslódáil",
+  "share.copy": "Cóipeáil",
+  "share.share": "Roinn",
+  "share.copied": "Cóipeáladh an cód QR.",
+  "share.link-copied": "Cóipeáladh an nasc.",
+  "share.failed": "Níor oibrigh sé sin sa bhrabhsálaí seo.",
+
   "theme.title": "Téama",
   "theme.button": "Téama, mód: {mode}",
   "theme.mode-label": "Mód",

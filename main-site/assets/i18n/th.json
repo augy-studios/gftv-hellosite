@@ -84,6 +84,16 @@
   "footer.by": "โดย Global Furry Television",
   "footer.rights": "สงวนลิขสิทธิ์",
 
+  "share.title": "แชร์หน้านี้",
+  "share.hint": "สแกนโค้ดด้วยกล้องโทรศัพท์เพื่อเปิดหน้านี้",
+  "share.qr-alt": "QR โค้ดสำหรับ {url}",
+  "share.download": "ดาวน์โหลด",
+  "share.copy": "คัดลอก",
+  "share.share": "แชร์",
+  "share.copied": "คัดลอก QR โค้ดแล้ว",
+  "share.link-copied": "คัดลอกลิงก์แล้ว",
+  "share.failed": "ใช้ไม่ได้ในเบราว์เซอร์นี้",
+
   "theme.title": "ธีม",
   "theme.button": "ธีม โหมด{mode}",
   "theme.mode-label": "โหมด",

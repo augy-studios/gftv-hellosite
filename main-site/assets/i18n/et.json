@@ -84,6 +84,16 @@
   "footer.by": "– Global Furry Television",
   "footer.rights": "Kõik õigused kaitstud.",
 
+  "share.title": "Jaga lehte",
+  "share.hint": "Skanni kood telefoni kaameraga, et see leht avada.",
+  "share.qr-alt": "QR-kood aadressile {url}",
+  "share.download": "Laadi alla",
+  "share.copy": "Kopeeri",
+  "share.share": "Jaga",
+  "share.copied": "QR-kood kopeeritud.",
+  "share.link-copied": "Link kopeeritud.",
+  "share.failed": "See ei toiminud selles brauseris.",
+
   "theme.title": "Teema",
   "theme.button": "Teema, režiim: {mode}",
   "theme.mode-label": "Režiim",

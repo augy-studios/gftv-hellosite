@@ -84,6 +84,16 @@
   "footer.by": "– Global Furry Television",
   "footer.rights": "Visas tiesības aizsargātas.",
 
+  "share.title": "Kopīgot lapu",
+  "share.hint": "Noskenējiet kodu ar tālruņa kameru, lai atvērtu šo lapu.",
+  "share.qr-alt": "QR kods adresei {url}",
+  "share.download": "Lejupielādēt",
+  "share.copy": "Kopēt",
+  "share.share": "Kopīgot",
+  "share.copied": "QR kods nokopēts.",
+  "share.link-copied": "Saite nokopēta.",
+  "share.failed": "Šajā pārlūkā tas neizdevās.",
+
   "theme.title": "Motīvs",
   "theme.button": "Motīvs, režīms: {mode}",
   "theme.mode-label": "Režīms",

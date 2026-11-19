@@ -84,6 +84,16 @@
   "footer.by": "από το Global Furry Television",
   "footer.rights": "Με την επιφύλαξη παντός δικαιώματος.",
 
+  "share.title": "Κοινοποίηση σελίδας",
+  "share.hint": "Σαρώστε τον κωδικό με την κάμερα του κινητού για να ανοίξετε αυτή τη σελίδα.",
+  "share.qr-alt": "Κωδικός QR για {url}",
+  "share.download": "Λήψη",
+  "share.copy": "Αντιγραφή",
+  "share.share": "Κοινοποίηση",
+  "share.copied": "Ο κωδικός QR αντιγράφηκε.",
+  "share.link-copied": "Ο σύνδεσμος αντιγράφηκε.",
+  "share.failed": "Αυτό δεν λειτούργησε σε αυτό το πρόγραμμα περιήγησης.",
+
   "theme.title": "Θέμα",
   "theme.button": "Θέμα, λειτουργία: {mode}",
   "theme.mode-label": "Λειτουργία",

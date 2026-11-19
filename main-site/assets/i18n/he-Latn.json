@@ -84,6 +84,16 @@
   "footer.by": "al yedei Global Furry Television",
   "footer.rights": "Kol ha-zkhuyot shmurot.",
 
+  "share.title": "Shituf ha-daf",
+  "share.hint": "Sirku et ha-kod be-matslemat ha-telefon kedei liftoakh et ha-daf ha-ze.",
+  "share.qr-alt": "Kod QR avur {url}",
+  "share.download": "Horada",
+  "share.copy": "Ha'ataka",
+  "share.share": "Shituf",
+  "share.copied": "Kod ha-QR hu'atak.",
+  "share.link-copied": "Ha-kishur hu'atak.",
+  "share.failed": "Ze lo avad ba-dafdefan ha-ze.",
+
   "theme.title": "Erkat nose",
   "theme.button": "Erkat nose, matzav {mode}",
   "theme.mode-label": "Matzav",

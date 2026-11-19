@@ -84,6 +84,16 @@
   "footer.by": "by Global Furry Television",
   "footer.rights": "Aww wights sniffed uwu",
 
+  "share.title": "Shawe the page",
+  "share.hint": "Scan the code wif a phone camewa to open dis page.",
+  "share.qr-alt": "QW code fow {url}",
+  "share.download": "Downwoad",
+  "share.copy": "Copy",
+  "share.share": "Shawe",
+  "share.copied": "QW code copied!",
+  "share.link-copied": "Wink copied!",
+  "share.failed": "Oopsie, dat didn't wowk in dis bwowsew.",
+
   "theme.title": "Theme",
   "theme.button": "Theme, {mode} mode",
   "theme.mode-label": "Mode",

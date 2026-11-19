@@ -84,6 +84,16 @@
   "footer.by": "av Global Furry Television",
   "footer.rights": "Alla rättigheter förbehållna.",
 
+  "share.title": "Dela sidan",
+  "share.hint": "Skanna koden med en mobilkamera för att öppna den här sidan.",
+  "share.qr-alt": "QR-kod för {url}",
+  "share.download": "Ladda ned",
+  "share.copy": "Kopiera",
+  "share.share": "Dela",
+  "share.copied": "QR-koden har kopierats.",
+  "share.link-copied": "Länken har kopierats.",
+  "share.failed": "Det fungerade inte i den här webbläsaren.",
+
   "theme.title": "Tema",
   "theme.button": "Tema, läge: {mode}",
   "theme.mode-label": "Läge",

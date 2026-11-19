@@ -84,6 +84,16 @@
   "footer.by": "על ידי Global Furry Television",
   "footer.rights": "כל הזכויות שמורות.",
 
+  "share.title": "שיתוף הדף",
+  "share.hint": "סרקו את הקוד במצלמת הטלפון כדי לפתוח את הדף הזה.",
+  "share.qr-alt": "קוד QR עבור {url}",
+  "share.download": "הורדה",
+  "share.copy": "העתקה",
+  "share.share": "שיתוף",
+  "share.copied": "קוד ה־QR הועתק.",
+  "share.link-copied": "הקישור הועתק.",
+  "share.failed": "זה לא עבד בדפדפן הזה.",
+
   "theme.title": "ערכת נושא",
   "theme.button": "ערכת נושא, מצב {mode}",
   "theme.mode-label": "מצב",

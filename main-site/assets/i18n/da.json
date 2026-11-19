@@ -84,6 +84,16 @@
   "footer.by": "af Global Furry Television",
   "footer.rights": "Alle rettigheder forbeholdes.",
 
+  "share.title": "Del siden",
+  "share.hint": "Scan koden med telefonens kamera for at åbne denne side.",
+  "share.qr-alt": "QR-kode til {url}",
+  "share.download": "Download",
+  "share.copy": "Kopiér",
+  "share.share": "Del",
+  "share.copied": "QR-koden er kopieret.",
+  "share.link-copied": "Linket er kopieret.",
+  "share.failed": "Det virkede ikke i denne browser.",
+
   "theme.title": "Tema",
   "theme.button": "Tema, tilstand: {mode}",
   "theme.mode-label": "Tilstand",

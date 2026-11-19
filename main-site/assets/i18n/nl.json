@@ -84,6 +84,16 @@
   "footer.by": "door Global Furry Television",
   "footer.rights": "Alle rechten voorbehouden.",
 
+  "share.title": "Deel de pagina",
+  "share.hint": "Scan de code met de camera van een telefoon om deze pagina te openen.",
+  "share.qr-alt": "QR-code voor {url}",
+  "share.download": "Downloaden",
+  "share.copy": "Kopiëren",
+  "share.share": "Delen",
+  "share.copied": "QR-code gekopieerd.",
+  "share.link-copied": "Link gekopieerd.",
+  "share.failed": "Dat werkte niet in deze browser.",
+
   "theme.title": "Thema",
   "theme.button": "Thema, modus: {mode}",
   "theme.mode-label": "Modus",

@@ -84,6 +84,16 @@
   "footer.by": "– Global Furry Television",
   "footer.rights": "Minden jog fenntartva.",
 
+  "share.title": "Oldal megosztása",
+  "share.hint": "Olvasd be a kódot egy telefon kamerájával, hogy megnyisd ezt az oldalt.",
+  "share.qr-alt": "QR-kód ehhez: {url}",
+  "share.download": "Letöltés",
+  "share.copy": "Másolás",
+  "share.share": "Megosztás",
+  "share.copied": "QR-kód másolva.",
+  "share.link-copied": "Link másolva.",
+  "share.failed": "Ez nem működött ebben a böngészőben.",
+
   "theme.title": "Téma",
   "theme.button": "Téma, mód: {mode}",
   "theme.mode-label": "Mód",

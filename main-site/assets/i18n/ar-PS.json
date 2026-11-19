@@ -84,6 +84,16 @@
   "footer.by": "من Global Furry Television",
   "footer.rights": "جميع الحقوق محفوظة.",
 
+  "share.title": "شاركوا الصفحة",
+  "share.hint": "امسحوا الكود بكاميرا الموبايل عشان تفتحوا هالصفحة.",
+  "share.qr-alt": "كود QR لـ {url}",
+  "share.download": "نزّلوا",
+  "share.copy": "انسخوا",
+  "share.share": "شاركوا",
+  "share.copied": "نسخنا كود الـ QR.",
+  "share.link-copied": "نسخنا الرابط.",
+  "share.failed": "ما زبطت على هالمتصفح.",
+
   "theme.title": "المظهر",
   "theme.button": "المظهر، الوضع {mode}",
   "theme.mode-label": "الوضع",

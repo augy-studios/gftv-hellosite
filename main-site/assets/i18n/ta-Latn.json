@@ -84,6 +84,16 @@
   "footer.by": "· Global Furry Television",
   "footer.rights": "Anaiththu urimaigalum paathugaakkappattavai.",
 
+  "share.title": "Pakkaththaip pagir",
+  "share.hint": "Inthap pakkaththaith thirakka, tholaipesi kemeraavaal kuriyeettai skaen seyyavum.",
+  "share.qr-alt": "{url}-kkaana QR kuriyeedu",
+  "share.download": "Pathivirakku",
+  "share.copy": "Nagaledu",
+  "share.share": "Pagir",
+  "share.copied": "QR kuriyeedu nagaledukkappattathu.",
+  "share.link-copied": "Inaippu nagaledukkappattathu.",
+  "share.failed": "Intha ulaaviyil ithu velai seyyavillai.",
+
   "theme.title": "Theme",
   "theme.button": "Theme: {mode} payanmurai",
   "theme.mode-label": "Payanmurai",

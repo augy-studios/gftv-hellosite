@@ -84,6 +84,16 @@
   "footer.by": "minn Global Furry Television",
   "footer.rights": "Id-drittijiet kollha riżervati.",
 
+  "share.title": "Aqsam il-paġna",
+  "share.hint": "Skennja l-kodiċi bil-kamera tat-telefon biex tiftaħ din il-paġna.",
+  "share.qr-alt": "Kodiċi QR għal {url}",
+  "share.download": "Niżżel",
+  "share.copy": "Ikkopja",
+  "share.share": "Aqsam",
+  "share.copied": "Il-kodiċi QR ġie kkupjat.",
+  "share.link-copied": "Il-link ġiet ikkupjata.",
+  "share.failed": "Dan ma ħadimx f’dan il-brawżer.",
+
   "theme.title": "Tema",
   "theme.button": "Tema, modalità: {mode}",
   "theme.mode-label": "Modalità",

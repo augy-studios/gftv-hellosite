@@ -84,6 +84,16 @@
   "footer.by": "· ဖန်တီးသူ - Global Furry Television",
   "footer.rights": "မူပိုင်ခွင့် အားလုံး ရယူထားသည်။",
 
+  "share.title": "စာမျက်နှာကို မျှဝေရန်",
+  "share.hint": "ဤစာမျက်နှာကို ဖွင့်ရန် ဖုန်းကင်မရာဖြင့် ကုဒ်ကို စကင်ဖတ်ပါ။",
+  "share.qr-alt": "{url} အတွက် QR ကုဒ်",
+  "share.download": "ဒေါင်းလုဒ်",
+  "share.copy": "ကူးယူရန်",
+  "share.share": "မျှဝေရန်",
+  "share.copied": "QR ကုဒ်ကို ကူးယူပြီးပါပြီ။",
+  "share.link-copied": "လင့်ခ်ကို ကူးယူပြီးပါပြီ။",
+  "share.failed": "ဤဘရောက်ဇာတွင် မအောင်မြင်ပါ။",
+
   "theme.title": "အပြင်အဆင်",
   "theme.button": "အပြင်အဆင် - {mode} မုဒ်",
   "theme.mode-label": "မုဒ်",

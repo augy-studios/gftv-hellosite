@@ -84,6 +84,16 @@
   "footer.by": "· 國際獸視呈獻",
   "footer.rights": "版權所有。",
 
+  "share.title": "分享此頁",
+  "share.hint": "用手機相機掃描 QR Code 即可開啟此頁。",
+  "share.qr-alt": "{url} 的 QR Code",
+  "share.download": "下載",
+  "share.copy": "複製",
+  "share.share": "分享",
+  "share.copied": "已複製 QR Code。",
+  "share.link-copied": "已複製連結。",
+  "share.failed": "此瀏覽器未能完成這個操作。",
+
   "theme.title": "主題",
   "theme.button": "主題：{mode}模式",
   "theme.mode-label": "模式",

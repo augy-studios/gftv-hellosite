@@ -193,6 +193,9 @@
     </nav>
 
     <footer class="site-footer">
+        <p class="footer-share">
+            <button class="btn btn-small" type="button" id="shareBtn" aria-haspopup="dialog" aria-controls="shareModal"><span data-icon="share"></span><span data-i18n="share.title">Share the page</span></button>
+        </p>
         <nav>
             <a href="https://globalfurrytv.news.blog/about-us/" target="_blank" rel="noopener" data-i18n="footer.about">About GFTV</a>
             <a href="https://policy.globalfurry.tv/legal/terms" target="_blank" rel="noopener" data-i18n="footer.terms">Terms of Use</a>
@@ -221,6 +224,26 @@
             <p class="mode-note" id="modeNote" hidden></p>
             <p class="modal-section-label" data-i18n="theme.color-label">Colour theme</p>
             <div class="swatch-grid" id="swatchGrid"></div>
+        </div>
+    </div>
+
+    <div class="modal-backdrop hidden" id="shareModal">
+        <div class="modal glass-card" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle">
+            <div class="modal-head">
+                <h2 id="shareModalTitle" data-i18n="share.title">Share the page</h2>
+                <button class="icon-btn small" type="button" data-close-modal="shareModal" aria-label="Close" data-i18n-attr="aria-label:common.close">
+                    <span data-icon="close"></span>
+                </button>
+            </div>
+            <p class="share-url"><span dir="ltr">hello.globalfurry.tv</span></p>
+            <div class="share-qr" id="shareQr"></div>
+            <p class="share-hint" data-i18n="share.hint">Scan the code with a phone camera to open this page.</p>
+            <div class="share-actions">
+                <button class="btn" type="button" data-share-action="download"><span data-icon="download"></span><span data-i18n="share.download">Download</span></button>
+                <button class="btn" type="button" data-share-action="copy"><span data-icon="copy"></span><span data-i18n="share.copy">Copy</span></button>
+                <button class="btn btn-primary" type="button" data-share-action="share"><span data-icon="share"></span><span data-i18n="share.share">Share</span></button>
+            </div>
+            <p class="share-status" id="shareStatus" role="status"></p>
         </div>
     </div>
 

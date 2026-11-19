@@ -84,6 +84,16 @@
   "footer.by": "bởi Global Furry Television",
   "footer.rights": "Bảo lưu mọi quyền.",
 
+  "share.title": "Chia sẻ trang",
+  "share.hint": "Quét mã bằng camera điện thoại để mở trang này.",
+  "share.qr-alt": "Mã QR cho {url}",
+  "share.download": "Tải xuống",
+  "share.copy": "Sao chép",
+  "share.share": "Chia sẻ",
+  "share.copied": "Đã sao chép mã QR.",
+  "share.link-copied": "Đã sao chép liên kết.",
+  "share.failed": "Thao tác này không hoạt động trên trình duyệt này.",
+
   "theme.title": "Giao diện",
   "theme.button": "Giao diện, chế độ {mode}",
   "theme.mode-label": "Chế độ",

@@ -84,6 +84,16 @@
   "footer.by": "· Hpan ti thu - Global Furry Television",
   "footer.rights": "Mu paing khwint a lone ya yu hta thi.",
 
+  "share.title": "Sa myet hna ko hmya wei ran",
+  "share.hint": "I sa myet hna ko hpwint ran hpon kin ma ra hpyint kod ko sa kin hpat pa.",
+  "share.qr-alt": "{url} a twet QR kod",
+  "share.download": "Daung lod",
+  "share.copy": "Ku yu ran",
+  "share.share": "Hmya wei ran",
+  "share.copied": "QR kod ko ku yu pyi pa pyi.",
+  "share.link-copied": "Lint ko ku yu pyi pa pyi.",
+  "share.failed": "I bra yauk za twin ma aung myin pa.",
+
   "theme.title": "A pyin a hsin",
   "theme.button": "A pyin a hsin - {mode} mode",
   "theme.mode-label": "Mode",

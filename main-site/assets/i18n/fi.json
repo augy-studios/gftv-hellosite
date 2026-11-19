@@ -84,6 +84,16 @@
   "footer.by": "– Global Furry Television",
   "footer.rights": "Kaikki oikeudet pidätetään.",
 
+  "share.title": "Jaa sivu",
+  "share.hint": "Skannaa koodi puhelimen kameralla avataksesi tämän sivun.",
+  "share.qr-alt": "QR-koodi osoitteeseen {url}",
+  "share.download": "Lataa",
+  "share.copy": "Kopioi",
+  "share.share": "Jaa",
+  "share.copied": "QR-koodi kopioitu.",
+  "share.link-copied": "Linkki kopioitu.",
+  "share.failed": "Tämä ei toiminut tässä selaimessa.",
+
   "theme.title": "Teema",
   "theme.button": "Teema, tila: {mode}",
   "theme.mode-label": "Tila",

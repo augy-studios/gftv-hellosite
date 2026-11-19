@@ -84,6 +84,16 @@
   "footer.by": "от Global Furry Television",
   "footer.rights": "Всички права запазени.",
 
+  "share.title": "Споделете страницата",
+  "share.hint": "Сканирайте кода с камерата на телефона, за да отворите тази страница.",
+  "share.qr-alt": "QR код за {url}",
+  "share.download": "Изтегляне",
+  "share.copy": "Копиране",
+  "share.share": "Споделяне",
+  "share.copied": "QR кодът е копиран.",
+  "share.link-copied": "Връзката е копирана.",
+  "share.failed": "Това не сработи в този браузър.",
+
   "theme.title": "Тема",
   "theme.button": "Тема, режим: {mode}",
   "theme.mode-label": "Режим",

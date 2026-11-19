@@ -84,6 +84,16 @@
   "footer.by": "– Global Furry Television",
   "footer.rights": "Visos teisės saugomos.",
 
+  "share.title": "Bendrinti puslapį",
+  "share.hint": "Nuskenuokite kodą telefono kamera, kad atidarytumėte šį puslapį.",
+  "share.qr-alt": "QR kodas adresui {url}",
+  "share.download": "Atsisiųsti",
+  "share.copy": "Kopijuoti",
+  "share.share": "Bendrinti",
+  "share.copied": "QR kodas nukopijuotas.",
+  "share.link-copied": "Nuoroda nukopijuota.",
+  "share.failed": "Šioje naršyklėje nepavyko.",
+
   "theme.title": "Tema",
   "theme.button": "Tema, režimas: {mode}",
   "theme.mode-label": "Režimas",

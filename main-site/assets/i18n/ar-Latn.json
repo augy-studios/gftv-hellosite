@@ -84,6 +84,16 @@
   "footer.by": "min Global Furry Television",
   "footer.rights": "Jami3 al-7uqooq ma7fooza.",
 
+  "share.title": "Musharakat as-saf7a",
+  "share.hint": "Imsa7 ar-ramz bi-kamirat al-hatif li-fat7 hadhihi as-saf7a.",
+  "share.qr-alt": "Ramz QR li-{url}",
+  "share.download": "Tanzil",
+  "share.copy": "Naskh",
+  "share.share": "Musharaka",
+  "share.copied": "Tamma naskh ramz QR.",
+  "share.link-copied": "Tamma naskh ar-rabit.",
+  "share.failed": "Lam yanja7 dhalik fi hadha al-mutasaffi7.",
+
   "theme.title": "Al-mazhar",
   "theme.button": "Al-mazhar, wad3 {mode}",
   "theme.mode-label": "Al-wad3",

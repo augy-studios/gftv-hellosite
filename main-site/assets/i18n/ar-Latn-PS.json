@@ -84,6 +84,16 @@
   "footer.by": "min Global Furry Television",
   "footer.rights": "Kul el-7u2u2 ma7fuza.",
 
+  "share.title": "Sharku es-saf7a",
+  "share.hint": "Imse7u el-code bi-kamiret el-mobile 3ashan tefta7u has-saf7a.",
+  "share.qr-alt": "Code QR la-{url}",
+  "share.download": "Nazzlu",
+  "share.copy": "Insakhu",
+  "share.share": "Sharku",
+  "share.copied": "Nasakhna code el-QR.",
+  "share.link-copied": "Nasakhna er-rabet.",
+  "share.failed": "Ma zabtat 3ala hal-mutasaffe7.",
+
   "theme.title": "El-mazhar",
   "theme.button": "El-mazhar, wade3 {mode}",
   "theme.mode-label": "El-wade3",
