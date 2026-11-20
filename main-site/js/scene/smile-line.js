@@ -37,8 +37,10 @@ const HEAD_AT = 0.62;
 const GROWTH = 2.5;
 // The ending, in seconds from the moment the closing smile is whole: the
 // smile turns from the soft tint to full strength between solidFrom and
-// solidTo, and the sticker fades in (CSS, .sticker-on) at sticker.
-const FINISH = { solidFrom: 0.35, solidTo: 1.1, sticker: 1.4, end: 1.6 };
+// solidTo, the sticker fades in (CSS, .sticker-on) at sticker, and the line's
+// tail catches up with it between closeFrom and closeTo, so that nothing of
+// the line is left trailing out of the smile.
+const FINISH = { solidFrom: 0.35, solidTo: 1.1, sticker: 1.4, closeFrom: 1.4, closeTo: 2.4, end: 2.4 };
 
 function polylineLength(points) {
   let total = 0;
@@ -242,6 +244,16 @@ export class SmileLine {
       ? hero.getBoundingClientRect().top + view.scrollY + hero.offsetHeight - view.height
       : 0;
 
+    // Where the closing smile's mouth begins along the line: the ring nearest
+    // its top right tip. The tail stops there when it catches up.
+    let mouthStart = segments;
+    let nearest = Infinity;
+    for (let i = Math.floor(segments * 0.5); i <= segments; i += 1) {
+      const distance = centres[i].distanceToSquared(first);
+      if (distance < nearest) { nearest = distance; mouthStart = i; }
+    }
+    this.mouthStart = mouthStart;
+
     this.startCap.position.copy(centres[0]);
     this.startCap.scale.setScalar(heroRadius);
 
@@ -294,6 +306,20 @@ export class SmileLine {
     return Math.min(low, grown);
   }
 
+  // The last segment due by the given scroll position, so already above the
+  // top of the screen by the end of the page, and no further than the start
+  // of the closing smile's mouth.
+  offTop(scroll) {
+    let low = 0;
+    let high = this.mouthStart;
+    while (low < high) {
+      const middle = (low + high + 1) >> 1;
+      if (this.due[middle] <= scroll) low = middle;
+      else high = middle - 1;
+    }
+    return low;
+  }
+
   // heroProgress: how far through the hero's pin the page is, 0 to 1.
   update(view, seconds, heroProgress) {
     if (!this.tube) return;
@@ -307,12 +333,34 @@ export class SmileLine {
     if (heroProgress < 1) target = 0;
     this.head = approach(this.head, target, 4, seconds);
     const drawn = Math.min(this.segments, Math.round(this.head));
-    this.tube.geometry.setDrawRange(0, drawn * RADIAL_SEGMENTS * 6);
-
     const complete = drawn >= this.segments - 1;
-    this.startCap.visible = drawn > 0;
-    this.headCap.visible = drawn > 0;
+
+    // The ending's clock (see below), ahead of drawing, since the tail's
+    // catching up depends on it.
+    this.finish = clamp(this.finish + (complete ? seconds : -seconds), 0, FINISH.end);
+
+    // Once the sticker is in, the tail of the line runs along it after the
+    // head and stops at the start of the closing smile's mouth, so the line
+    // closes itself off and only the smile is left. It starts from the last
+    // stretch of line off the top of the screen, so the reader sees it come
+    // in and catch up rather than waiting on line they cannot see.
+    const close = smoothstep(FINISH.closeFrom, FINISH.closeTo, this.finish);
+    let tail = 0;
+    if (close > 0) {
+      const from = this.offTop(view.maxScroll - view.height * 1.2);
+      tail = Math.round(lerp(from, this.mouthStart, close));
+    }
+    tail = Math.min(tail, drawn);
+    this.tube.geometry.setDrawRange(tail * RADIAL_SEGMENTS * 6, (drawn - tail) * RADIAL_SEGMENTS * 6);
+
+    this.startCap.visible = drawn > tail;
+    this.headCap.visible = drawn > tail;
     this.paint.update(view, seconds, drawn);
+    const tailSmudge = this.paint.offset(tail);
+    this.startCap.position.copy(this.centres[tail]);
+    this.startCap.position.x += tailSmudge.x;
+    this.startCap.position.y += tailSmudge.y;
+    this.startCap.scale.setScalar(this.radii[tail]);
     const headIndex = complete ? this.segments : drawn;
     const smudge = this.paint.offset(headIndex);
     this.headCap.position.copy(this.centres[headIndex]);
@@ -333,7 +381,6 @@ export class SmileLine {
     // from the soft tint back to full strength, then the HelloSmile sticker
     // fades in over it, its smile exactly on this one. Scrolling back up runs
     // it backwards.
-    this.finish = clamp(this.finish + (complete ? seconds : -seconds), 0, FINISH.end);
     const full = smoothstep(FINISH.solidFrom, FINISH.solidTo, this.finish);
     this.material.color.copy(this.soft).lerp(this.solid, full);
     const stickerOn = this.finish >= FINISH.sticker;

@@ -29,7 +29,9 @@ Analytics.
 6. **See you at the next HelloSpot!** The line comes home as the smile. Once
    the smile is whole it fades from the soft tint back to full strength, and
    the HelloSmile sticker (`assets/HelloSmile-V2.png`) fades in over it, its
-   own smile exactly on the drawn one.
+   own smile exactly on the drawn one. Then the line's tail catches up with it,
+   running down after the head into the smile, so no line is left trailing
+   out of the sticker. Scrolling back up brings the line back.
 
 The smile line runs through the whole page, from the card's smile to the
 closing one. It weaves left and right, in and out of the screen, and draws
