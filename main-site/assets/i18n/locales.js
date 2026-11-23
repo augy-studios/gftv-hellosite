@@ -108,6 +108,7 @@ import hu from './hu.json' with { type: 'json' };
 import ga from './ga.json' with { type: 'json' };
 import it from './it.json' with { type: 'json' };
 import la from './la.json' with { type: 'json' };
+import lb from './lb.json' with { type: 'json' };
 import lv from './lv.json' with { type: 'json' };
 import lt from './lt.json' with { type: 'json' };
 import mt from './mt.json' with { type: 'json' };
@@ -186,6 +187,7 @@ export const locales = {
   'ga': ga,
   'it': it,
   'la': la,
+  'lb': lb,
   'lv': lv,
   'lt': lt,
   'mt': mt,
@@ -263,6 +265,7 @@ export const registry = [
   { code: 'ga', name: 'Gaeilge', dir: 'ltr', en: ['Irish', 'Irish Gaelic'] },
   { code: 'it', name: 'Italiano', dir: 'ltr', en: 'Italian' },
   { code: 'la', name: 'Latina', dir: 'ltr', en: ['Latin', 'Classical Latin'], regions: ['VA', 'IT'] },
+  { code: 'lb', name: 'Lëtzebuergesch', dir: 'ltr', en: ['Luxembourgish', 'Letzeburgesch'] },
   { code: 'lv', name: 'Latviešu', dir: 'ltr', en: 'Latvian' },
   { code: 'lt', name: 'Lietuvių', dir: 'ltr', en: 'Lithuanian' },
   { code: 'mt', name: 'Malti', dir: 'ltr', en: 'Maltese' },
