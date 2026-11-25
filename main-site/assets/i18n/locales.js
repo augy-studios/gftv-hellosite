@@ -108,6 +108,9 @@ import elLatn from './el-Latn.json' with { type: 'json' };
 import hu from './hu.json' with { type: 'json' };
 import ga from './ga.json' with { type: 'json' };
 import gv from './gv.json' with { type: 'json' };
+import cy from './cy.json' with { type: 'json' };
+import gd from './gd.json' with { type: 'json' };
+import sco from './sco.json' with { type: 'json' };
 import it from './it.json' with { type: 'json' };
 import la from './la.json' with { type: 'json' };
 import lb from './lb.json' with { type: 'json' };
@@ -189,6 +192,9 @@ export const locales = {
   'hu': hu,
   'ga': ga,
   'gv': gv,
+  'cy': cy,
+  'gd': gd,
+  'sco': sco,
   'it': it,
   'la': la,
   'lb': lb,
@@ -269,6 +275,9 @@ export const registry = [
   { code: 'hu', name: 'Magyar', dir: 'ltr', en: 'Hungarian' },
   { code: 'ga', name: 'Gaeilge', dir: 'ltr', en: ['Irish', 'Irish Gaelic'] },
   { code: 'gv', name: 'Gaelg', dir: 'ltr', en: ['Manx', 'Manx Gaelic'] },
+  { code: 'cy', name: 'Cymraeg', dir: 'ltr', en: ['Welsh', 'Wales'] },
+  { code: 'gd', name: 'Gàidhlig', dir: 'ltr', en: ['Scottish Gaelic', 'Gaelic', 'Scottish', 'Scotland'] },
+  { code: 'sco', name: 'Scots', dir: 'ltr', en: ['Scots', 'Scottish', 'Lowland Scots', 'Scotland'] },
   { code: 'it', name: 'Italiano', dir: 'ltr', en: 'Italian' },
   { code: 'la', name: 'Latina', dir: 'ltr', en: ['Latin', 'Classical Latin'], regions: ['VA', 'IT'] },
   { code: 'lb', name: 'Lëtzebuergesch', dir: 'ltr', en: ['Luxembourgish', 'Letzeburgesch'] },
