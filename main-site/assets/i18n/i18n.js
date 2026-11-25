@@ -50,11 +50,20 @@ function closest(tag, lang, list) {
   return siblings.reduce((best, l) => (score(l) > score(best) ? l : best));
 }
 
+// Device base languages the site has under another code. Plain Norwegian (no,
+// no-NO) is written Bokmål by most readers, and browsers treat it as nb, so it
+// gets nb rather than falling through to English; Nynorsk stays nn.
+const ALIASES = { no: 'nb' };
+
 function deviceTags() {
   const tags = navigator.languages && navigator.languages.length
     ? navigator.languages
     : [navigator.language];
-  return tags.filter(Boolean);
+  return tags.filter(Boolean).map((tag) => {
+    const [lang, ...rest] = String(tag).split('-');
+    const alias = ALIASES[lang.toLowerCase()];
+    return alias ? [alias, ...rest].join('-') : tag;
+  });
 }
 
 // The device's languages, in its order of preference, each tried against

@@ -204,7 +204,9 @@ languages, in the device's order of preference: the exact code (`pt-BR`), then
 the base language (`pt`), then the closest site language sharing that base:
 `pt-BR` gets `pt-PT`, `en-AU` gets `en-GB`, and `zh-MO` gets `zh-TW` (it is
 Traditional Chinese, like `zh-TW` and `zh-HK`; the same writing system counts
-first, then the same region, then the order in `locales.js`). If the site has
+first, then the same region, then the order in `locales.js`). Plain Norwegian
+(`no`, `no-NO`) counts as Bokmål, `nb`, as browsers treat it; Nynorsk is `nn`.
+Such aliases are in `ALIASES` in `assets/i18n/i18n.js`. If the site has
 none of them, it is British English, `en-GB`
 (in `locales.js`, `<html lang>` on both pages and the manifest), whose words
 are in `en-GB.json`; a device asking for an English the site does not have gets

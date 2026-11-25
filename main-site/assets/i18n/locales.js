@@ -93,6 +93,7 @@ import ukLatn from './uk-Latn.json' with { type: 'json' };
 import ptPT from './pt-PT.json' with { type: 'json' };
 import da from './da.json' with { type: 'json' };
 import nb from './nb.json' with { type: 'json' };
+import nn from './nn.json' with { type: 'json' };
 import sv from './sv.json' with { type: 'json' };
 import bg from './bg.json' with { type: 'json' };
 import bgLatn from './bg-Latn.json' with { type: 'json' };
@@ -106,6 +107,7 @@ import el from './el.json' with { type: 'json' };
 import elLatn from './el-Latn.json' with { type: 'json' };
 import hu from './hu.json' with { type: 'json' };
 import ga from './ga.json' with { type: 'json' };
+import gv from './gv.json' with { type: 'json' };
 import it from './it.json' with { type: 'json' };
 import la from './la.json' with { type: 'json' };
 import lb from './lb.json' with { type: 'json' };
@@ -172,6 +174,7 @@ export const locales = {
   'pt-PT': ptPT,
   'da': da,
   'nb': nb,
+  'nn': nn,
   'sv': sv,
   'bg': bg,
   'bg-Latn': bgLatn,
@@ -185,6 +188,7 @@ export const locales = {
   'el-Latn': elLatn,
   'hu': hu,
   'ga': ga,
+  'gv': gv,
   'it': it,
   'la': la,
   'lb': lb,
@@ -250,6 +254,7 @@ export const registry = [
   { code: 'pt-PT', name: 'Português (Portugal)', dir: 'ltr', en: ['Portuguese', 'European Portuguese'] },
   { code: 'da', name: 'Dansk', dir: 'ltr', en: 'Danish' },
   { code: 'nb', name: 'Norsk bokmål', dir: 'ltr', en: ['Norwegian', 'Norwegian Bokmål'] },
+  { code: 'nn', name: 'Norsk nynorsk', dir: 'ltr', en: ['Norwegian', 'Norwegian Nynorsk', 'Nynorsk'] },
   { code: 'sv', name: 'Svenska', dir: 'ltr', en: 'Swedish' },
   { code: 'bg', name: 'Български', dir: 'ltr', en: 'Bulgarian' },
   { code: 'bg-Latn', name: 'Balgarski (Romanised)', dir: 'ltr', en: ['Bulgarian', 'Romanised Bulgarian', 'Romanized Bulgarian'] },
@@ -263,6 +268,7 @@ export const registry = [
   { code: 'el-Latn', name: 'Ellinika (Romanised)', dir: 'ltr', en: ['Greek', 'Greeklish', 'Romanised Greek', 'Romanized Greek'] },
   { code: 'hu', name: 'Magyar', dir: 'ltr', en: 'Hungarian' },
   { code: 'ga', name: 'Gaeilge', dir: 'ltr', en: ['Irish', 'Irish Gaelic'] },
+  { code: 'gv', name: 'Gaelg', dir: 'ltr', en: ['Manx', 'Manx Gaelic'] },
   { code: 'it', name: 'Italiano', dir: 'ltr', en: 'Italian' },
   { code: 'la', name: 'Latina', dir: 'ltr', en: ['Latin', 'Classical Latin'], regions: ['VA', 'IT'] },
   { code: 'lb', name: 'Lëtzebuergesch', dir: 'ltr', en: ['Luxembourgish', 'Letzeburgesch'] },
