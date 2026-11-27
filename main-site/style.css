@@ -52,10 +52,11 @@ html[lang="en-UWU"] {
   font-synthesis: none;
 }
 
-/* Arabic and Malay in Jawi: Noto Sans Arabic, a sans serif to sit beside
+/* Arabic, Malay in Jawi and Persian: Noto Sans Arabic, a sans serif to sit beside
    Proxima Nova, for the Arabic letters only (Latin, such as GFTV and
    HelloSpot, stays in Proxima Nova). Devices' own Arabic fonts often lack
-   Jawi's extra letters (ڠ ڤ ݢ ڽ ۏ), so it is self hosted: its Arabic subset,
+   Jawi's extra letters (ڠ ڤ ݢ ڽ ۏ), and it has Persian's too (پ چ ژ گ ی
+   and the zero-width non-joiner), so it is self hosted: its Arabic subset,
    one variable file for every weight (SIL OFL, licence beside it). The
    browser fetches it only when this rule applies. */
 @font-face {
@@ -68,7 +69,7 @@ html[lang="en-UWU"] {
     U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74,
     U+FE76-FEFC;
 }
-html:is([lang="ar"], [lang="ar-PS"], [lang="ms-Arab"]) {
+html:is([lang="ar"], [lang="ar-PS"], [lang="ms-Arab"], [lang="fa"]) {
   --font: 'Proxima Nova', 'Noto Sans Arabic', -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
@@ -1343,7 +1344,7 @@ body { position: relative; }
   .link-row .btn { flex: 1 1 100%; }
 }
 
-/* Right-to-left (Arabic, Hebrew, and Malay in Jawi). The layout mirrors on
+/* Right-to-left (Arabic, Hebrew, Malay in Jawi, Persian and Dhivehi). The layout mirrors on
    its own: it is written with logical properties (inline-start and
    inline-end), and flex and grid follow the writing direction, so the
    header, the dialogs and the bars flip, the dots move to the left edge and
@@ -1356,7 +1357,7 @@ body { position: relative; }
      script the big headings, set tight for Latin, get room between their
      lines. Hebrew sits within Latin's height and keeps the Latin setting. */
 [dir="rtl"] :is(.eyebrow, .scroll-hint, .modal-section-label) { letter-spacing: 0; }
-html:is([lang="ar"], [lang="ar-PS"], [lang="ms-Arab"]) :is(.hero h1, .chapter h2, .takagi-line, .not-found-title) { line-height: 1.4; }
+html:is([lang="ar"], [lang="ar-PS"], [lang="ms-Arab"], [lang="fa"]) :is(.hero h1, .chapter h2, .takagi-line, .not-found-title) { line-height: 1.4; }
 /* Thaana's vowel signs sit above and below the letters, and Tibetan stacks
    letters and vowel signs well above and below the line: room for both. */
 html[lang="dv"] :is(.hero h1, .chapter h2, .takagi-line, .not-found-title) { line-height: 1.5; }

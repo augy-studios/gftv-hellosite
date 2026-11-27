@@ -25,8 +25,9 @@
 // Arabic comes as Modern Standard Arabic (ar) and as Palestinian Arabic
 // (ar-PS, the spoken Levantine of Palestine), which share the العربية row.
 // Malay also comes in Jawi, its Arabic-script spelling (ms-Arab), which
-// shares the Bahasa Melayu row. Arabic, Hebrew, Jawi and Dhivehi (dv, in
-// Thaana) are written right to left (dir: 'rtl'); js/text-dir.js lists them too, to set the direction
+// shares the Bahasa Melayu row. Persian (fa, Farsi) has its own row, with
+// Finglish (fa-Latn) as its romanised variant. Arabic, Hebrew, Jawi, Persian
+// and Dhivehi (dv, in Thaana) are written right to left (dir: 'rtl'); js/text-dir.js lists them too, to set the direction
 // before first paint, so keep the two in step.
 //
 // The dialog lists languages in alphabetical order of their names (see
@@ -95,6 +96,8 @@ import arLatn from './ar-Latn.json' with { type: 'json' };
 import arLatnPS from './ar-Latn-PS.json' with { type: 'json' };
 import he from './he.json' with { type: 'json' };
 import heLatn from './he-Latn.json' with { type: 'json' };
+import fa from './fa.json' with { type: 'json' };
+import faLatn from './fa-Latn.json' with { type: 'json' };
 import koKR from './ko-KR.json' with { type: 'json' };
 import koKP from './ko-KP.json' with { type: 'json' };
 import koLatnKR from './ko-Latn-KR.json' with { type: 'json' };
@@ -121,6 +124,7 @@ import de from './de.json' with { type: 'json' };
 import el from './el.json' with { type: 'json' };
 import elLatn from './el-Latn.json' with { type: 'json' };
 import hu from './hu.json' with { type: 'json' };
+import is from './is.json' with { type: 'json' };
 import ga from './ga.json' with { type: 'json' };
 import gv from './gv.json' with { type: 'json' };
 import cy from './cy.json' with { type: 'json' };
@@ -188,6 +192,8 @@ export const locales = {
   'ar-Latn-PS': arLatnPS,
   'he': he,
   'he-Latn': heLatn,
+  'fa': fa,
+  'fa-Latn': faLatn,
   'ko-KR': koKR,
   'ko-KP': koKP,
   'ko-Latn-KR': koLatnKR,
@@ -214,6 +220,7 @@ export const locales = {
   'el': el,
   'el-Latn': elLatn,
   'hu': hu,
+  'is': is,
   'ga': ga,
   'gv': gv,
   'cy': cy,
@@ -280,6 +287,8 @@ export const registry = [
   { code: 'ar-Latn-PS', name: 'Falastini (Romanised)', dir: 'ltr', en: ['Arabic', 'Palestinian Arabic', 'Levantine Arabic', 'Palestinian', 'Arabizi', 'Romanised Palestinian Arabic', 'Romanized Palestinian Arabic'] },
   { code: 'he', name: 'עברית', dir: 'rtl', en: ['Hebrew', 'Ivrit', 'Modern Hebrew'] },
   { code: 'he-Latn', name: 'Ivrit (Romanised)', dir: 'ltr', en: ['Hebrew', 'Romanised Hebrew', 'Romanized Hebrew'] },
+  { code: 'fa', name: 'فارسی', dir: 'rtl', en: ['Persian', 'Farsi', 'Iranian Persian', 'Dari'], regions: ['IR', 'AF'] },
+  { code: 'fa-Latn', name: 'Farsi (Romanised)', dir: 'ltr', en: ['Persian', 'Farsi', 'Finglish', 'Pinglish', 'Romanised Persian', 'Romanized Persian', 'Romanised Farsi', 'Romanized Farsi'], regions: ['IR', 'AF'] },
   { code: 'ko-KR', name: '한국어 (대한민국)', dir: 'ltr', en: ['Korean', 'South Korean'] },
   { code: 'ko-KP', name: '조선말 (조선)', dir: 'ltr', en: ['Korean', 'North Korean'] },
   { code: 'ko-Latn-KR', name: 'Hangugeo (Romanised)', dir: 'ltr', en: ['Korean', 'South Korean', 'Revised Romanisation', 'Romanised Korean', 'Romanized Korean'] },
@@ -306,6 +315,7 @@ export const registry = [
   { code: 'el', name: 'Ελληνικά', dir: 'ltr', en: 'Greek', regions: ['GR', 'CY'] },
   { code: 'el-Latn', name: 'Ellinika (Romanised)', dir: 'ltr', en: ['Greek', 'Greeklish', 'Romanised Greek', 'Romanized Greek'] },
   { code: 'hu', name: 'Magyar', dir: 'ltr', en: 'Hungarian' },
+  { code: 'is', name: 'Íslenska', dir: 'ltr', en: ['Icelandic', 'Iceland'] },
   { code: 'ga', name: 'Gaeilge', dir: 'ltr', en: ['Irish', 'Irish Gaelic'] },
   { code: 'gv', name: 'Gaelg', dir: 'ltr', en: ['Manx', 'Manx Gaelic'] },
   { code: 'cy', name: 'Cymraeg', dir: 'ltr', en: ['Welsh', 'Wales'] },

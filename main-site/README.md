@@ -132,14 +132,14 @@ switches to that layout.
 ## Languages
 
 Every word on the site is in a language file, and a button next to the theme
-button in the header picks the language. There are 89, listed in
+button in the header picks the language. There are 92, listed in
 `assets/i18n/locales.js`, with British English as the source and default.
 They include English (US), Pirate, uwu, Braille and Morse code, Naijá
 (Nigerian) Pidgin, Latin, a romanised variant
 (`-Latn`) of every language not written in Latin letters (Arabic's is
-Arabizi, and Hebrew's `he-Latn`), Palestinian Arabic (`ar-PS`, written as
+Arabizi, Hebrew's `he-Latn`, and Persian's Finglish, `fa-Latn`), Palestinian Arabic (`ar-PS`, written as
 spoken, with its own Arabizi, `ar-Latn-PS`) beside Modern Standard Arabic, and Malay in Jawi (`ms-Arab`) beside Malay in Latin
-letters. Arabic, Hebrew, Jawi and Dhivehi are written right to left (see
+letters. Arabic, Hebrew, Jawi, Persian (`fa`, Farsi) and Dhivehi are written right to left (see
 Right-to-left languages below). The language dialog lists them in alphabetical order. The
 setup is the one the GFTV sister sites use, from `../docs/i18n-retrofit-spec.md`.
 
@@ -158,7 +158,7 @@ as two more variants in the English row.
 | `assets/i18n/en-GB.json` | Every word on the site in English, one key each: `"hero.title": "You found a HelloSpot!"`. The source every other language copies. | You change wording, or add a sentence. |
 | `assets/i18n/<code>.json` | The same keys in another language (`ms.json`, `zh-SG.json` and so on). | You add or update a language. |
 | `assets/i18n/locales.js` | The list of languages: which files to load, each language's own name and its writing direction. | You add a language (three lines). |
-| `js/text-dir.js` | Sets right-to-left before first paint for a reader who picked Arabic, Hebrew, Jawi or Dhivehi, or whose device's first language is one of them. Lists the right-to-left codes. | You add a right-to-left language. |
+| `js/text-dir.js` | Sets right-to-left before first paint for a reader who picked Arabic, Hebrew, Jawi, Persian or Dhivehi, or whose device's first language is one of them. Lists the right-to-left codes. | You add a right-to-left language. |
 | `sw.js` | The service worker. Its `PRECACHE` list must include every language file, and `VERSION` goes up by one on every change. | You add a language or change any wording. |
 | `index.html`, `404.html` | The pages. Each element with words has `data-i18n="key"` (or `data-i18n-attr="alt:key"` for an attribute), with the English still in place as a fallback. | You add a new element with words. |
 | `assets/i18n/check-keys.js` | Checks every language file against `en-GB.json`: missing or extra keys, broken `{placeholders}`, empty values. | Run it after any change (below). |
@@ -249,7 +249,7 @@ name. A search that matches only some variants ("us") opens the dropdown on
 just those. With the keyboard, → opens a row's variants and ← closes them.
 
 **Right-to-left languages.** Arabic (`ar`, and `ar-PS` for Palestine),
-Hebrew (`he`), Malay in Jawi (`ms-Arab`) and Dhivehi (`dv`, in Thaana) are written right to left. Picking one sets `<html dir="rtl">` and the whole
+Hebrew (`he`), Malay in Jawi (`ms-Arab`), Persian (`fa`) and Dhivehi (`dv`, in Thaana) are written right to left. Picking one sets `<html dir="rtl">` and the whole
 page mirrors: the header, the official bar, the dialogs, the section dots
 (which move to the left edge, where a right-to-left reader's scroll bar
 would be) and the Takagi chapter (the bowl moves to the left of its words).
@@ -269,7 +269,7 @@ In the language dialog every row is laid out in the page's direction, and
 each name runs in its own (`dir="auto"`), so العربية reads correctly on an
 English page and English on an Arabic one.
 
-Arabic (both variants) and Jawi are set in Noto Sans Arabic
+Arabic (both variants), Jawi and Persian are set in Noto Sans Arabic
 (`assets/fonts/NotoSansArabic-Variable.woff2`, its Arabic letters only, one
 variable file for every weight, SIL OFL, licence beside it), because many
 devices' own Arabic fonts lack Jawi's extra letters (ڠ ڤ ݢ ڽ ۏ). Latin words
@@ -295,7 +295,7 @@ browser places them correctly. One thing it cannot place: a Latin run that
 ends in punctuation followed by right-to-left script, such as `https://`
 before an Arabic or Hebrew word, shows its punctuation on the wrong side.
 Write such text so the Latin run ends in a letter (the Arabic, Hebrew,
-Jawi and Dhivehi files say `https://hello.globalfurry.tv`, not a bare `https://`).
+Jawi, Persian and Dhivehi files say `https://hello.globalfurry.tv`, not a bare `https://`).
 
 ### Changing the wording
 
