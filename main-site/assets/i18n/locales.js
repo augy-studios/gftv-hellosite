@@ -16,11 +16,17 @@
 // dialog. Arabic has Arabizi (ar-Latn) as its romanised variant, and
 // Palestinian Arabic its own (ar-Latn-PS), as Korean has one per region.
 //
+// English also comes as English (Braille), en-Brai, in uncontracted Unified
+// English Braille, and as English (Morse code), en-MORSE, both written by
+// tools/make-braille-morse.py from en-GB.json: run it again after changing
+// any English wording. Naijá Pidgin (pcm, Nigerian Pidgin) is a language of
+// its own, not a variant of English, so it has its own row.
+//
 // Arabic comes as Modern Standard Arabic (ar) and as Palestinian Arabic
 // (ar-PS, the spoken Levantine of Palestine), which share the العربية row.
 // Malay also comes in Jawi, its Arabic-script spelling (ms-Arab), which
-// shares the Bahasa Melayu row. Arabic, Hebrew and Jawi are written right to
-// left (dir: 'rtl'); js/text-dir.js lists them too, to set the direction
+// shares the Bahasa Melayu row. Arabic, Hebrew, Jawi and Dhivehi (dv, in
+// Thaana) are written right to left (dir: 'rtl'); js/text-dir.js lists them too, to set the direction
 // before first paint, so keep the two in step.
 //
 // The dialog lists languages in alphabetical order of their names (see
@@ -45,6 +51,9 @@ import enGB from './en-GB.json' with { type: 'json' };
 import enUS from './en-US.json' with { type: 'json' };
 import enARR from './en-ARR.json' with { type: 'json' };
 import enUWU from './en-UWU.json' with { type: 'json' };
+import enBrai from './en-Brai.json' with { type: 'json' };
+import enMORSE from './en-MORSE.json' with { type: 'json' };
+import pcm from './pcm.json' with { type: 'json' };
 import zhSG from './zh-SG.json' with { type: 'json' };
 import zhCN from './zh-CN.json' with { type: 'json' };
 import zhTW from './zh-TW.json' with { type: 'json' };
@@ -74,6 +83,12 @@ import loLatn from './lo-Latn.json' with { type: 'json' };
 import vi from './vi.json' with { type: 'json' };
 import tl from './tl.json' with { type: 'json' };
 import tet from './tet.json' with { type: 'json' };
+import dz from './dz.json' with { type: 'json' };
+import dzLatn from './dz-Latn.json' with { type: 'json' };
+import dv from './dv.json' with { type: 'json' };
+import dvLatn from './dv-Latn.json' with { type: 'json' };
+import sw from './sw.json' with { type: 'json' };
+import so from './so.json' with { type: 'json' };
 import ar from './ar.json' with { type: 'json' };
 import arPS from './ar-PS.json' with { type: 'json' };
 import arLatn from './ar-Latn.json' with { type: 'json' };
@@ -129,6 +144,9 @@ export const locales = {
   'en-US': enUS,
   'en-ARR': enARR,
   'en-UWU': enUWU,
+  'en-Brai': enBrai,
+  'en-MORSE': enMORSE,
+  'pcm': pcm,
   'zh-SG': zhSG,
   'zh-CN': zhCN,
   'zh-TW': zhTW,
@@ -158,6 +176,12 @@ export const locales = {
   'vi': vi,
   'tl': tl,
   'tet': tet,
+  'dz': dz,
+  'dz-Latn': dzLatn,
+  'dv': dv,
+  'dv-Latn': dvLatn,
+  'sw': sw,
+  'so': so,
   'ar': ar,
   'ar-PS': arPS,
   'ar-Latn': arLatn,
@@ -212,6 +236,9 @@ export const registry = [
   { code: 'en-US', name: 'English (US)', dir: 'ltr', en: 'American English' },
   { code: 'en-ARR', name: 'English (Pirate)', dir: 'ltr', en: 'Pirate English' },
   { code: 'en-UWU', name: 'English (uwu)', dir: 'ltr', en: ['UwU', 'OwO', 'uwu speak', 'uwuspeak'] },
+  { code: 'en-Brai', name: 'English (Braille)', dir: 'ltr', en: ['Braille', 'English Braille', 'Unified English Braille', 'UEB'] },
+  { code: 'en-MORSE', name: 'English (Morse code)', dir: 'ltr', en: ['Morse', 'Morse code', 'International Morse code'] },
+  { code: 'pcm', name: 'Naijá Pidgin', dir: 'ltr', en: ['Nigerian Pidgin', 'English Pidgin', 'Pidgin English', 'Pidgin', 'Naija', 'West African Pidgin'], regions: ['NG'] },
   { code: 'zh-SG', name: '中文（新加坡）', dir: 'ltr', en: ['Chinese', 'Simplified Chinese', 'Mandarin'] },
   { code: 'zh-CN', name: '中文（大陆）', dir: 'ltr', en: ['Chinese', 'Simplified Chinese', 'Mandarin', 'Mainland China'] },
   { code: 'zh-TW', name: '中文（台灣）', dir: 'ltr', en: ['Chinese', 'Traditional Chinese', 'Mandarin'] },
@@ -241,6 +268,12 @@ export const registry = [
   { code: 'vi', name: 'Tiếng Việt', dir: 'ltr', en: 'Vietnamese' },
   { code: 'tl', name: 'Tagalog', dir: 'ltr', en: ['Tagalog', 'Filipino'] },
   { code: 'tet', name: 'Tetun', dir: 'ltr', en: ['Tetum', 'Tetun', 'East Timor'] },
+  { code: 'dz', name: 'རྫོང་ཁ', dir: 'ltr', en: ['Dzongkha', 'Bhutanese', 'Bhutan'], regions: ['BT'] },
+  { code: 'dz-Latn', name: 'Dzongkha (Romanised)', dir: 'ltr', en: ['Dzongkha', 'Bhutanese', 'Bhutan', 'Roman Dzongkha', 'Romanised Dzongkha', 'Romanized Dzongkha'], regions: ['BT'] },
+  { code: 'dv', name: 'ދިވެހި', dir: 'rtl', en: ['Dhivehi', 'Divehi', 'Maldivian', 'Thaana', 'Maldives'], regions: ['MV'] },
+  { code: 'dv-Latn', name: 'Dhivehi (Romanised)', dir: 'ltr', en: ['Dhivehi', 'Divehi', 'Maldivian', 'Maldives', 'Malé Latin', 'Male Latin', 'Romanised Dhivehi', 'Romanized Dhivehi'], regions: ['MV'] },
+  { code: 'sw', name: 'Kiswahili', dir: 'ltr', en: ['Swahili', 'Kiswahili'], regions: ['TZ', 'KE', 'UG', 'CD', 'RW', 'BI', 'MZ'] },
+  { code: 'so', name: 'Soomaali', dir: 'ltr', en: ['Somali', 'Af-Soomaali'], regions: ['SO', 'DJ', 'ET', 'KE'] },
   { code: 'ar', name: 'العربية', dir: 'rtl', en: ['Arabic', 'Modern Standard Arabic', 'MSA', 'Fusha'], regions: ['SA', 'EG', 'AE', 'JO', 'LB', 'SY', 'IQ', 'KW', 'QA', 'BH', 'OM', 'YE', 'MA', 'DZ', 'TN', 'LY', 'SD'] },
   { code: 'ar-PS', name: 'العربية (فلسطين)', dir: 'rtl', en: ['Arabic', 'Palestinian Arabic', 'Levantine Arabic', 'Palestinian'] },
   { code: 'ar-Latn', name: 'Arabi (Romanised)', dir: 'ltr', en: ['Arabic', 'Arabizi', 'Franco-Arabic', 'Arabish', 'Romanised Arabic', 'Romanized Arabic'], regions: ['SA', 'EG', 'AE', 'JO', 'LB', 'SY', 'IQ', 'KW', 'QA', 'BH', 'OM', 'YE', 'PS', 'MA', 'DZ', 'TN', 'LY', 'SD'] },

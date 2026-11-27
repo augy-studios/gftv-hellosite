@@ -1,7 +1,7 @@
 // Sets the page's writing direction before first paint, for a reader who
 // reads right to left. The i18n runtime (assets/i18n/i18n.js) sets <html
 // lang> and dir too, but it is a module and runs after the page may first
-// have been drawn, so an Arabic, Hebrew or Jawi reader would see the page
+// have been drawn, so an Arabic, Hebrew, Jawi or Dhivehi reader would see the page
 // flip from left-to-right to right-to-left as it loads. This settles it
 // first.
 //
@@ -15,7 +15,7 @@
 // RTL lists the right-to-left codes in assets/i18n/locales.js (dir: 'rtl').
 // Keep the two in step.
 (function () {
-  var RTL = ["ar", "ar-PS", "he", "ms-Arab"];
+  var RTL = ["ar", "ar-PS", "he", "ms-Arab", "dv"];
   function find(tag) {
     for (var i = 0; i < RTL.length; i++) {
       if (RTL[i].toLowerCase() === String(tag).toLowerCase()) return RTL[i];

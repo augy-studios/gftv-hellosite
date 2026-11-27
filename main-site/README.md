@@ -132,15 +132,24 @@ switches to that layout.
 ## Languages
 
 Every word on the site is in a language file, and a button next to the theme
-button in the header picks the language. There are 74, listed in
+button in the header picks the language. There are 89, listed in
 `assets/i18n/locales.js`, with British English as the source and default.
-They include English (US), Pirate and uwu, Latin, a romanised variant
+They include English (US), Pirate, uwu, Braille and Morse code, Naijá
+(Nigerian) Pidgin, Latin, a romanised variant
 (`-Latn`) of every language not written in Latin letters (Arabic's is
 Arabizi, and Hebrew's `he-Latn`), Palestinian Arabic (`ar-PS`, written as
 spoken, with its own Arabizi, `ar-Latn-PS`) beside Modern Standard Arabic, and Malay in Jawi (`ms-Arab`) beside Malay in Latin
-letters. Arabic, Hebrew and Jawi are written right to left (see
+letters. Arabic, Hebrew, Jawi and Dhivehi are written right to left (see
 Right-to-left languages below). The language dialog lists them in alphabetical order. The
 setup is the one the GFTV sister sites use, from `../docs/i18n-retrofit-spec.md`.
+
+English (Braille), `en-Brai`, is uncontracted Unified English Braille in
+Unicode braille cells, and English (Morse code), `en-MORSE`, is International
+Morse code with `·` and `−`, letters a space apart and words ` / ` apart.
+Neither is translated by hand: `../tools/make-braille-morse.py` writes both
+from `en-GB.json`, so run it after changing any English wording
+(`python tools/make-braille-morse.py`, from the repository root). They show
+as two more variants in the English row.
 
 ### The files
 
@@ -149,7 +158,7 @@ setup is the one the GFTV sister sites use, from `../docs/i18n-retrofit-spec.md`
 | `assets/i18n/en-GB.json` | Every word on the site in English, one key each: `"hero.title": "You found a HelloSpot!"`. The source every other language copies. | You change wording, or add a sentence. |
 | `assets/i18n/<code>.json` | The same keys in another language (`ms.json`, `zh-SG.json` and so on). | You add or update a language. |
 | `assets/i18n/locales.js` | The list of languages: which files to load, each language's own name and its writing direction. | You add a language (three lines). |
-| `js/text-dir.js` | Sets right-to-left before first paint for a reader who picked Arabic, Hebrew or Jawi, or whose device's first language is one of them. Lists the right-to-left codes. | You add a right-to-left language. |
+| `js/text-dir.js` | Sets right-to-left before first paint for a reader who picked Arabic, Hebrew, Jawi or Dhivehi, or whose device's first language is one of them. Lists the right-to-left codes. | You add a right-to-left language. |
 | `sw.js` | The service worker. Its `PRECACHE` list must include every language file, and `VERSION` goes up by one on every change. | You add a language or change any wording. |
 | `index.html`, `404.html` | The pages. Each element with words has `data-i18n="key"` (or `data-i18n-attr="alt:key"` for an attribute), with the English still in place as a fallback. | You add a new element with words. |
 | `assets/i18n/check-keys.js` | Checks every language file against `en-GB.json`: missing or extra keys, broken `{placeholders}`, empty values. | Run it after any change (below). |
@@ -240,7 +249,7 @@ name. A search that matches only some variants ("us") opens the dropdown on
 just those. With the keyboard, → opens a row's variants and ← closes them.
 
 **Right-to-left languages.** Arabic (`ar`, and `ar-PS` for Palestine),
-Hebrew (`he`) and Malay in Jawi (`ms-Arab`) are written right to left. Picking one sets `<html dir="rtl">` and the whole
+Hebrew (`he`), Malay in Jawi (`ms-Arab`) and Dhivehi (`dv`, in Thaana) are written right to left. Picking one sets `<html dir="rtl">` and the whole
 page mirrors: the header, the official bar, the dialogs, the section dots
 (which move to the left edge, where a right-to-left reader's scroll bar
 would be) and the Takagi chapter (the bowl moves to the left of its words).
@@ -267,14 +276,26 @@ devices' own Arabic fonts lack Jawi's extra letters (ڠ ڤ ݢ ڽ ۏ). Latin word
 in those pages, like GFTV and HelloSpot, stay in Proxima Nova. The font is
 fetched only on those languages, and is not precached. Hebrew is set the
 same way in Noto Sans Hebrew (`assets/fonts/NotoSansHebrew-Variable.woff2`,
-Hebrew letters only, 12 KB), fetched only on Hebrew.
+Hebrew letters only, 12 KB), fetched only on Hebrew. Dhivehi is set the
+same way in Noto Sans Thaana (`assets/fonts/NotoSansThaana-Variable.woff2`,
+24 KB), since many devices have no Thaana font at all; Thaana leans by
+design, so the slant is not a fake italic.
+
+Two more scripts get their own font, each fetched only on its language:
+Dzongkha's Tibetan in Noto Serif Tibetan
+(`assets/fonts/NotoSerifTibetan-Regular.woff2`, the regular weight only, 150
+KB rather than 730 KB for the variable file; bold is drawn from it, as for
+Proxima Nova), with more line height for its stacked letters; and English
+(Braille)'s cells in Noto Sans Symbols 2
+(`assets/fonts/NotoSansSymbols2-Braille.woff2`, the braille block only, 6 KB).
+All are SIL OFL, licences beside them.
 
 Brand names stay in Latin letters inside right-to-left text, and the
 browser places them correctly. One thing it cannot place: a Latin run that
 ends in punctuation followed by right-to-left script, such as `https://`
 before an Arabic or Hebrew word, shows its punctuation on the wrong side.
-Write such text so the Latin run ends in a letter (the Arabic, Hebrew and
-Jawi files say `https://hello.globalfurry.tv`, not a bare `https://`).
+Write such text so the Latin run ends in a letter (the Arabic, Hebrew,
+Jawi and Dhivehi files say `https://hello.globalfurry.tv`, not a bare `https://`).
 
 ### Changing the wording
 

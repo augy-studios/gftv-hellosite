@@ -90,6 +90,63 @@ html[lang="he"] {
     'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
+/* Dhivehi: Noto Sans Thaana, the same family again, for the Thaana letters
+   and the Arabic comma and question mark Dhivehi uses (Latin stays in Proxima
+   Nova). Many devices have no Thaana font at all, so it is self hosted: its
+   Thaana subset, one variable file for every weight (SIL OFL, licence beside
+   it), fetched only on Dhivehi. */
+@font-face {
+  font-family: 'Noto Sans Thaana';
+  src: url('/assets/fonts/NotoSansThaana-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+060C, U+061B-061C, U+061F, U+0660-066C, U+0780-07B1, U+200C-200F,
+    U+20C2, U+25CC, U+FDF2, U+FDFD;
+}
+html[lang="dv"] {
+  --font: 'Proxima Nova', 'Noto Sans Thaana', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Dzongkha: Noto Serif Tibetan, for the Tibetan letters only (Latin stays in
+   Proxima Nova). Tibetan has no sans serif in Noto, and devices' own Tibetan
+   fonts vary a lot, from none to very small. Its Tibetan subset at the
+   regular weight only (assets/fonts/NotoSerifTibetan-Regular.woff2, 150 KB,
+   SIL OFL, licence beside it): the variable file is 730 KB, and the browser
+   draws bold from the regular, as it does for Proxima Nova. Fetched only on
+   Dzongkha. */
+@font-face {
+  font-family: 'Noto Serif Tibetan';
+  src: url('/assets/fonts/NotoSerifTibetan-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+200C-200D, U+25CC;
+}
+html[lang="dz"] {
+  --font: 'Proxima Nova', 'Noto Serif Tibetan', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* English (Braille): the braille cells from Noto Sans Symbols 2, its braille
+   subset only (assets/fonts/NotoSansSymbols2-Braille.woff2, 6 KB, SIL OFL,
+   licence beside it), so every cell shows its dots, raised and not, the same
+   on every device. Fetched only on English (Braille). */
+@font-face {
+  font-family: 'Noto Sans Symbols 2';
+  src: url('/assets/fonts/NotoSansSymbols2-Braille.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+2800-28FF;
+}
+html[lang="en-Brai"] {
+  --font: 'Proxima Nova', 'Noto Sans Symbols 2', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-synthesis: none;
+}
+
 /* one block per colour theme x mode */
 :root[data-color-theme="classic"][data-mode="light"] {
   --brand: #ffffff;
@@ -1300,3 +1357,8 @@ body { position: relative; }
      lines. Hebrew sits within Latin's height and keeps the Latin setting. */
 [dir="rtl"] :is(.eyebrow, .scroll-hint, .modal-section-label) { letter-spacing: 0; }
 html:is([lang="ar"], [lang="ar-PS"], [lang="ms-Arab"]) :is(.hero h1, .chapter h2, .takagi-line, .not-found-title) { line-height: 1.4; }
+/* Thaana's vowel signs sit above and below the letters, and Tibetan stacks
+   letters and vowel signs well above and below the line: room for both. */
+html[lang="dv"] :is(.hero h1, .chapter h2, .takagi-line, .not-found-title) { line-height: 1.5; }
+html[lang="dz"] :is(.hero h1, .chapter h2, .takagi-line, .not-found-title) { line-height: 1.6; }
+html[lang="dz"] body { line-height: 1.8; }
