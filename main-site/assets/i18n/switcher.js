@@ -39,7 +39,9 @@ function renderButton() {
     `${icon('globe')}<span class="lang-name"></span><span class="lang-code"></span>`;
   // The visible name is the language's own name, never translated.
   button.querySelector('.lang-name').textContent = entry.name;
-  button.querySelector('.lang-code').textContent = entry.code.toUpperCase();
+  // On a phone the button shows the code instead; `abbr` shortens a long one
+  // (EN-SINGLISH shows EN-SG) so the site name beside it still fits.
+  button.querySelector('.lang-code').textContent = (entry.abbr || entry.code).toUpperCase();
   button.setAttribute('aria-label', t('a11y.language-switcher', { language: entry.name }));
 }
 

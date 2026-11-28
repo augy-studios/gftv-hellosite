@@ -132,9 +132,10 @@ switches to that layout.
 ## Languages
 
 Every word on the site is in a language file, and a button next to the theme
-button in the header picks the language. There are 92, listed in
+button in the header picks the language. There are 94, listed in
 `assets/i18n/locales.js`, with British English as the source and default.
-They include English (US), Pirate, uwu, Braille and Morse code, Naijá
+They include English (US), Pirate, uwu, Singlish (`en-SINGLISH`), Braille
+and Morse code, Taglish (`tl-TAGLISH`) beside Tagalog, Naijá
 (Nigerian) Pidgin, Latin, a romanised variant
 (`-Latn`) of every language not written in Latin letters (Arabic's is
 Arabizi, Hebrew's `he-Latn`, and Persian's Finglish, `fa-Latn`), Palestinian Arabic (`ar-PS`, written as
@@ -195,6 +196,10 @@ Say Portuguese as spoken in Brazil, `pt-BR`:
    Where the entry goes in the list does not change where it shows in the
    dialog, which is alphabetical; it only matters among a language's own
    variants, where the first is the main one.
+   On a phone the language button shows the code in place of the name. If
+   the code is long enough to crowd the site name (as `en-SINGLISH` and
+   `tl-TAGLISH` are), give the entry a shorter `abbr` for the button
+   (`abbr: 'en-SG'`).
 3. **Add it to the service worker**: in `sw.js`, add `'/assets/i18n/pt-BR.json',`
    to the `PRECACHE` list beside `en-GB.json`, and raise `VERSION` by one.
 4. **Check it**, from `main-site/`:

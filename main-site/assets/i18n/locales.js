@@ -19,7 +19,11 @@
 // English also comes as English (Braille), en-Brai, in uncontracted Unified
 // English Braille, and as English (Morse code), en-MORSE, both written by
 // tools/make-braille-morse.py from en-GB.json: run it again after changing
-// any English wording. Naijá Pidgin (pcm, Nigerian Pidgin) is a language of
+// any English wording. Singlish (en-SINGLISH, colloquial Singapore English)
+// is an English variant too. Its code is not en-SG, so a device set to
+// Singapore English still gets British English unless the reader picks
+// Singlish. Tagalog likewise has Taglish (tl-TAGLISH), Tagalog mixed with
+// English as Manila speaks it, in the Tagalog row. Naijá Pidgin (pcm, Nigerian Pidgin) is a language of
 // its own, not a variant of English, so it has its own row.
 //
 // Arabic comes as Modern Standard Arabic (ar) and as Palestinian Arabic
@@ -47,6 +51,9 @@
 // the country is taken from the code (zh-SG is Singapore) or, for a code
 // without one, from the browser's likeliest country for it (ja is Japan).
 // Country names are searched in English and in the page's language.
+//
+// `abbr`, where given, is what the language button shows on a phone in place
+// of a code too long to sit beside the site name (en-SINGLISH shows EN-SG).
 
 import enGB from './en-GB.json' with { type: 'json' };
 import enUS from './en-US.json' with { type: 'json' };
@@ -54,6 +61,7 @@ import enARR from './en-ARR.json' with { type: 'json' };
 import enUWU from './en-UWU.json' with { type: 'json' };
 import enBrai from './en-Brai.json' with { type: 'json' };
 import enMORSE from './en-MORSE.json' with { type: 'json' };
+import enSINGLISH from './en-SINGLISH.json' with { type: 'json' };
 import pcm from './pcm.json' with { type: 'json' };
 import zhSG from './zh-SG.json' with { type: 'json' };
 import zhCN from './zh-CN.json' with { type: 'json' };
@@ -83,6 +91,7 @@ import lo from './lo.json' with { type: 'json' };
 import loLatn from './lo-Latn.json' with { type: 'json' };
 import vi from './vi.json' with { type: 'json' };
 import tl from './tl.json' with { type: 'json' };
+import tlTAGLISH from './tl-TAGLISH.json' with { type: 'json' };
 import tet from './tet.json' with { type: 'json' };
 import dz from './dz.json' with { type: 'json' };
 import dzLatn from './dz-Latn.json' with { type: 'json' };
@@ -150,6 +159,7 @@ export const locales = {
   'en-UWU': enUWU,
   'en-Brai': enBrai,
   'en-MORSE': enMORSE,
+  'en-SINGLISH': enSINGLISH,
   'pcm': pcm,
   'zh-SG': zhSG,
   'zh-CN': zhCN,
@@ -179,6 +189,7 @@ export const locales = {
   'lo-Latn': loLatn,
   'vi': vi,
   'tl': tl,
+  'tl-TAGLISH': tlTAGLISH,
   'tet': tet,
   'dz': dz,
   'dz-Latn': dzLatn,
@@ -245,6 +256,7 @@ export const registry = [
   { code: 'en-UWU', name: 'English (uwu)', dir: 'ltr', en: ['UwU', 'OwO', 'uwu speak', 'uwuspeak'] },
   { code: 'en-Brai', name: 'English (Braille)', dir: 'ltr', en: ['Braille', 'English Braille', 'Unified English Braille', 'UEB'] },
   { code: 'en-MORSE', name: 'English (Morse code)', dir: 'ltr', en: ['Morse', 'Morse code', 'International Morse code'] },
+  { code: 'en-SINGLISH', name: 'English (Singlish)', abbr: 'en-SG', dir: 'ltr', en: ['Singlish', 'Singapore English', 'Singaporean English', 'Colloquial Singapore English'], regions: ['SG'] },
   { code: 'pcm', name: 'Naijá Pidgin', dir: 'ltr', en: ['Nigerian Pidgin', 'English Pidgin', 'Pidgin English', 'Pidgin', 'Naija', 'West African Pidgin'], regions: ['NG'] },
   { code: 'zh-SG', name: '中文（新加坡）', dir: 'ltr', en: ['Chinese', 'Simplified Chinese', 'Mandarin'] },
   { code: 'zh-CN', name: '中文（大陆）', dir: 'ltr', en: ['Chinese', 'Simplified Chinese', 'Mandarin', 'Mainland China'] },
@@ -274,6 +286,7 @@ export const registry = [
   { code: 'lo-Latn', name: 'Phasa Lao (Romanised)', dir: 'ltr', en: ['Lao', 'Romanised Lao', 'Romanized Lao'] },
   { code: 'vi', name: 'Tiếng Việt', dir: 'ltr', en: 'Vietnamese' },
   { code: 'tl', name: 'Tagalog', dir: 'ltr', en: ['Tagalog', 'Filipino'] },
+  { code: 'tl-TAGLISH', name: 'Tagalog (Taglish)', abbr: 'tl-EN', dir: 'ltr', en: ['Taglish', 'Tagalog English', 'Englog', 'Filipino', 'Tagalog'], regions: ['PH'] },
   { code: 'tet', name: 'Tetun', dir: 'ltr', en: ['Tetum', 'Tetun', 'East Timor'] },
   { code: 'dz', name: 'རྫོང་ཁ', dir: 'ltr', en: ['Dzongkha', 'Bhutanese', 'Bhutan'], regions: ['BT'] },
   { code: 'dz-Latn', name: 'Dzongkha (Romanised)', dir: 'ltr', en: ['Dzongkha', 'Bhutanese', 'Bhutan', 'Roman Dzongkha', 'Romanised Dzongkha', 'Romanized Dzongkha'], regions: ['BT'] },
